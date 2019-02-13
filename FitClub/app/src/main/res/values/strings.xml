@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FitClub</string>
+    <string name="Trainings">Тренировки</string>
+    <string name="MyTrainings">Мои занятия</string>
+    <string name="MyCabinet">Личный кабинет</string>
+    <string name="MyNews">Новости и уведомления</string>
 </resources>
