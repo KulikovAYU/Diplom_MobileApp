@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/materialize_screen_edge"
+        android:layout_marginBottom="@dimen/materialize_screen_edge"
+        android:background="@color/design_dark_default_color_primary_dark">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_timeId"
+        android:text="9:30"
+        android:layout_margin="@dimen/materialize_screen_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_big"
+        android:textAppearance="?attr/textAppearanceListItem" />
+    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/materialize_screen_edge"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_trainingNameId"
+            android:text="Hatha Yoga"
+            android:textSize="@dimen/text_size_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_gymId"
+            android:text="Большой зал"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+            <TextView
+                android:text=". "
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/item_levelId"
+            android:textSize="@dimen/text_size_normal"
+            android:text="Низкая интенсивность"
+            android:textColor="@color/secondary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+        <TextView
+            android:id="@+id/item_CoachNameId"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/secondary_text"
+            android:text="Имя инструктора"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
+
+</LinearLayout>

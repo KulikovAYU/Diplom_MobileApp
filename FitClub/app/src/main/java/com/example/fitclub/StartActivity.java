@@ -1,10 +1,8 @@
 package com.example.fitclub;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.fitclub.Factories.TransactionFactory;
-import com.example.fitclub.Models.Training;
-import com.example.fitclub.TrainingFragment.OnListFragmentInteractionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -12,31 +10,27 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import static com.google.android.material.navigation.NavigationView.*;
-
-public class MainActivity extends AppCompatActivity
-        implements OnNavigationItemSelectedListener {
-
-
-    TransactionFactory mFragmentFactory;
+public class StartActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_start);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarid);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -56,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mFragmentFactory = new TransactionFactory(this,getIntent().getExtras(),R.id.fragments_content);
+
     }
 
     @Override
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main2, menu);
         return true;
     }
 
@@ -91,13 +85,31 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        mFragmentFactory.Invoke(id);
+        CreateFragment(id);
+
+
+
+//        if (id == R.id.trainingListId) {
+//
+//            // Handle the camera action
+//        } else if (id == R.id.myTrainingId) {
+//
+//        } else if (id == R.id.myNotificationId) {
+//
+//        } else if (id == R.id.myPersonalCabId) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -105,10 +117,54 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    //событие при клике по элементу списка тренировки
-//    @Override
-//    public void onListFragmentInteraction(Training item) {
-//        Toast.makeText(this,"Тренировка :"+ item.getmTrainingName(),Toast.LENGTH_LONG).show();
-//    }
+    public void OnProfileClick(View view) {
+        //пока выведем просто тост. потом, возможно, реализуем
+        Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
+        onBackPressed();
+    }
 
+
+    public void OnTrainingListClick(View view) {
+
+        int id = view.getId();
+        CreateFragment(id);
+    }
+
+    private void CreateFragment(@NonNull int id)
+    {
+        Intent intent = new Intent(this,MainActivity.class);
+
+        switch (id)
+        {
+            case R.id.trainingListId:
+                intent.putExtra("Item",id);
+
+                break;
+
+            case R.id.myTrainingId:
+
+                break;
+
+            case R.id.myNotificationId:
+
+                break;
+
+            case R.id.myPersonalCabId:
+
+                break;
+
+            case R.id.nav_share:
+
+                break;
+
+            case R.id.nav_send:
+
+                break;
+        }
+
+        startActivity(intent);
+
+    }
 }
