@@ -1,7 +1,6 @@
 package com.example.fitclub;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -49,7 +48,7 @@ public class TrainingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -91,12 +90,10 @@ public class TrainingFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        //здесь можно определить любой интерфейс из активити
 
         //если контекст (родительское окно реализует OnListFragmentInteractionListener), тогда используем его
         if (context instanceof OnListFragmentInteractionListener) {

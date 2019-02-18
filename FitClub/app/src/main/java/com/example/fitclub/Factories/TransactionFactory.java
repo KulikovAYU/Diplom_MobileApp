@@ -27,7 +27,6 @@ public class TransactionFactory<T extends AppCompatActivity, T1 extends Bundle>
         mBundle = bundle;
         int fragmentId = bundle.getInt("Item");
         mParentRes = parentRes;
-        Add(fragmentId);
     }
 
     public void Invoke(int fragmentId)

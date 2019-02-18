@@ -3,8 +3,6 @@ package com.example.fitclub;
 import android.os.Bundle;
 
 import com.example.fitclub.Factories.TransactionFactory;
-import com.example.fitclub.Models.Training;
-import com.example.fitclub.TrainingFragment.OnListFragmentInteractionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -22,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import static com.google.android.material.navigation.NavigationView.*;
 
@@ -32,6 +29,7 @@ public class MainActivity extends AppCompatActivity
 
     TransactionFactory mFragmentFactory;
 
+    private int nItemId = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +54,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        nItemId = getIntent().getExtras().getInt("Item");;
         mFragmentFactory = new TransactionFactory(this,getIntent().getExtras(),R.id.fragments_content);
     }
 
@@ -105,7 +104,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    //событие при клике по элементу списка тренировки
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (nItemId != -1)
+            mFragmentFactory.Invoke(nItemId); //фикс повторного создания фрагмента при повороте экрана
+    }
+
+    //    //событие при клике по элементу списка тренировки
 //    @Override
 //    public void onListFragmentInteraction(Training item) {
 //        Toast.makeText(this,"Тренировка :"+ item.getmTrainingName(),Toast.LENGTH_LONG).show();
