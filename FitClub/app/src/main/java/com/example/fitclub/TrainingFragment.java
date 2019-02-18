@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.HorizontalCalendarView;
+import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.fitclub.Lists.TrainingList;
 import com.example.fitclub.Models.Training;
+
+import java.util.Calendar;
 
 /**
  * A fragment representing a list of Items.
@@ -86,6 +91,36 @@ public class TrainingFragment extends Fragment {
             }
             recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(TrainingList.ITEMS, mListener));
         }
+
+        /* starts before 1 month from now */
+        Calendar startDate = Calendar.getInstance();
+        startDate.add(Calendar.MONTH, -1);
+
+        /* ends after 1 month from now */
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 1);
+        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_training_list1), R.id.calendarView) .range(startDate, endDate)
+                .datesNumberOnScreen(5)
+                .build();
+
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Calendar date, int position) {
+
+            }
+
+            @Override
+            public void onCalendarScroll(HorizontalCalendarView calendarView,
+                                         int dx, int dy) {
+
+            }
+
+            @Override
+            public boolean onDateLongClicked(Calendar date, int position) {
+                return true;
+            }
+        });
+
         return view;
     }
 
