@@ -1,8 +1,11 @@
-package com.example.fitclub;
+package com.example.fitclub.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.fitclub.Managers.NavigationManager;
+
+import com.example.fitclub.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -16,12 +19,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+
+
 
 public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -94,23 +99,6 @@ public class StartActivity extends AppCompatActivity
 
         CreateFragment(id);
 
-
-
-//        if (id == R.id.trainingListId) {
-//
-//            // Handle the camera action
-//        } else if (id == R.id.myTrainingId) {
-//
-//        } else if (id == R.id.myNotificationId) {
-//
-//        } else if (id == R.id.myPersonalCabId) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
@@ -120,7 +108,7 @@ public class StartActivity extends AppCompatActivity
     public void OnProfileClick(View view) {
         //пока выведем просто тост. потом, возможно, реализуем
         Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this,LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         onBackPressed();
     }
@@ -134,37 +122,12 @@ public class StartActivity extends AppCompatActivity
 
     private void CreateFragment(@NonNull int id)
     {
-        Intent intent = new Intent(this,MainActivity.class);
 
-        switch (id)
-        {
-            case R.id.trainingListId:
-                intent.putExtra("Item",id);
-
-                break;
-
-            case R.id.myTrainingId:
-
-                break;
-
-            case R.id.myNotificationId:
-
-                break;
-
-            case R.id.myPersonalCabId:
-
-                break;
-
-            case R.id.nav_share:
-
-                break;
-
-            case R.id.nav_send:
-
-                break;
+        try {
+            NavigationManager.Instance().Invoke(id,this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        startActivity(intent);
-
     }
+
 }

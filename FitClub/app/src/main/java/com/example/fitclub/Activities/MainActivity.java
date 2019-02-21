@@ -1,8 +1,12 @@
-package com.example.fitclub;
+package com.example.fitclub.Activities;
 
 import android.os.Bundle;
 
-import com.example.fitclub.Factories.TransactionFactory;
+
+import com.example.fitclub.R;
+import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
+import com.example.fitclub.Managers.NavigationManager;
+import com.example.fitclub.Models.Training;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,16 +24,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import static com.google.android.material.navigation.NavigationView.*;
 
+
 public class MainActivity extends AppCompatActivity
-        implements OnNavigationItemSelectedListener {
+        implements OnNavigationItemSelectedListener, IOnListFragmentInteractionListener {
 
 
-    TransactionFactory mFragmentFactory;
 
-    private int nItemId = -1;
+//фикс повторного создания фрагмента при повороте экрана
+   private int nItemId = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +60,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        nItemId = getIntent().getExtras().getInt("Item");;
-        mFragmentFactory = new TransactionFactory(this,getIntent().getExtras(),R.id.fragments_content);
+
+        Bundle bund =  getIntent().getExtras();
+        if (bund != null)
+        {
+           nItemId = bund.getInt("Item");
+       }
     }
 
     @Override
@@ -96,7 +106,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        mFragmentFactory.Invoke(id);
+        try {
+            NavigationManager.Instance().Invoke(id,this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -107,14 +121,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (nItemId != -1)
-            mFragmentFactory.Invoke(nItemId); //фикс повторного создания фрагмента при повороте экрана
+        try {
+            if (nItemId != -1)
+                 NavigationManager.Instance().Invoke(nItemId,this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+      //  mFragmentFactory.Invoke(nItemId); //фикс повторного создания фрагмента при повороте экрана
     }
 
-    //    //событие при клике по элементу списка тренировки
-//    @Override
-//    public void onListFragmentInteraction(Training item) {
-//        Toast.makeText(this,"Тренировка :"+ item.getmTrainingName(),Toast.LENGTH_LONG).show();
-//    }
 
+//////interfaces imolemetation\\\
+
+    //событие при клике по элементу списка тренировки
+    @Override
+    public void onListFragmentInteraction(Training item) {
+        Toast.makeText(this,"Тренировка :"+ item.getmTrainingName(),Toast.LENGTH_LONG).show();
+    }
 }

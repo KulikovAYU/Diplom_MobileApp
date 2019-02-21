@@ -4,22 +4,29 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/gotoStartActivityId"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="На главную страницу" />
+
         <item
             android:id="@+id/trainingListId"
             android:icon="@drawable/ic_gym_black_24dp"
-            android:title="Тренировки" />
+            android:title="@string/Trainings" />
         <item
             android:id="@+id/myTrainingId"
             android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="Мои занятия" />
+            android:title="@string/MyTrainings" />
         <item
             android:id="@+id/myNotificationId"
             android:icon="@drawable/ic_news_black_24dp"
-            android:title="Новости и уведомления" />
+            android:title="@string/MyNews" />
         <item
             android:id="@+id/myPersonalCabId"
             android:icon="@drawable/ic_account_black_24_dp"
-            android:title="Личный кабинет" />
+            android:title="@string/MyCabinet" />
     </group>
 
     <item android:title="Меню">

@@ -1,4 +1,4 @@
-package com.example.fitclub;
+package com.example.fitclub.Adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,23 +8,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.example.fitclub.R;
+import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 import com.example.fitclub.Models.Training;
-import com.example.fitclub.TrainingFragment.OnListFragmentInteractionListener;
+
 
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Training} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link IOnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingRecyclerViewAdapter.ViewHolder> {
 
     private final List<Training> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final IOnListFragmentInteractionListener mListener;
 
-    public MyTrainingRecyclerViewAdapter(List<Training> items, OnListFragmentInteractionListener listener) {
+    public MyTrainingRecyclerViewAdapter(List<Training> items, IOnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

@@ -6,15 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/fragment_training_list1"
+    android:id="@+id/fragment_training_list"
     >
-
-    <devs.mulham.horizontalcalendar.HorizontalCalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:textColorSelected="#FFFF"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshTrainingId"
@@ -27,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            tools:context=".TrainingFragment"
+            tools:context=".Fragments.TrainingFragment"
             tools:listitem="@layout/fragment_training" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
