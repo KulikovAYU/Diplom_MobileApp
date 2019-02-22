@@ -1,9 +1,6 @@
 package com.example.fitclub.Lists;
 
 import com.example.fitclub.Models.Training;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,12 +29,72 @@ public class TrainingList {
 
     static {
 
-        addItem(new Training(new Date(2019,2,8,7,30),"Hatha Yoga","Большой зал","Низкая интенсивность","Елизарова Галина"));
-        addItem(new Training(new Date(2019,2,8,10,00),"TRX (платная секция) по записи","Тренажерный зал","Для всех уровней подготовки","Молькова Анастасия"));
-        addItem(new Training(new Date(2019,2,8,15,00),"New Body","Большой зал","Для всех уровней подготовки","Куликова Елена"));
-        addItem(new Training(new Date(2019,2,8,16,00),"ABS+Stretch","Большой зал","Для всех уровней подготовки","Куликова Елена"));
-        addItem(new Training(new Date(2019,2,8,17,30),"Pilates","Большой зал","Для всех уровней подготовки","Соловьева Полина"));
-        addItem(new Training(new Date(2019,2,8,18,30),"TRX (платная секция) по записи","Тренажерный зал","Для всех уровней подготовки","Молькова Анастасия"));
+
+
+        Training item1 = new Training.TrainingBuilder().SetName("Hatha Yoga").
+                         SetTime(new Date(2019,2,8,7,30)).
+                         SetGymName("Большой зал").
+                         SetLevelName("Низкая интенсивность").
+                         SetCoachName("Галина").
+                         SetCoachFamily("Елизарова").
+                         Build();
+
+        addItem(item1);
+
+        Training item2 = new Training.TrainingBuilder().SetName("TRX").
+                         SetTime(new Date(2019,2,8,8,30)).
+                         SetGymName("Тренажерный зал").
+                         SetLevelName("Для всех уровней подготовки").
+                         SetCoachName("Анастасия").
+                         SetCoachFamily("Молькова").
+                         SetMustPay().
+                         Build();
+        addItem(item2);
+
+        Training item3 = new Training.TrainingBuilder().SetName("New Body").
+                         SetTime(new Date(2019,2,8,10,00)).
+                         SetGymName("Большой зал").
+                         SetLevelName("Для всех уровней подготовки").
+                         SetCoachName("Елена").
+                         SetCoachFamily("Куликова").
+                         Build();
+        addItem(item3);
+
+        Training item4 = new Training.TrainingBuilder().SetName("ABS+Stretch").
+                SetTime(new Date(2019,2,8,16,00)).
+                SetGymName("Большой зал").
+                SetLevelName("Для всех уровней подготовки").
+                SetCoachName("Елена").
+                SetCoachFamily("Куликова").
+                SetReplaced().
+                Build();
+        addItem(item4);
+
+        Training item5 = new Training.TrainingBuilder().SetName("Pilates").
+                SetTime(new Date(2019,2,8,17,30)).
+                SetGymName("Большой зал").
+                SetLevelName("Для всех уровней подготовки").
+                SetCoachName("Полина").
+                SetCoachFamily("Соловьева").
+                Build();
+        addItem(item5);
+
+        Training item6 = new Training.TrainingBuilder().SetName("TRX").
+                SetTime(new Date(2019,2,8,18,30)).
+                SetGymName("Тренажерный зал").
+                SetLevelName("Для всех уровней подготовки").
+                SetCoachName("Анастасия").
+                SetCoachFamily("Молькова").
+                SetMustPay().
+                Build();
+        addItem(item6);
+
+       // addItem(new Training(new Date(2019,2,8,7,30),"Hatha Yoga","Большой зал","Низкая интенсивность","Елизарова Галина"));
+       // addItem(new Training(new Date(2019,2,8,10,00),"TRX (платная секция) по записи","Тренажерный зал","Для всех уровней подготовки","Молькова Анастасия"));
+        //addItem(new Training(new Date(2019,2,8,15,00),"New Body","Большой зал","Для всех уровней подготовки","Куликова Елена"));
+        //addItem(new Training(new Date(2019,2,8,16,00),"ABS+Stretch","Большой зал","Для всех уровней подготовки","Куликова Елена"));
+       // addItem(new Training(new Date(2019,2,8,17,30),"Pilates","Большой зал","Для всех уровней подготовки","Соловьева Полина"));
+      //  addItem(new Training(new Date(2019,2,8,18,30),"TRX (платная секция) по записи","Тренажерный зал","Для всех уровней подготовки","Молькова Анастасия"));
         // Add some sample items.
        // for (int i = 1; i <= COUNT; i++) {
 

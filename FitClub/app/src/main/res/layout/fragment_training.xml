@@ -6,51 +6,91 @@
 
 
     <LinearLayout
-        android:layout_width="5dp"
+        android:id="@+id/item_difficultId"
+        android:layout_width="7dp"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/materialize_screen_edge"
         android:layout_marginBottom="@dimen/materialize_screen_edge"
-        android:background="@color/design_dark_default_color_primary_dark">
+        android:background="@color/design_dark_default_color_primary_dark"
+        android:orientation="horizontal"/>
 
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/materialize_screen_edge"
+        android:layout_marginBottom="@dimen/materialize_screen_edge"
+        android:orientation="vertical"
+        android:layout_width="wrap_content">
+        <TextView
+            android:id="@+id/item_timeId"
+            android:text="9:30"
+            android:layout_marginStart="@dimen/materialize_screen_edge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_big"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <LinearLayout
+            android:id="@+id/item_mustPayId"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/materialize_screen_edge"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/materialize_screen_edge"
+                android:src="@drawable/ic_money_gray_24dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_phone_gray_24dp"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/item_timeId"
-        android:text="9:30"
-        android:layout_margin="@dimen/materialize_screen_edge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_big"
-        android:textAppearance="?attr/textAppearanceListItem" />
-    
-    
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/materialize_screen_edge"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/item_trainingNameId"
-            android:text="Hatha Yoga"
-            android:textSize="@dimen/text_size_big"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/item_isReplacedId"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:src="@drawable/ic_attention"/>
 
-        <TextView
-            android:id="@+id/item_gymId"
-            android:text="Большой зал"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/text_size_normal"
+            <TextView
+                android:id="@+id/item_trainingNameId"
+                android:text="Hatha Yoga"
+                android:textSize="@dimen/text_size_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_gymId"
+                android:text="Большой зал"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem" />
 
             <TextView
                 android:text=". "
@@ -80,5 +120,8 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
     </LinearLayout>
+
+
+
 
 </LinearLayout>

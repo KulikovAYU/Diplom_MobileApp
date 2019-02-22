@@ -1,10 +1,15 @@
 package com.example.fitclub.Adapters;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -13,7 +18,7 @@ import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 import com.example.fitclub.Models.Training;
 
 
-
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -44,9 +49,16 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
 
         holder.mTimeIdView.setText( holder.mItem.getTimeHHmm());
         holder.mTrainingNameView.setText( holder.mItem.getmTrainingName());
-        holder.mGymView.setText( holder.mItem.getmGym());
-        holder.mLevelView.setText( holder.mItem.getmLevel());
+        holder.mGymView.setText( holder.mItem.getmGymName());
+        holder.mLevelView.setText( holder.mItem.getmLevelName());
         holder.mCoachNameView.setText( holder.mItem.getmCoachName());
+        holder.mIsReplacedView.setVisibility(holder.mItem.getIsReplaced() ?  View.VISIBLE : View.GONE);
+        holder.mIsMustPayView.setVisibility(holder.mItem.getIsMustPay() ? View.VISIBLE : View.GONE);
+        holder.mDifficultView.setBackgroundColor( ContextCompat.getColor(holder.mView.getContext(), TrainingDifficult.GetColorIndex(holder.mItem.getmLevelName())));
+
+
+        //Color.alpha(TrainingDifficult.GetColorIndex(holder.mItem.getmLevelName()))
+
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +89,11 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         public final TextView mGymView;//название зала
         public final TextView mLevelView;//уровень
         public final TextView mCoachNameView;//имя инструктора
+        public final ImageView mIsReplacedView;// тренировка заменена на другую
+        public final LinearLayout mIsMustPayView;// тренировка заменена на другую item_mustPayId
+        public final LinearLayout mDifficultView;// полоска сложности тренировки
+
+
 
         public Training mItem;
 
@@ -88,11 +105,38 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
             mGymView = (TextView) view.findViewById(R.id.item_gymId);
             mLevelView = (TextView) view.findViewById(R.id.item_levelId);
             mCoachNameView = (TextView) view.findViewById(R.id.item_CoachNameId);
+            mIsReplacedView = (ImageView)view.findViewById(R.id.item_isReplacedId);
+            mIsMustPayView = (LinearLayout)view.findViewById(R.id.item_mustPayId);
+            mDifficultView = (LinearLayout)view.findViewById(R.id.item_difficultId);
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mTrainingNameView.getText() + "'";
         }
+    }
+
+    public static class TrainingDifficult
+    {
+       private static HashMap<String, Integer> map = new HashMap<>();
+
+        //Вовзрат индекса в зависимости от сложности
+        public static int GetColorIndex(String difficult)
+        {
+            //интенсивности
+            map.put("Высокая интенсивность", R.color.md_orange_300);
+            map.put("Для всех уровней подготовки", R.color.md_light_green_300);
+            map.put("Низкая интенсивность", R.color.md_teal_100);
+
+            if (map.containsKey(difficult))
+            {
+                int ress = map.get(difficult);
+                return map.get(difficult);
+            }
+
+
+            return R.color.md_white_1000;
+        }
+
     }
 }

@@ -71,7 +71,7 @@ public class TrainingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_training_list, container, false);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshTrainingId);
 
-        mSwipeRefreshLayout.setRefreshing(true);
+     //   mSwipeRefreshLayout.setRefreshing(true);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,7 +84,7 @@ public class TrainingFragment extends Fragment {
 
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
-                },2000);
+                },1000);
             }
         });
         View trainingListview = view.findViewById(R.id.TrainingListId);
@@ -97,10 +97,11 @@ public class TrainingFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if (curr == null) // УБРАТЬ! Просто для отладки
+        //    if (curr == null) // УБРАТЬ! Просто для отладки
                 recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(TrainingList.ITEMS, mListener));
         }
 
+        mSwipeRefreshLayout.setRefreshing(false);
 
         return view;
     }
@@ -109,13 +110,13 @@ public class TrainingFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        },2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                mSwipeRefreshLayout.setRefreshing(false);
+//            }
+//        },2000);
 
     }
 

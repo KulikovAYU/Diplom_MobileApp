@@ -16,11 +16,12 @@
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main"
-
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.LoginActivity"
             android:label="@string/title_activity_login" />
+
         <activity
             android:name=".Activities.StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -30,7 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activities.MainActivity_old" />
+
     </application>
 
 </manifest>
