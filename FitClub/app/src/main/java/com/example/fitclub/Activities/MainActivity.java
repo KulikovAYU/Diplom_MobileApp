@@ -136,6 +136,6 @@ public class MainActivity extends AppCompatActivity
     //событие при клике по элементу списка тренировки
     @Override
     public void onListFragmentInteraction(Training item) {
-        Toast.makeText(this,"Тренировка :"+ item.getmTrainingName(),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Тренировка :"+ item.getTrainingName(),Toast.LENGTH_LONG).show();
     }
 }

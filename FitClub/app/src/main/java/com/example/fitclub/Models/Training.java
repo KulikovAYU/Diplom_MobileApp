@@ -1,17 +1,8 @@
 package com.example.fitclub.Models;
 
 
-
-import android.graphics.Color;
-
-
-import com.example.fitclub.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-
-import androidx.core.content.ContextCompat;
 
 /**
  * A Models item representing a piece of content.
@@ -26,7 +17,7 @@ public class Training {
     private String mDescription;// описание
     private boolean mbIsReplaced = false;//заменена ли тренировка
     private boolean mbIsMustPay = false; //платная
-
+    private boolean mbIsNewTraining = false; // признак новой тренировки
 
 //    public Training(Date time, String trainingName, String gymName, String levelName, String coachName) {
 //         this.mTime = time;
@@ -37,7 +28,7 @@ public class Training {
 //      //   this.mDescription = description;
 //    }
 
-     Training(TrainingBuilder trainingBuilder) {
+    Training(TrainingBuilder trainingBuilder) {
 
         mTime = trainingBuilder.GetTime();
         mbIsMustPay = trainingBuilder.GetIsMustPayStatus();
@@ -47,7 +38,7 @@ public class Training {
         mCoachName = trainingBuilder.GetCoachFullname();
         mDescription = trainingBuilder.GetDescription();
         mbIsReplaced = trainingBuilder.GetIsReplacedStatus();
-
+        mbIsNewTraining = trainingBuilder.GetIsNewTraining();
         if (mbIsMustPay)
             mTrainingName += " (платная секция) по записи";
     }
@@ -62,84 +53,57 @@ public class Training {
         return mbIsReplaced;
     }
 
-    public void setMbIsReplaced(boolean mbIsReplaced) {
-        this.mbIsReplaced = mbIsReplaced;
-    }
-
     public boolean getIsMustPay() {
         return mbIsMustPay;
     }
 
-    public void setMbIsMustPay() {
-        this.mbIsMustPay = true;
-    }
-
-    public Date getmTime() {
+    public Date getTime() {
         return mTime;
     }
 
-    public void setmTime(Date mTime) {
-        this.mTime = mTime;
-    }
-
-
-    public String getTimeHHmmSS()
-    {
+    public String getTimeHHmmSS() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-       return sdf.format(mTime);
+        return sdf.format(mTime);
     }
 
-    public String getTimeHHmm()
-    {
+    public String getTimeHHmm() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(mTime);
     }
 
-    public String getmTrainingName() {
+    public String getTrainingName() {
         return mTrainingName;
     }
 
-    public void setmTrainingName(String mTrainingName) {
-        this.mTrainingName = mTrainingName;
-    }
 
-    public String getmCoachName() {
+    public String getCoachName() {
         return mCoachName;
     }
 
-    public void setmCoachName(String mCoachName) {
-        this.mCoachName = mCoachName;
-    }
 
-    public String getmLevelName() {
+    public String getLevelName() {
         return mLevelName;
     }
 
-    public void setmLevelName(String mLevelName) {
-        this.mLevelName = mLevelName;
-    }
 
     public String getmDescription() {
         return mDescription;
     }
 
-    public void setmDescription(String mDescription) {
-        this.mDescription = mDescription;
-    }
 
-    public String getmGymName() {
+    public String getGymName() {
         return mGymName;
     }
 
-    public void setmGymName(String mGymName) {
-        this.mGymName = mGymName;
+    public boolean getIsNewTraining() {
+        return mbIsNewTraining;
     }
 
 
-    public static class TrainingBuilder
-    {
+    public static class TrainingBuilder {
         private boolean mbIsReplaced = false;//заменена ли тренировка
         private boolean mbIsMustPay = false; //платная
+        private boolean mbIsNewTraining = false; // признак новой тренировки
         private Date mTime;//время начала
         private String mTrainingName;//название тренировки
         private String mGymName;//название зала
@@ -152,63 +116,59 @@ public class Training {
         private String mCoachFamily;//имя инструктора
 
 
-        public TrainingBuilder SetReplaced()
-        {
+        public TrainingBuilder Replaced() {
             this.mbIsReplaced = true;
             return this;
         }
 
-        public TrainingBuilder SetMustPay()
-        {
+        public TrainingBuilder MustPay() {
             this.mbIsMustPay = true;
             return this;
         }
 
-        public TrainingBuilder SetTime(Date time)
-        {
+        public TrainingBuilder StartTime(Date time) {
             this.mTime = time;
             return this;
         }
 
-        public TrainingBuilder SetName(String trainingName)
-        {
+        public TrainingBuilder Name(String trainingName) {
             this.mTrainingName = trainingName;
             return this;
         }
 
-        public TrainingBuilder SetGymName(String gymName)
-        {
+        public TrainingBuilder GymName(String gymName) {
             this.mGymName = gymName;
             return this;
         }
 
-        public TrainingBuilder SetLevelName(String levelName)
-        {
+        public TrainingBuilder LevelName(String levelName) {
             this.mLevelName = levelName;
             return this;
         }
 
-        public TrainingBuilder SetCoachName(String coachName)
-        {
+        public TrainingBuilder CoachName(String coachName) {
             this.mCoachName = coachName;
             return this;
         }
 
-        public TrainingBuilder SetCoachFamily(String coachFamily)
-        {
+        public TrainingBuilder CoachFamily(String coachFamily) {
             this.mCoachFamily = coachFamily;
             return this;
         }
 
-        public TrainingBuilder SetDescription(String desc)
-        {
+        public TrainingBuilder Description(String desc) {
             this.mDescription = desc;
             return this;
         }
 
-        public String GetCoachFullname()
-        {
-            return  this.mCoachFamily +" "+ this.mCoachName;
+        public TrainingBuilder IsNewTraining() {
+            this.mbIsNewTraining = true;
+            return this;
+        }
+
+
+        public String GetCoachFullname() {
+            return this.mCoachFamily + " " + this.mCoachName;
         }
 
         public boolean GetIsReplacedStatus() {
@@ -217,6 +177,10 @@ public class Training {
 
         public boolean GetIsMustPayStatus() {
             return this.mbIsMustPay;
+        }
+
+        public boolean GetIsNewTraining() {
+            return this.mbIsNewTraining;
         }
 
         public Date GetTime() {
@@ -235,17 +199,17 @@ public class Training {
             return this.mLevelName;
         }
 
-        public String GetDescription()
-        {
+        public String GetDescription() {
             return this.mDescription;
         }
 
-        public Training Build()
-        {
+
+        public Training Build() {
             return new Training(this);
         }
-    }
 
+
+    }
 
 
 }

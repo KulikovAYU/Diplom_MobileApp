@@ -31,61 +31,62 @@ public class TrainingList {
 
 
 
-        Training item1 = new Training.TrainingBuilder().SetName("Hatha Yoga").
-                         SetTime(new Date(2019,2,8,7,30)).
-                         SetGymName("Большой зал").
-                         SetLevelName("Низкая интенсивность").
-                         SetCoachName("Галина").
-                         SetCoachFamily("Елизарова").
+        Training item1 = new Training.TrainingBuilder().Name("Hatha Yoga").
+                StartTime(new Date(2019,2,8,7,30)).
+                GymName("Большой зал").
+                LevelName("Низкая интенсивность").
+                CoachName("Галина").
+                CoachFamily("Елизарова").
                          Build();
 
         addItem(item1);
 
-        Training item2 = new Training.TrainingBuilder().SetName("TRX").
-                         SetTime(new Date(2019,2,8,8,30)).
-                         SetGymName("Тренажерный зал").
-                         SetLevelName("Для всех уровней подготовки").
-                         SetCoachName("Анастасия").
-                         SetCoachFamily("Молькова").
-                         SetMustPay().
+        Training item2 = new Training.TrainingBuilder().Name("TRX").
+                StartTime(new Date(2019,2,8,8,30)).
+                GymName("Тренажерный зал").
+                LevelName("Для всех уровней подготовки").
+                CoachName("Анастасия").
+                CoachFamily("Молькова").
+                MustPay().
                          Build();
         addItem(item2);
 
-        Training item3 = new Training.TrainingBuilder().SetName("New Body").
-                         SetTime(new Date(2019,2,8,10,00)).
-                         SetGymName("Большой зал").
-                         SetLevelName("Для всех уровней подготовки").
-                         SetCoachName("Елена").
-                         SetCoachFamily("Куликова").
-                         Build();
+        Training item3 = new Training.TrainingBuilder().Name("New Body").
+                StartTime(new Date(2019,2,8,10,00)).
+                GymName("Большой зал").
+                LevelName("Для всех уровней подготовки").
+                CoachName("Елена").
+                CoachFamily("Куликова").
+                IsNewTraining().
+                Build();
         addItem(item3);
 
-        Training item4 = new Training.TrainingBuilder().SetName("ABS+Stretch").
-                SetTime(new Date(2019,2,8,16,00)).
-                SetGymName("Большой зал").
-                SetLevelName("Для всех уровней подготовки").
-                SetCoachName("Елена").
-                SetCoachFamily("Куликова").
-                SetReplaced().
+        Training item4 = new Training.TrainingBuilder().Name("ABS+Stretch").
+                StartTime(new Date(2019,2,8,16,00)).
+                GymName("Большой зал").
+                LevelName("Для всех уровней подготовки").
+                CoachName("Елена").
+                CoachFamily("Куликова").
+                Replaced().
                 Build();
         addItem(item4);
 
-        Training item5 = new Training.TrainingBuilder().SetName("Pilates").
-                SetTime(new Date(2019,2,8,17,30)).
-                SetGymName("Большой зал").
-                SetLevelName("Для всех уровней подготовки").
-                SetCoachName("Полина").
-                SetCoachFamily("Соловьева").
+        Training item5 = new Training.TrainingBuilder().Name("Pilates").
+                StartTime(new Date(2019,2,8,17,30)).
+                GymName("Большой зал").
+                LevelName("Для всех уровней подготовки").
+                CoachName("Полина").
+                CoachFamily("Соловьева").
                 Build();
         addItem(item5);
 
-        Training item6 = new Training.TrainingBuilder().SetName("TRX").
-                SetTime(new Date(2019,2,8,18,30)).
-                SetGymName("Тренажерный зал").
-                SetLevelName("Для всех уровней подготовки").
-                SetCoachName("Анастасия").
-                SetCoachFamily("Молькова").
-                SetMustPay().
+        Training item6 = new Training.TrainingBuilder().Name("TRX").
+                StartTime(new Date(2019,2,8,18,30)).
+                GymName("Тренажерный зал").
+                LevelName("Для всех уровней подготовки").
+                CoachName("Анастасия").
+                CoachFamily("Молькова").
+                MustPay().
                 Build();
         addItem(item6);
 

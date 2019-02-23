@@ -20,55 +20,55 @@
 //    private String mCoachFamily;//имя инструктора
 //
 //
-//    public TrainingBuilder SetReplaced()
+//    public TrainingBuilder Replaced()
 //    {
 //        this.mbIsReplaced = true;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetMustPay()
+//    public TrainingBuilder MustPay()
 //    {
 //        this.mbIsMustPay = true;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetTime(Date time)
+//    public TrainingBuilder StartTime(Date time)
 //    {
 //        this.mTime = time;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetName(String trainingName)
+//    public TrainingBuilder Name(String trainingName)
 //    {
 //        this.mTrainingName = trainingName;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetGymName(String gymName)
+//    public TrainingBuilder GymName(String gymName)
 //    {
 //        this.mGymName = gymName;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetLevelName(String levelName)
+//    public TrainingBuilder LevelName(String levelName)
 //    {
 //        this.mLevelName = levelName;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetCoachName(String coachName)
+//    public TrainingBuilder CoachName(String coachName)
 //    {
 //        this.mCoachName = coachName;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetCoachFamily(String coachFamily)
+//    public TrainingBuilder CoachFamily(String coachFamily)
 //    {
 //        this.mCoachFamily = coachFamily;
 //        return this;
 //    }
 //
-//    public TrainingBuilder SetDescription(String desc)
+//    public TrainingBuilder Description(String desc)
 //    {
 //        this.mDescription = desc;
 //        return this;

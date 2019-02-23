@@ -171,6 +171,6 @@ public class TrainingFragment extends Fragment {
 //    //событие при клике по элементу списка тренировки
 //    @Override
 //    public void onListFragmentInteraction(Training item) {
-//        Toast.makeText(mContext,"Тренировка :"+ item.getmTrainingName(),Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext,"Тренировка :"+ item.getTrainingName(),Toast.LENGTH_LONG).show();
 //    }
 //}
