@@ -42,6 +42,8 @@ public class FragmentMainTrainingList extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private TrainingListFragmentFragmentPageManager mManager;
+
     public FragmentMainTrainingList() {
         // Required empty public constructor
     }
@@ -72,7 +74,10 @@ public class FragmentMainTrainingList extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        mManager = new TrainingListFragmentFragmentPageManager(getFragmentManager());
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,8 +103,8 @@ public class FragmentMainTrainingList extends Fragment {
                 Bundle buf = new Bundle();
                 buf.putSerializable("training_date",date);
 
-                TrainingListFragmentFragmentPageManager manager = new TrainingListFragmentFragmentPageManager(getFragmentManager());
-                manager.RefreshFragment(buf);
+               if (mManager != null)
+                    mManager.RefreshTrainingFragment(buf);
 
 //                mDataChanged.onDataChanged(buf);
 //                TrainingFragment frag = new TrainingFragment();

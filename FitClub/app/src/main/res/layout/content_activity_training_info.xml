@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.TrainingInfoActivity"
+
+    tools:showIn="@layout/activity_training_info">
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_grop_names_gym_and_training">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/item_training_infoId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_centerHorizontal="true"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:paddingLeft="30dp">
+
+                <!-- TODO: Время начала/окончания тренировки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_timelapse_gray_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/time_groupId"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_startTrainingTimeId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/fab_margin"
+                            android:gravity="center_vertical"
+                            android:text="10:00"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center_vertical"
+                            android:text="-"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+                        <TextView
+                            android:id="@+id/item_endTrainingTimeId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="10:55"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TODO: Фамилия имя тренера -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/nav_header_desc"
+                        app:srcCompat="@mipmap/ic_launcher_round" />
+
+                    <TextView
+                        android:id="@+id/item_CoachNameId"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:gravity="center_vertical"
+                        android:text="Молькова Анастасия"
+                        android:textColor="@color/md_light_primary_text"
+                        android:textSize="@dimen/text_size_normal_big" />
+                </LinearLayout>
+
+
+                <!-- TODO: Интенсивность тренировки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_accessibility_gray_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Уровень: "
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+                        <TextView
+                            android:id="@+id/item_levelId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Высокая интенсивность"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TODO: Класс тренировки -->
+                <LinearLayout
+                    android:id="@+id/item_isCommercialId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_money_gray_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Коммерческий класс"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <!-- TODO: Класс тренировки -->
+                <LinearLayout
+                    android:id="@+id/item_isPopularId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_thumb_up_gray_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Популярное занятие"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_divider1Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_training_infoId"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <View style="@style/Divider" />
+            </LinearLayout>
+
+            <!-- TODO: информация о свободных местах на коммерческий класс -->
+            <LinearLayout
+                android:id="@+id/item_commercial_training_infoId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_divider1Id"
+                android:layout_centerHorizontal="true"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:paddingLeft="30dp">
+
+
+                <LinearLayout
+                    android:id="@+id/item_vacation_places_infoId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/nav_header_desc" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/fab_margin"
+                            android:gravity="center_vertical"
+                            android:text="Осталось свободных мест: "
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+                        <TextView
+                            android:id="@+id/item_freePlaceId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center_vertical"
+                            android:text="12"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/item_vacation_places1_infoId"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/item_commercial_training_infoId"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/nav_header_desc" />
+
+                    <!-- TODO: Кнопка Записаться -->
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/md_yellow_A700"
+                        android:text="Записаться" />
+                </LinearLayout>
+
+                <!-- TODO: Надпись Запись окончена -->
+                <LinearLayout
+                    android:id="@+id/item_vacation_places2_infoId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_vacation_places1_infoId"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/nav_header_desc" />
+
+                    <!-- TODO: Кнопка Записаться -->
+                    <TextView
+                        android:id="@+id/item_isFinishedId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Запись окончена."
+                        android:textColor="@color/md_light_primary_text" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_divider2Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_vacation_places2_infoId"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="vertical">
+
+                <View style="@style/Divider" />
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_divider2Id"
+                android:layout_centerHorizontal="true"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:paddingLeft="30dp">
+
+                <!-- TODO: Тип программы -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_tag_gray_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_descriptionTypeId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Специальные программы "
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TODO: Описание тренировки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="top"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_info_gray_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_descriptionId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Описание программы тренировок"
+                            android:textColor="@color/md_light_primary_text"
+                            android:textSize="@dimen/text_size_normal_big" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

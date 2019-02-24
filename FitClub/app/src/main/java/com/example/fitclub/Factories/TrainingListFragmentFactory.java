@@ -62,7 +62,6 @@ public class TrainingListFragmentFactory extends MainFactory {
         }
 
         fragmentTransaction.commit();
-
     }
 
     @Override

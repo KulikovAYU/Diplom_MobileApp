@@ -15,13 +15,16 @@ public class TrainingListFragmentFragmentPageManager extends AppFragmentManager
     public TrainingListFragmentFragmentPageManager(FragmentManager fragmentManager)
     {
         super(fragmentManager);
+        mFactory = new TrainingListFragmentFactory(mFragmentManager);
     }
 
-   public void RefreshFragment(Bundle data)
+    private MainFactory mFactory;
+   public void RefreshTrainingFragment(Bundle data)
     {
-        MainFactory factory = new TrainingListFragmentFactory(mFragmentManager);
-        ((TrainingListFragmentFactory)factory).RemoveTrainingFragment();
+        ((TrainingListFragmentFactory)mFactory).RemoveTrainingFragment();
 
-         ((TrainingListFragmentFactory) factory).AddTrainingFragment(data);
+         ((TrainingListFragmentFactory) mFactory).AddTrainingFragment(data);
     }
+
+
 }

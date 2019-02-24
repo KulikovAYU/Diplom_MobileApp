@@ -4,6 +4,7 @@ package com.example.fitclub.Managers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.example.fitclub.Factories.LeftPanelController;
 import com.example.fitclub.Activities.MainActivity;
@@ -44,73 +45,6 @@ public class NavigationManager {
 
 }
 
-class Manager {
-
-    protected int mId;
-    protected AppCompatActivity mContext;
-
-
-    public Manager(@NonNull Context packageContext) {
-        mContext = (AppCompatActivity) packageContext;
-    }
-
-    public void Invoke(@NonNull int id) {
-
-
-        mId = id;
-
-
-        switch (id) {
-            case R.id.gotoStartActivityId:
-                GoToStartPage();
-                break;
-
-            case R.id.trainingListId: {
-                GoToTrainingListPage();
-            }
-            break;
-
-            case R.id.myTrainingId:
-
-                break;
-
-            case R.id.myNotificationId:
-
-                break;
-
-            case R.id.myPersonalCabId:
-
-                break;
-
-            case R.id.nav_share:
-
-                break;
-
-            case R.id.nav_send:
-
-                break;
-        }
-    }
-
-    void GoToStartPage() {
-        if (mContext != null) {
-            GoToPage(mContext, StartActivity.class);
-        }
-    }
-
-    void GoToTrainingListPage() {
-
-    }
-
-    //Метод возвращает пользователя на стартовую страницу
-    public static void GoToPage(Context packageContext, Class<?> cls) {
-        Intent intent = new Intent(packageContext, cls);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        packageContext.startActivity(intent);
-    }
-
-}
-
 //Менеджер меню для активити (Стартового окна)
 class StartActivityManager extends Manager {
     public StartActivityManager(@NonNull Context packageContext) {
@@ -142,6 +76,10 @@ class MainActivityManager extends Manager {
 
         mController.InvokeCommand(mId);
     }
+
+
+
+
 }
 
 

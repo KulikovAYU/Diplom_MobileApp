@@ -1,9 +1,13 @@
 package com.example.fitclub.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.example.fitclub.Managers.Manager;
+import com.example.fitclub.Managers.TrainingListFragmentFragmentPageManager;
 import com.example.fitclub.R;
+import com.example.fitclub.abstracts.AppFragmentManager;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 import com.example.fitclub.Managers.NavigationManager;
 import com.example.fitclub.Models.Training;
@@ -15,6 +19,7 @@ import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 
 
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity
 
 //фикс повторного создания фрагмента при повороте экрана
    private int nItemId = -1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +72,9 @@ public class MainActivity extends AppCompatActivity
         if (bund != null)
         {
            nItemId = bund.getInt("Item");
-       }
+        }
+
+
     }
 
     @Override
@@ -127,8 +136,10 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-      //  mFragmentFactory.Invoke(nItemId); //фикс повторного создания фрагмента при повороте экрана
     }
+
+
+
 
 
 //////interfaces imolemetation\\\
@@ -136,6 +147,18 @@ public class MainActivity extends AppCompatActivity
     //событие при клике по элементу списка тренировки
     @Override
     public void onListFragmentInteraction(Training item) {
+
+        Bundle buf = new Bundle();
+        buf.putSerializable("selected_training",item);
+
+        Manager.GoToActivity(this,TrainingInfoActivity.class,buf,"selected_training");
+
+        //передадим информацию о тренировке в фрагмент инфоромации о тренировке
+     //   ((TrainingListFragmentFragmentPageManager) manager).AddTrainingInfoFragment(buf);
+
+
         Toast.makeText(this,"Тренировка :"+ item.getTrainingName(),Toast.LENGTH_LONG).show();
     }
+
+
 }

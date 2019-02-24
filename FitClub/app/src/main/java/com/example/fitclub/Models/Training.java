@@ -1,37 +1,36 @@
 package com.example.fitclub.Models;
 
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * A Models item representing a piece of content.
  */
-public class Training {
 
-    private Date mTime;//время начала
-    private String mTrainingName;//название тренировки
-    private String mGymName;//название зала
-    private String mLevelName;//уровень
-    private String mCoachName;//имя инструктора
-    private String mDescription;// описание
-    private boolean mbIsReplaced = false;//заменена ли тренировка
-    private boolean mbIsMustPay = false; //платная
-    private boolean mbIsNewTraining = false; // признак новой тренировки
 
-//    public Training(Date time, String trainingName, String gymName, String levelName, String coachName) {
-//         this.mTime = time;
-//         this.mTrainingName = trainingName;
-//         this.mGymName = gymName;
-//        this.mLevelName = levelName;
-//        this.mCoachName = coachName;
-//      //   this.mDescription = description;
-//    }
+public class Training implements Serializable {
+
+    protected Date mStartTime;//время начала
+    protected Date mEndDime;//время окончания тренировки
+    protected String mTrainingName;//название тренировки
+    protected boolean mbIsFinished = false;//признак законченной тренировки
+    protected String mGymName;//название зала
+    protected String mLevelName;//уровень
+    protected String mCoachName;//имя инструктора
+    protected String mDescription;// описание
+    protected boolean mbIsReplaced;//заменена ли тренировка
+    protected boolean mbIsMustPay = false; //платная
+    protected boolean mbIsNewTraining; // признак новой тренировки
+    protected String mProgramType; //тип программы
+    protected boolean mbIspopular = false;//признак популярности
+
 
     Training(TrainingBuilder trainingBuilder) {
 
-        mTime = trainingBuilder.GetTime();
-        mbIsMustPay = trainingBuilder.GetIsMustPayStatus();
+        mStartTime = trainingBuilder.GetStartTime();
+        //mbIsMustPay = trainingBuilder.GetIsMustPayStatus();
         mTrainingName = trainingBuilder.GetTrainingName();
         mGymName = trainingBuilder.GetGymName();
         mLevelName = trainingBuilder.GetLevelName();
@@ -39,6 +38,10 @@ public class Training {
         mDescription = trainingBuilder.GetDescription();
         mbIsReplaced = trainingBuilder.GetIsReplacedStatus();
         mbIsNewTraining = trainingBuilder.GetIsNewTraining();
+        mEndDime = trainingBuilder.GetEndTime();
+        mProgramType = trainingBuilder.GetProgramType();
+        mbIsFinished = trainingBuilder.GetIsFinished();
+        mbIspopular = trainingBuilder.GetIsPopular();
         if (mbIsMustPay)
             mTrainingName += " (платная секция) по записи";
     }
@@ -57,18 +60,39 @@ public class Training {
         return mbIsMustPay;
     }
 
-    public Date getTime() {
-        return mTime;
+    public Date getStartTime() {
+        return mStartTime;
     }
 
-    public String getTimeHHmmSS() {
+    public String getStartTimeHHmmSS() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        return sdf.format(mTime);
+        if (mStartTime == null) {
+            throw new RuntimeException("mStartTime is null at getStartTimeHHmmSS()");
+        }
+        return sdf.format(mStartTime);
     }
 
-    public String getTimeHHmm() {
+    public String getStartTimeHHmm() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(mTime);
+        if (mStartTime == null) {
+            throw new RuntimeException("mStartTime is null at getStartTimeHHmm()");
+        }
+        return sdf.format(mStartTime);
+    }
+
+    public String getTimeDayDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d.");
+
+        return sdf.format(mStartTime);
+    }
+
+    public String getEndTimeHHmm() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        if (mEndDime == null) {
+            throw new RuntimeException("mEndDime is null at getEndTimeHHmm()");
+        }
+
+        return sdf.format(mEndDime);
     }
 
     public String getTrainingName() {
@@ -86,7 +110,7 @@ public class Training {
     }
 
 
-    public String getmDescription() {
+    public String getDescription() {
         return mDescription;
     }
 
@@ -99,16 +123,26 @@ public class Training {
         return mbIsNewTraining;
     }
 
+    public String getProgramType() {
+        return this.mProgramType;
+    }
+
+    public boolean getIsPopular(){return this.mbIspopular;}
+
 
     public static class TrainingBuilder {
-        private boolean mbIsReplaced = false;//заменена ли тренировка
-        private boolean mbIsMustPay = false; //платная
-        private boolean mbIsNewTraining = false; // признак новой тренировки
-        private Date mTime;//время начала
-        private String mTrainingName;//название тренировки
-        private String mGymName;//название зала
-        private String mLevelName;//уровень
-        private String mDescription;//описание тренировки
+        protected boolean mbIsReplaced = false;//заменена ли тренировка
+        // protected boolean mbIsMustPay = false; //платная
+        protected boolean mbIsNewTraining = false; // признак новой тренировки
+        protected boolean mbIsFinished = false;//признак законченной тренировки
+        protected Date mStartTime;//время начала
+        protected Date mEndDime;//время окончания тренировки
+        protected String mTrainingName;//название тренировки
+        protected String mGymName;//название зала
+        protected String mLevelName;//уровень
+        protected String mDescription;//описание тренировки
+        protected String mProgramType; //тип программы
+        protected boolean mbIspopular = false;//признак популярности
 
 
         //вспомогательные поля
@@ -121,13 +155,34 @@ public class Training {
             return this;
         }
 
-        public TrainingBuilder MustPay() {
-            this.mbIsMustPay = true;
+        public TrainingBuilder Capacity(int nplacesCount) {
+
             return this;
         }
 
+        public TrainingBuilder FreePlacesCount(int nFreePlacesCount) {
+
+            return this;
+        }
+
+        public TrainingBuilder BusyPlacesCount(int nBusyPlacesCount) {
+
+            return this;
+        }
+
+
+//        public TrainingBuilder MustPay() {
+//            this.mbIsMustPay = true;
+//            return this;
+//        }
+
         public TrainingBuilder StartTime(Date time) {
-            this.mTime = time;
+            this.mStartTime = time;
+            return this;
+        }
+
+        public TrainingBuilder EndTime(Date time) {
+            this.mEndDime = time;
             return this;
         }
 
@@ -166,6 +221,20 @@ public class Training {
             return this;
         }
 
+        public TrainingBuilder ProgramType(String programType) {
+            this.mProgramType = programType;
+            return this;
+        }
+
+        private TrainingBuilder IsFinished() {
+            mbIsFinished = true;
+            return this;
+        }
+
+        public TrainingBuilder IsPopular() {
+            mbIspopular = true;//признак популярности
+            return this;
+        }
 
         public String GetCoachFullname() {
             return this.mCoachFamily + " " + this.mCoachName;
@@ -175,16 +244,16 @@ public class Training {
             return this.mbIsReplaced;
         }
 
-        public boolean GetIsMustPayStatus() {
-            return this.mbIsMustPay;
-        }
+//        public boolean GetIsMustPayStatus() {
+//            return this.mbIsMustPay;
+//        }
 
         public boolean GetIsNewTraining() {
             return this.mbIsNewTraining;
         }
 
-        public Date GetTime() {
-            return this.mTime;
+        public Date GetStartTime() {
+            return this.mStartTime;
         }
 
         public String GetTrainingName() {
@@ -203,6 +272,25 @@ public class Training {
             return this.mDescription;
         }
 
+        public Date GetEndTime() {
+            return this.mEndDime;
+        }
+
+
+        public String GetProgramType() {
+            return this.mProgramType;
+        }
+
+        public boolean GetIsPopular() {
+            return mbIspopular;
+        }
+
+        public boolean GetIsFinished() {
+            if (mStartTime.before(new Date()))
+                return true;
+            else
+                return mbIsFinished;
+        }
 
         public Training Build() {
             return new Training(this);
@@ -210,7 +298,7 @@ public class Training {
 
 
     }
-
-
 }
+
+
 

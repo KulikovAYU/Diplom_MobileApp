@@ -45,7 +45,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mTimeIdView.setText( holder.mItem.getTimeHHmm());
+        holder.mTimeIdView.setText( holder.mItem.getStartTimeHHmm());
         holder.mTrainingNameView.setText( holder.mItem.getTrainingName());
         holder.mGymView.setText( holder.mItem.getGymName());
         holder.mLevelView.setText( holder.mItem.getLevelName());
@@ -54,7 +54,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         holder.mIsMustPayView.setVisibility(holder.mItem.getIsMustPay() ? View.VISIBLE : View.GONE);
         holder.mDifficultView.setBackgroundColor( ContextCompat.getColor(holder.mView.getContext(), TrainingDifficult.GetColorIndex(holder.mItem.getLevelName())));
         holder.mIsNewTrainingView.setVisibility(holder.mItem.getIsNewTraining() ? View.VISIBLE : View.GONE);
-
+        holder.mbIsPopularView.setVisibility(holder.mItem.getIsPopular() ? View.VISIBLE : View.GONE);
         //Color.alpha(TrainingDifficult.GetColorIndex(holder.mItem.getLevelName()))
 
 
@@ -90,8 +90,8 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         public final ImageView mIsReplacedView;// тренировка заменена на другую
         public final LinearLayout mIsMustPayView;// тренировка заменена на другую item_mustPayId
         public final LinearLayout mDifficultView;// полоска сложности тренировки
-        public final LinearLayout mIsNewTrainingView;
-
+        public final LinearLayout mIsNewTrainingView; //признак нового занятия (желтая надпись Новое занятие)
+        public final LinearLayout mbIsPopularView;//признак популярного занятия
 
         public Training mItem;
 
@@ -107,6 +107,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
             mIsMustPayView = (LinearLayout)view.findViewById(R.id.item_mustPayId);
             mDifficultView = (LinearLayout)view.findViewById(R.id.item_difficultId);
             mIsNewTrainingView = (LinearLayout)view.findViewById(R.id.item_newTrainingId);
+            mbIsPopularView = (LinearLayout)view.findViewById(R.id.item_isPopularId);
         }
 
         @Override
