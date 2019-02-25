@@ -172,8 +172,9 @@
 
         <LinearLayout
             android:id="@+id/item_newTrainingId"
-            android:layout_width="wrap_content"
-            android:layout_gravity="right"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/dimen_10dp"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/item_mainContainerId"
             android:orientation="vertical">

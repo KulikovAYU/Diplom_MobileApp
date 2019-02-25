@@ -45,7 +45,7 @@ public class CommercialTraining extends Training {
     //возможна ли запись
     public boolean getRecordingIsPossible()
     {
-        return !IsFilled() && !mbIsFinished || mStartTime.before(new Date());
+        return !IsFilled() && !mbIsFinished || mStartTime.after(new Date()) || mStartTime.equals(new Date());
     }
 
 

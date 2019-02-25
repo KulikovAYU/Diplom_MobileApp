@@ -58,7 +58,7 @@ public class TrainingListFragmentFactory extends MainFactory {
             if (data != null)
                 trainingFragment.setArguments(data);
 
-            fragmentTransaction.add(R.id.fragment_root_training_list1, trainingFragment, trainingFragment.TAG);
+            fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
         }
 
         fragmentTransaction.commit();
@@ -75,7 +75,7 @@ public class TrainingListFragmentFactory extends MainFactory {
 
             if (mFragmentManager.findFragmentByTag(TrainingFragment.TAG) == null) {
                 TrainingFragment trainingFragment = new TrainingFragment();
-                fragmentTransaction.add(R.id.fragment_root_training_list1, trainingFragment, trainingFragment.TAG);
+                fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
             }
         }
 

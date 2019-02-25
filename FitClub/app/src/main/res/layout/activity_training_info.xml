@@ -15,16 +15,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.TrainingInfoActivity"
-
-        >
+        tools:context=".Activities.TrainingInfoActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-
-            >
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -47,14 +43,29 @@
                     android:layout_marginStart="80dp"
                     android:orientation="vertical">
 
-                    <!-- TODO: Название и зал тренировки -->
-                    <TextView
-                        android:id="@+id/item_trainingNameId"
+                    <LinearLayout
+                        android:id="@+id/item_trainingAndStatId"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Pump"
-                        android:textColor="@color/md_white_1000"
-                        android:textSize="@dimen/text_size_big" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/item_isReplacedId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/dimen_10dp"
+                            android:src="@drawable/ic_attention" />
+
+                        <!-- TODO: Название и зал тренировки -->
+                        <TextView
+                            android:id="@+id/item_trainingNameId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Pump"
+                            android:textColor="@color/md_white_1000"
+                            android:textSize="@dimen/text_size_big" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/item_gymNameId"

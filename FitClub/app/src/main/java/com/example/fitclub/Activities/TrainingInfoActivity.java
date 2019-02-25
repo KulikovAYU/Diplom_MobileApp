@@ -1,8 +1,8 @@
 package com.example.fitclub.Activities;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 
+import com.example.fitclub.Managers.Manager;
 import com.example.fitclub.Models.CommercialTraining;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
@@ -15,6 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -77,6 +79,9 @@ public class TrainingInfoActivity extends AppCompatActivity {
         TextView trainingName = (TextView)findViewById(R.id.item_trainingNameId);
         trainingName.setText(mTraining.getTrainingName());
 
+        ImageView replacedImage = (ImageView)findViewById(R.id.item_isReplacedId);
+        if (!mTraining.getIsReplaced())
+            replacedImage.setVisibility(View.GONE);
         //имя зала
         TextView gymName = (TextView)findViewById(R.id.item_gymNameId);
         gymName.setText(mTraining.getGymName());
@@ -119,7 +124,8 @@ public class TrainingInfoActivity extends AppCompatActivity {
             LinearLayout layoutCommercialInfoDivider = (LinearLayout)findViewById(R.id.item_divider2Id);
             layoutCommercialInfoDivider.setVisibility(View.GONE);
 
-
+            TextView mustRegister = (TextView)findViewById(R.id.item_MustToWriteId);
+            mustRegister.setVisibility(View.GONE);
         }
         else
         {
@@ -132,11 +138,22 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
             //получим поле количество свободных мест
             TextView finished = (TextView)findViewById(R.id.item_isFinishedId);
+
+            Button btnRegister = (Button)findViewById(R.id.item_registerId);
+
             //если тренировка не закончена и места есть, то скрываем (подумать)
-            if (!commercialTraining.getRecordingIsPossible())
+            if (commercialTraining.getRecordingIsPossible())
+            {
+                btnRegister.setVisibility(View.VISIBLE);
                 finished.setVisibility(View.GONE);
+            }else
+            {
+                btnRegister.setVisibility(View.GONE);
+            }
+
 
         }
+
 
         //Тип программы
         TextView trainingType = (TextView)findViewById(R.id.item_descriptionTypeId);
@@ -152,5 +169,13 @@ public class TrainingInfoActivity extends AppCompatActivity {
     }
 
 
+    public void OnProfileClick(View view) {
 
+        //Здесь необходимо получить тренера !!!!
+      //  Bundle buf = new Bundle();
+       // buf.putSerializable("selected_training",item);
+
+       // Manager.GoToActivity(this, CoachInfoActivity.class,buf,"selected_training");
+        Manager.GoToActivity(this, CoachInfoActivity.class,null,"selected_training");//Пока загглушка
+    }
 }

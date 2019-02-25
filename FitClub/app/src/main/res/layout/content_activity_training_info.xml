@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.TrainingInfoActivity"
-
     tools:showIn="@layout/activity_training_info">
 
 
@@ -88,6 +87,15 @@
                             android:textColor="@color/md_light_primary_text"
                             android:textSize="@dimen/text_size_normal_big" />
 
+                        <TextView
+                            android:id="@+id/item_MustToWriteId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right|center"
+                            android:layout_marginRight="@dimen/dimen_10dp"
+                            android:text="Требуется запись"
+                            android:textColor="@color/md_grey_500"
+                            android:textSize="@dimen/text_size_small" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -98,7 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:onClick="OnProfileClick">
 
                     <ImageView
                         android:id="@+id/imageView"
@@ -324,6 +333,7 @@
 
                     <!-- TODO: Кнопка Записаться -->
                     <Button
+                        android:id="@+id/item_registerId"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
