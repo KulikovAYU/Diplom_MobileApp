@@ -11,36 +11,23 @@ import android.widget.TextView;
 
 import com.example.fitclub.Activities.StartActivity;
 
-public class SplashActivity extends AppCompatActivity {
+import java.io.Serializable;
 
-    private static int SPLASH_TIME_OUT = 4000;
+public class SplashActivity extends AppCompatActivity implements Serializable {
+
+    private static int SPLASH_TIME_OUT = 500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        ProgressBar progressBar = findViewById(R.id.progressBarId);
-        TextView textView = findViewById(R.id.progressTextId);
-
-        ProgressBarAnimation animation = new ProgressBarAnimation(this,progressBar,textView,0f,100f);
-        animation.setDuration(SPLASH_TIME_OUT);
-        progressBar.setAnimation(animation);
-
-       // progressBar.setMax(100);
-
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent(SplashActivity.this, StartActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        },SPLASH_TIME_OUT);
-
-
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SplashActivity.this, StartActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        },SPLASH_TIME_OUT);
     }
 }

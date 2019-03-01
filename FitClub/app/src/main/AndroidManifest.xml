@@ -33,7 +33,7 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Activities.StartActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.Launcher">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 

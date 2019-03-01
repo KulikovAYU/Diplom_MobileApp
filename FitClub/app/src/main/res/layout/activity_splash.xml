@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,39 +10,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/md_white_1000">
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
 
-        android:src="@drawable/fitness" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="260dp"
         android:layout_gravity="center"
-        android:src="@drawable/preview" />
+        android:src="@drawable/fitness1" />
 
-    <ProgressBar
-        android:id="@+id/progressBarId"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progress="@color/md_blue_600"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:progressDrawable="@drawable/progress_bar"
-        android:indeterminate="false"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        />
 
-    <TextView
-        android:id="@+id/progressTextId"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="10%"/>
+
 
 </LinearLayout>
 

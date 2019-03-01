@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.fitclub.Managers.NavigationManager;
 
 import com.example.fitclub.R;
+import com.example.fitclub.SplashActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -33,8 +34,11 @@ public class StartActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarid);
         setSupportActionBar(toolbar);
 
