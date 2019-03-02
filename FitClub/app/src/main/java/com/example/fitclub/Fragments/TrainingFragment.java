@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +18,20 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.example.fitclub.Adapters.MyTrainingRecyclerViewAdapter;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
+import com.example.fitclub.ViewModels.TrainingViewModel;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
-import com.example.fitclub.Lists.TrainingList;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -36,6 +43,9 @@ import java.util.Calendar;
 
 //Фрагмент списка тренировок
 public class TrainingFragment extends Fragment {
+
+
+    private TrainingViewModel mTrainingViewModel;
 
     public static final String TAG = "TrainingFragment";
     // TODO: Customize parameter argument names
@@ -54,39 +64,38 @@ public class TrainingFragment extends Fragment {
     public TrainingFragment() {
 
     }
-    Calendar curr;
+    Calendar mCurrCalendarDate;//выбранная дата (календарь)
+    private  Date mDate; //текущая дата
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         if (getArguments() != null) { //если есть что-то, что мы передали в буфер
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            curr = (Calendar)getArguments().getSerializable("training_date");
+            mCurrCalendarDate = (Calendar)getArguments().getSerializable("training_date");
         }
+
+
+        //Подключим вью модель здесь есть mCurrCalendarDate!!! надо вставмить
+
+        mTrainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         View view = inflater.inflate(R.layout.fragment_training_list, container, false);
+
+
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshTrainingId);
 
      //   mSwipeRefreshLayout.setRefreshing(true);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Записать получение всех тренировок
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                },1000);
-            }
-        });
         View trainingListview = view.findViewById(R.id.TrainingListId);
         // Set the adapter
         if (trainingListview instanceof RecyclerView) {
@@ -97,13 +106,61 @@ public class TrainingFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-        //    if (curr == null) // УБРАТЬ! Просто для отладки
-                recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(TrainingList.ITEMS, mListener));
+        //    if (mCurrCalendarDate == null) // УБРАТЬ! Просто для отладки
+
+           final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
+            recyclerView.setAdapter(myTrainingRecyclerViewAdapter);
+
+
+
+            mDate = (mCurrCalendarDate == null) ? new Date() : mCurrCalendarDate.getTime();
+
+
+
+            //сюда подставить нашу дату
+            GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+
+            //подключим обновление
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    //Записать получение всех тренировок
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+
+
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    },1000);
+                }
+            });
         }
 
         mSwipeRefreshLayout.setRefreshing(false);
 
+
+
+
         return view;
+    }
+
+    private void GetTrainingsOnSelectedData(final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter) {
+        mTrainingViewModel.GetTrainings(mDate).observe(this, new Observer<List<Training>>() {
+            @Override
+            public void onChanged(List<Training> trainings) {
+                myTrainingRecyclerViewAdapter.setTrainings(trainings);
+                //update recycler view
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d."); //пока просто для отладки
+
+                String strRes =  sdf.format(mDate);
+
+                Toast.makeText(getContext(),"onChanged date:" + strRes,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

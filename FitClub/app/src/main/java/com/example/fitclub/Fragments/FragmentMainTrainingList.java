@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
@@ -13,10 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+
 import com.example.fitclub.Managers.TrainingListFragmentFragmentPageManager;
+
 import com.example.fitclub.R;
 
+
 import java.util.Calendar;
+
 
 
 /**
@@ -28,6 +34,8 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class FragmentMainTrainingList extends Fragment {
+
+
 
     public static final String TAG = "FragmentMainTrainingList";
 
@@ -75,6 +83,8 @@ public class FragmentMainTrainingList extends Fragment {
         }
 
         mManager = new TrainingListFragmentFragmentPageManager(getFragmentManager());
+
+
     }
 
 
@@ -96,15 +106,23 @@ public class FragmentMainTrainingList extends Fragment {
                 .datesNumberOnScreen(5)
                 .build();
 
+        //переопределяем фрагмент в зависимости от выбранной даты
+      //  SetSelectedDate(horizontalCalendar.getSelectedDate());
+
+
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
 
-                Bundle buf = new Bundle();
-                buf.putSerializable("training_date",date);
+               // Date currDate = date.getTime();
+                FragmentMainTrainingList.this.SetSelectedDate(date);
 
-               if (mManager != null)
-                    mManager.RefreshTrainingFragment(buf);
+//
+//                Bundle buf = new Bundle();
+//                buf.putSerializable("training_date",date);
+//
+//               if (mManager != null)
+//                    mManager.RefreshTrainingFragment(buf);
 
 //                mDataChanged.onDataChanged(buf);
 //                TrainingFragment frag = new TrainingFragment();
@@ -125,6 +143,14 @@ public class FragmentMainTrainingList extends Fragment {
 
         return view;
 
+    }
+
+    private void SetSelectedDate(Calendar date) {
+        Bundle buf = new Bundle();
+      
+        buf.putSerializable("training_date",date);
+        if (mManager != null)
+            mManager.RefreshTrainingFragment(buf);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

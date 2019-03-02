@@ -26,13 +26,17 @@ import java.util.List;
  */
 public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Training> mValues;
+    private List<Training> mValues;
     private final IOnListFragmentInteractionListener mListener;
 
-    public MyTrainingRecyclerViewAdapter(List<Training> items, IOnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public MyTrainingRecyclerViewAdapter(IOnListFragmentInteractionListener listener) {
+          mListener = listener;
     }
+
+//    public MyTrainingRecyclerViewAdapter(List<Training> items, IOnListFragmentInteractionListener listener) {
+//        mValues = items;
+//        mListener = listener;
+//    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,7 +81,14 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+
+        return (mValues != null) ? mValues.size() : 0;
+    }
+
+    public void setTrainings(List<Training> items)
+    {
+        mValues = items;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

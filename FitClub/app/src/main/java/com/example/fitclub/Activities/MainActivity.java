@@ -1,37 +1,27 @@
 package com.example.fitclub.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.fitclub.Managers.Manager;
-import com.example.fitclub.Managers.TrainingListFragmentFragmentPageManager;
-import com.example.fitclub.R;
-import com.example.fitclub.abstracts.AppFragmentManager;
-import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 import com.example.fitclub.Managers.NavigationManager;
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.R;
+import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import android.view.View;
-
-import com.google.android.material.navigation.NavigationView;
-
-
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
-import static com.google.android.material.navigation.NavigationView.*;
+import static com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 
 public class MainActivity extends AppCompatActivity
@@ -39,8 +29,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-//фикс повторного создания фрагмента при повороте экрана
-   private int nItemId = -1;
+    //фикс повторного создания фрагмента при повороте экрана
+    private int nItemId = -1;
 
 
     @Override
@@ -68,11 +58,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Bundle bund =  getIntent().getExtras();
-        if (bund != null)
-        {
-           nItemId = bund.getInt("Item");
+        Bundle bund = getIntent().getExtras();
+        if (bund != null) {
+            nItemId = bund.getInt("Item");
         }
+
 
 
     }
@@ -116,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         try {
-            NavigationManager.Instance().Invoke(id,this);
+            NavigationManager.Instance().Invoke(id, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,14 +122,11 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         try {
             if (nItemId != -1)
-                 NavigationManager.Instance().Invoke(nItemId,this);
+                NavigationManager.Instance().Invoke(nItemId, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
 
 
 //////interfaces imolemetation\\\
@@ -149,15 +136,15 @@ public class MainActivity extends AppCompatActivity
     public void onListFragmentInteraction(Training item) {
 
         Bundle buf = new Bundle();
-        buf.putSerializable("selected_training",item);
+        buf.putSerializable("selected_training", item);
 
-        Manager.GoToActivity(this,TrainingInfoActivity.class,buf,"selected_training");
+        Manager.GoToActivity(this, TrainingInfoActivity.class, buf, "selected_training");
 
         //передадим информацию о тренировке в фрагмент инфоромации о тренировке
-     //   ((TrainingListFragmentFragmentPageManager) manager).AddTrainingInfoFragment(buf);
+        //   ((TrainingListFragmentFragmentPageManager) manager).AddTrainingInfoFragment(buf);
 
 
-        Toast.makeText(this,"Тренировка :"+ item.getTrainingName(),Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
     }
 
 
