@@ -276,7 +276,6 @@ public class Training implements Serializable {
             return this.mEndDime;
         }
 
-
         public String GetProgramType() {
             return this.mProgramType;
         }
@@ -295,8 +294,6 @@ public class Training implements Serializable {
         public Training Build() {
             return new Training(this);
         }
-
-
     }
 }
 

@@ -1,5 +1,7 @@
 package com.example.fitclub.Repository.Interfaces;
 
+import android.content.Context;
+
 import com.example.fitclub.Models.Training;
 
 import java.util.Date;
@@ -24,5 +26,8 @@ public interface ITrainingsRepository
 
     //Получить тренировки пользователя на день
     LiveData<List<Training>> GetUserTrainings(Date date);
+
+    //устанавливает контекст
+    void SetContext(Context currContext);
 
 }

@@ -81,6 +81,7 @@ public class TrainingFragment extends Fragment {
 
         mTrainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
 
+        mTrainingViewModel.SetFragment(mActivityContext);
     }
 
     @Override
@@ -111,13 +112,8 @@ public class TrainingFragment extends Fragment {
            final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
             recyclerView.setAdapter(myTrainingRecyclerViewAdapter);
 
-
-
             mDate = (mCurrCalendarDate == null) ? new Date() : mCurrCalendarDate.getTime();
 
-
-
-            //сюда подставить нашу дату
             GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
 
             //подключим обновление
@@ -132,7 +128,6 @@ public class TrainingFragment extends Fragment {
 
                             GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
 
-
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
                     },1000);
@@ -141,10 +136,6 @@ public class TrainingFragment extends Fragment {
         }
 
         mSwipeRefreshLayout.setRefreshing(false);
-
-
-
-
         return view;
     }
 
@@ -176,12 +167,12 @@ public class TrainingFragment extends Fragment {
 //        },2000);
 
     }
-
+Context mActivityContext;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         //здесь можно определить любой интерфейс из активити
-
+        mActivityContext = context;
 
 
         //если контекст (родительское окно реализует IOnListFragmentInteractionListener), тогда используем его

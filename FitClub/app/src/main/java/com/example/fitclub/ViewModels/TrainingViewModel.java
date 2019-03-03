@@ -1,6 +1,7 @@
 package com.example.fitclub.ViewModels;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -28,6 +31,10 @@ public class TrainingViewModel extends AndroidViewModel {
         mTrainingsRepository = new Repository().GetTrainingRepository();
     }
 
+    public void SetFragment(Context context)
+    {
+        mTrainingsRepository.SetContext(context);//получим наш контекст
+    }
     //Получить тренировки на день
     public LiveData<List<Training>> GetTrainings(Date date) {
 

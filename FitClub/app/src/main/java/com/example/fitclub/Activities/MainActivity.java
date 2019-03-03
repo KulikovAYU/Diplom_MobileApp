@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.fitclub.Connection.ConnectionManager;
+import com.example.fitclub.Connection.ConnectionMode;
 import com.example.fitclub.Managers.Manager;
 import com.example.fitclub.Managers.NavigationManager;
 import com.example.fitclub.Models.Training;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        boolean bIsConnected = ConnectionManager.Instance().IsConnected(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

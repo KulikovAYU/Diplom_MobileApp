@@ -1,10 +1,12 @@
 package com.example.fitclub.Repository.classes;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.fitclub.Models.CommercialTraining;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
+import com.example.fitclub.Retrofit2.RetrofitAPI;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,14 +86,24 @@ public class TrainingRepository implements ITrainingsRepository {
         }
         return null;
     }
+    Context mCurrContext;
+
+    @Override
+    public void SetContext(Context currContext) {
+        mCurrContext = currContext;
+    }
 
 
     //////////////////////////////Классы для работы с ретрофит\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    private static class GetTrainingsAsyncTask extends AsyncTask<Date, Void, LiveData<List<Training>>> {
+    private class GetTrainingsAsyncTask extends AsyncTask<Date, Void, LiveData<List<Training>>> {
         @Override
         protected LiveData<List<Training>> doInBackground(Date... dates) {
 
+
+            RetrofitAPI api = new RetrofitAPI(mCurrContext);
+
+            api.getTrainings(dates[0]);
 
             LiveData<List<Training>> data = new MutableLiveData<List<Training>>();
             List<Training> list = new ArrayList<>();
