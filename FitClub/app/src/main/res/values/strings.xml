@@ -28,6 +28,8 @@
     <string name="title_activity_training_info">День нед. и дата.</string>
     <string name="title_activity_coach_info">Инструктор</string>
 
+    <string name="connection_error_fragment_msg">Отсутсвует подключение к сети</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

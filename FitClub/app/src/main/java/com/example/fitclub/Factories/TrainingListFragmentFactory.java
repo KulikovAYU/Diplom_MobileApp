@@ -1,7 +1,11 @@
 package com.example.fitclub.Factories;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.example.fitclub.Connection.ConnectionManager;
+import com.example.fitclub.Fragments.FragmentConnectionError;
 import com.example.fitclub.Fragments.FragmentMainTrainingList;
 import com.example.fitclub.R;
 import com.example.fitclub.Fragments.TrainingFragment;
@@ -16,8 +20,10 @@ import androidx.fragment.app.FragmentTransaction;
 //фабрика для создания фрагментов списка тренировок
 public class TrainingListFragmentFactory extends MainFactory {
 
-    public TrainingListFragmentFactory(FragmentManager fragmentManager) {
-        super(fragmentManager);
+
+
+    public TrainingListFragmentFactory(FragmentManager fragmentManager,Context context) {
+        super(fragmentManager,context);
     }
 
     @Override
@@ -50,15 +56,45 @@ public class TrainingListFragmentFactory extends MainFactory {
         fragmentTransaction.commit();
     }
 
-    public void AddTrainingFragment(Bundle data) {
+    public void AddTrainingFragment(Bundle data ) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(TrainingFragment.TAG) != null) {
-            TrainingFragment trainingFragment = new TrainingFragment();
-            if (data != null)
-                trainingFragment.setArguments(data);
 
-            fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
+        if (ConnectionManager.Instance().IsConnected(mContext))
+        {
+
+            TrainingFragment   trainingFragment = new TrainingFragment();
+                trainingFragment.onAttach(mContext);
+
+
+
+                if (data != null)
+                {
+                    trainingFragment.setArguments(data);
+                }
+
+            //проверим нет ли фрагмента с ошибкой подключения к сети
+            if (mFragmentManager.findFragmentByTag(FragmentConnectionError.TAG) != null)
+            {
+                fragmentTransaction.replace(R.id.fragment_container,trainingFragment, trainingFragment.TAG);
+            }
+            else
+            {
+                fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
+            }
+
+        }
+        else
+        {
+            //иначе выведем ошибку подключения
+            if (mFragmentManager.findFragmentByTag(FragmentConnectionError.TAG) == null)
+            {
+                FragmentConnectionError connectionErrorFragment = new FragmentConnectionError();
+                connectionErrorFragment.onAttach(mContext);
+                fragmentTransaction.add(R.id.fragment_container, connectionErrorFragment, connectionErrorFragment.TAG);
+
+            }
+            Toast.makeText(mContext,"Нет сети:",Toast.LENGTH_SHORT).show();
         }
 
         fragmentTransaction.commit();
@@ -66,17 +102,51 @@ public class TrainingListFragmentFactory extends MainFactory {
 
     @Override
     public void AddFragments() {
+
+
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         if (mFragmentManager.findFragmentByTag(FragmentMainTrainingList.TAG) == null) {
             FragmentMainTrainingList mainTrainingListFragment = new FragmentMainTrainingList();
 
             fragmentTransaction.add(R.id.fragments_content, mainTrainingListFragment, mainTrainingListFragment.TAG);
+        }
+        if (ConnectionManager.Instance().IsConnected(mContext))
+        {
+                if (mFragmentManager.findFragmentByTag(TrainingFragment.TAG) == null) {
 
-            if (mFragmentManager.findFragmentByTag(TrainingFragment.TAG) == null) {
-                TrainingFragment trainingFragment = new TrainingFragment();
-                fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
+                    TrainingFragment trainingFragment = new TrainingFragment();
+                    trainingFragment.onAttach(mContext);
+                    //проверим не подключен ли FragmentConnectionError
+                    if (mFragmentManager.findFragmentByTag(FragmentConnectionError.TAG) != null )
+                    {
+                        fragmentTransaction.replace(R.id.fragment_container,trainingFragment,TrainingFragment.TAG);
+                    }
+                    else
+                    {
+                        fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
+                    }
+                   // fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
+                }
             }
+         else
+        {
+            if (mFragmentManager.findFragmentByTag(FragmentConnectionError.TAG) == null)
+            {
+                FragmentConnectionError connectionErrorFragment = new FragmentConnectionError();
+                connectionErrorFragment.onAttach(mContext);
+                //проверим не подключен ли TrainingFragment
+                if (mFragmentManager.findFragmentByTag(TrainingFragment.TAG) != null )
+                {
+                    fragmentTransaction.replace(R.id.fragment_container,connectionErrorFragment,FragmentConnectionError.TAG);
+                }
+                else
+                {
+                    fragmentTransaction.add(R.id.fragment_container, connectionErrorFragment, connectionErrorFragment.TAG);
+                }
+            }
+
+            Toast.makeText(mContext,"Нет сети:",Toast.LENGTH_SHORT).show();
         }
 
         fragmentTransaction.commit();

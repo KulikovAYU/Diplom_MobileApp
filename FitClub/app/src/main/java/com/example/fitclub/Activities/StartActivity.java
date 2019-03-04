@@ -106,13 +106,13 @@ public class StartActivity extends AppCompatActivity
         return true;
     }
 
-    public void OnProfileClick(View view) {
-        //пока выведем просто тост. потом, возможно, реализуем
-        Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        onBackPressed();
-    }
+//    public void OnProfileClick(View view) {
+//        //пока выведем просто тост. потом, возможно, реализуем
+//        Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
+//        onBackPressed();
+//    }
 
 
     public void OnTrainingListClick(View view) {

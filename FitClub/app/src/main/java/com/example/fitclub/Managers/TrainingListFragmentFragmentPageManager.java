@@ -1,5 +1,6 @@
 package com.example.fitclub.Managers;
 
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -12,10 +13,10 @@ import androidx.fragment.app.FragmentManager;
 //класс для управления фрагментами приложения
 public class TrainingListFragmentFragmentPageManager extends AppFragmentManager
 {
-    public TrainingListFragmentFragmentPageManager(FragmentManager fragmentManager)
+    public TrainingListFragmentFragmentPageManager(FragmentManager fragmentManager, Context context)
     {
-        super(fragmentManager);
-        mFactory = new TrainingListFragmentFactory(mFragmentManager);
+        super(fragmentManager,context);
+        mFactory = new TrainingListFragmentFactory(mFragmentManager,context);
     }
 
     private MainFactory mFactory;

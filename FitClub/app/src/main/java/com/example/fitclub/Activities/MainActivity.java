@@ -12,6 +12,7 @@ import com.example.fitclub.Managers.Manager;
 import com.example.fitclub.Managers.NavigationManager;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
+import com.example.fitclub.abstracts.IOnConnectionListener;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -27,7 +28,7 @@ import static com.google.android.material.navigation.NavigationView.OnNavigation
 
 
 public class MainActivity extends AppCompatActivity
-        implements OnNavigationItemSelectedListener, IOnListFragmentInteractionListener {
+        implements OnNavigationItemSelectedListener, IOnListFragmentInteractionListener, IOnConnectionListener {
 
 
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean bIsConnected = ConnectionManager.Instance().IsConnected(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -150,6 +151,19 @@ public class MainActivity extends AppCompatActivity
 
         Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
     }
+
+
+    //проверка подключения к сети
+    @Override
+    public void CheckConnection(View view) {
+        try {
+            if (nItemId != -1)
+                NavigationManager.Instance().Invoke(nItemId, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

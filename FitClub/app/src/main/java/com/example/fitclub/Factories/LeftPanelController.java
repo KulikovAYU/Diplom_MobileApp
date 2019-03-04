@@ -1,5 +1,7 @@
 package com.example.fitclub.Factories;
 
+import android.content.Context;
+
 import com.example.fitclub.R;
 import com.example.fitclub.abstracts.AppFragmentManager;
 import com.example.fitclub.abstracts.MainFactory;
@@ -16,7 +18,7 @@ public class LeftPanelController {
 
     public LeftPanelController(AppCompatActivity mainActivity) {
         mMainActivity = mainActivity;
-        mBuilder = new LeftPanelCommandManager(mMainActivity.getSupportFragmentManager());
+        mBuilder = new LeftPanelCommandManager(mMainActivity.getSupportFragmentManager(),mMainActivity);
     }
 
     public void InvokeCommand(int buttonCmdId) {
@@ -32,8 +34,8 @@ public class LeftPanelController {
 class LeftPanelCommandManager extends AppFragmentManager {
     MainFactory mainFactory;
 
-    public LeftPanelCommandManager(FragmentManager fragmentManager) {
-        super(fragmentManager);
+    public LeftPanelCommandManager(FragmentManager fragmentManager, Context context) {
+        super(fragmentManager,context);
 
     }
 
@@ -44,7 +46,7 @@ class LeftPanelCommandManager extends AppFragmentManager {
                 return;
 
             case R.id.trainingListId:
-                mainFactory = new TrainingListFragmentFactory(mFragmentManager);
+                mainFactory = new TrainingListFragmentFactory(mFragmentManager,mContext);
                 break;
 
             case R.id.myTrainingId:

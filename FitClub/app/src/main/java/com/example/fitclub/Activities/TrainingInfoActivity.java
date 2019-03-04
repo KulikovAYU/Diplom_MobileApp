@@ -178,4 +178,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
        // Manager.GoToActivity(this, CoachInfoActivity.class,buf,"selected_training");
         Manager.GoToActivity(this, CoachInfoActivity.class,null,"selected_training");//Пока загглушка
     }
+
+
+
 }

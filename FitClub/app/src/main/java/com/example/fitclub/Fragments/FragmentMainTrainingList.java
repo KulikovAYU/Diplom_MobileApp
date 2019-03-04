@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.example.fitclub.Managers.TrainingListFragmentFragmentPageManager;
 
 import com.example.fitclub.R;
+import com.example.fitclub.abstracts.IOnConnectionListener;
 
 
 import java.util.Calendar;
@@ -40,9 +41,7 @@ public class FragmentMainTrainingList extends Fragment {
     public static final String TAG = "FragmentMainTrainingList";
 
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,10 +66,7 @@ public class FragmentMainTrainingList extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static FragmentMainTrainingList newInstance(String param1, String param2) {
         FragmentMainTrainingList fragment = new FragmentMainTrainingList();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -78,13 +74,10 @@ public class FragmentMainTrainingList extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
 
-        mManager = new TrainingListFragmentFragmentPageManager(getFragmentManager());
-
-
+        mManager = new TrainingListFragmentFragmentPageManager(getFragmentManager(),mContext);
     }
 
 
@@ -106,27 +99,15 @@ public class FragmentMainTrainingList extends Fragment {
                 .datesNumberOnScreen(5)
                 .build();
 
-        //переопределяем фрагмент в зависимости от выбранной даты
-      //  SetSelectedDate(horizontalCalendar.getSelectedDate());
+    //   horizontalCalendar.getSelectedDate();
 
+//        if (horizontalCalendar.getSelectedDate() != null)
+//        mBuf.putSerializable("selected_date",horizontalCalendar.getSelectedDate());
 
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
-
-               // Date currDate = date.getTime();
                 FragmentMainTrainingList.this.SetSelectedDate(date);
-
-//
-//                Bundle buf = new Bundle();
-//                buf.putSerializable("training_date",date);
-//
-//               if (mManager != null)
-//                    mManager.RefreshTrainingFragment(buf);
-
-//                mDataChanged.onDataChanged(buf);
-//                TrainingFragment frag = new TrainingFragment();
-//                FragmentTransaction trans=getFragmentManager().beginTransaction();
             }
 
             @Override
@@ -146,9 +127,10 @@ public class FragmentMainTrainingList extends Fragment {
     }
 
     private void SetSelectedDate(Calendar date) {
-        Bundle buf = new Bundle();
-      
+        Bundle  buf = new Bundle();
+
         buf.putSerializable("training_date",date);
+
         if (mManager != null)
             mManager.RefreshTrainingFragment(buf);
     }
@@ -160,12 +142,17 @@ public class FragmentMainTrainingList extends Fragment {
         }
     }
 
+   private Context mContext;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
+        }
+
+
+        else {
 //            throw new RuntimeException(context.toString()
           //          + " must implement OnFragmentInteractionListener");
         }

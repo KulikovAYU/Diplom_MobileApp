@@ -65,6 +65,7 @@ public class TrainingFragment extends Fragment {
 
     }
     Calendar mCurrCalendarDate;//выбранная дата (календарь)
+
     private  Date mDate; //текущая дата
 
     @Override
