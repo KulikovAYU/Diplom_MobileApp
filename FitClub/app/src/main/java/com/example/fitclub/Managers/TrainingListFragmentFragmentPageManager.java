@@ -20,11 +20,11 @@ public class TrainingListFragmentFragmentPageManager extends AppFragmentManager
     }
 
     private MainFactory mFactory;
-   public void RefreshTrainingFragment(Bundle data)
+   public void RefreshTrainingFragment()
     {
         ((TrainingListFragmentFactory)mFactory).RemoveTrainingFragment();
 
-         ((TrainingListFragmentFactory) mFactory).AddTrainingFragment(data);
+         ((TrainingListFragmentFactory) mFactory).AddTrainingFragment();
     }
 
 

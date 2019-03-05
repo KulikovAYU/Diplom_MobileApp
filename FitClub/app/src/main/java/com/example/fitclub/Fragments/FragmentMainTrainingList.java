@@ -23,7 +23,7 @@ import com.example.fitclub.abstracts.IOnConnectionListener;
 
 
 import java.util.Calendar;
-
+import java.util.Date;
 
 
 /**
@@ -81,6 +81,7 @@ public class FragmentMainTrainingList extends Fragment {
     }
 
 
+    public static Date mDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,16 +96,16 @@ public class FragmentMainTrainingList extends Fragment {
         /* ends after 1 month from now */
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
-        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView) .range(startDate, endDate)
+        HorizontalCalendar mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView) .range(startDate, endDate)
                 .datesNumberOnScreen(5)
                 .build();
 
-    //   horizontalCalendar.getSelectedDate();
+    //   mHorizontalCalendar.getSelectedDate();
 
-//        if (horizontalCalendar.getSelectedDate() != null)
-//        mBuf.putSerializable("selected_date",horizontalCalendar.getSelectedDate());
+//        if (mHorizontalCalendar.getSelectedDate() != null)
+//        mBuf.putSerializable("selected_date",mHorizontalCalendar.getSelectedDate());
 
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+        mHorizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
                 FragmentMainTrainingList.this.SetSelectedDate(date);
@@ -127,12 +128,10 @@ public class FragmentMainTrainingList extends Fragment {
     }
 
     private void SetSelectedDate(Calendar date) {
-        Bundle  buf = new Bundle();
-
-        buf.putSerializable("training_date",date);
+        mDate = date.getTime();
 
         if (mManager != null)
-            mManager.RefreshTrainingFragment(buf);
+            mManager.RefreshTrainingFragment();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

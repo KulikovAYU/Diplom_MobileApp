@@ -32,8 +32,9 @@
             android:layout_height="50dp"
             android:clickable="true"
             android:text="Повторить"
+            android:padding="@dimen/dimen_10dp"
             android:textColor="@color/md_white_1000"
-            android:background="@color/md_indigo_A700"
+            android:background="@color/md_yellow_A700"
 
             />
     </LinearLayout>

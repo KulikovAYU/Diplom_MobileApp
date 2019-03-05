@@ -1,7 +1,6 @@
 package com.example.fitclub.Factories;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.fitclub.Connection.ConnectionManager;
@@ -56,9 +55,8 @@ public class TrainingListFragmentFactory extends MainFactory {
         fragmentTransaction.commit();
     }
 
-    public void AddTrainingFragment(Bundle data ) {
+    public void AddTrainingFragment() {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-
 
         if (ConnectionManager.Instance().IsConnected(mContext))
         {
@@ -68,20 +66,20 @@ public class TrainingListFragmentFactory extends MainFactory {
 
 
 
-                if (data != null)
-                {
-                    trainingFragment.setArguments(data);
-                }
-
             //проверим нет ли фрагмента с ошибкой подключения к сети
             if (mFragmentManager.findFragmentByTag(FragmentConnectionError.TAG) != null)
             {
+                //получим дату
+
                 fragmentTransaction.replace(R.id.fragment_container,trainingFragment, trainingFragment.TAG);
+
             }
             else
             {
                 fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
             }
+
+
 
         }
         else
@@ -91,10 +89,13 @@ public class TrainingListFragmentFactory extends MainFactory {
             {
                 FragmentConnectionError connectionErrorFragment = new FragmentConnectionError();
                 connectionErrorFragment.onAttach(mContext);
+
                 fragmentTransaction.add(R.id.fragment_container, connectionErrorFragment, connectionErrorFragment.TAG);
 
             }
-            Toast.makeText(mContext,"Нет сети:",Toast.LENGTH_SHORT).show();
+
+
+            Toast.makeText(mContext,"Нет сети",Toast.LENGTH_SHORT).show();
         }
 
         fragmentTransaction.commit();
@@ -126,7 +127,6 @@ public class TrainingListFragmentFactory extends MainFactory {
                     {
                         fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
                     }
-                   // fragmentTransaction.add(R.id.fragment_container, trainingFragment, trainingFragment.TAG);
                 }
             }
          else
@@ -146,7 +146,7 @@ public class TrainingListFragmentFactory extends MainFactory {
                 }
             }
 
-            Toast.makeText(mContext,"Нет сети:",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,"Нет сети",Toast.LENGTH_SHORT).show();
         }
 
         fragmentTransaction.commit();

@@ -64,7 +64,6 @@ public class TrainingFragment extends Fragment {
     public TrainingFragment() {
 
     }
-    Calendar mCurrCalendarDate;//выбранная дата (календарь)
 
     private  Date mDate; //текущая дата
 
@@ -74,11 +73,9 @@ public class TrainingFragment extends Fragment {
         setRetainInstance(true);
         if (getArguments() != null) { //если есть что-то, что мы передали в буфер
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            mCurrCalendarDate = (Calendar)getArguments().getSerializable("training_date");
         }
 
-
-        //Подключим вью модель здесь есть mCurrCalendarDate!!! надо вставмить
+       //Подключим вью модель здесь есть mCurrCalendarDate!!!
 
         mTrainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
 
@@ -95,9 +92,6 @@ public class TrainingFragment extends Fragment {
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshTrainingId);
 
-     //   mSwipeRefreshLayout.setRefreshing(true);
-
-
         View trainingListview = view.findViewById(R.id.TrainingListId);
         // Set the adapter
         if (trainingListview instanceof RecyclerView) {
@@ -113,7 +107,8 @@ public class TrainingFragment extends Fragment {
            final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
             recyclerView.setAdapter(myTrainingRecyclerViewAdapter);
 
-            mDate = (mCurrCalendarDate == null) ? new Date() : mCurrCalendarDate.getTime();
+
+            mDate = FragmentMainTrainingList.mDate == null ? new Date() : FragmentMainTrainingList.mDate;
 
             GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
 
@@ -207,19 +202,3 @@ Context mActivityContext;
 
 }
 
-
-////слушатель при нажатии на тренировку
-//class MyListener implements TrainingFragment.IOnListFragmentInteractionListener
-//{
-//   private Context mContext;
-//   public MyListener(Context context)
-//   {
-//        mContext = context;
-//   }
-//
-//    //событие при клике по элементу списка тренировки
-//    @Override
-//    public void onListFragmentInteraction(Training item) {
-//        Toast.makeText(mContext,"Тренировка :"+ item.getTrainingName(),Toast.LENGTH_LONG).show();
-//    }
-//}
