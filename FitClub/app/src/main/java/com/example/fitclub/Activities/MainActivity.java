@@ -6,8 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.fitclub.Connection.ConnectionManager;
-import com.example.fitclub.Connection.ConnectionMode;
+
 import com.example.fitclub.Managers.Manager;
 import com.example.fitclub.Managers.NavigationManager;
 import com.example.fitclub.Models.Training;

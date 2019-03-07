@@ -5,13 +5,16 @@ import android.content.Context;
 import android.view.View;
 
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Training1;
 import com.example.fitclub.R;
+import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +56,10 @@ public final class RetrofitAPI {
     void Initialize()
     {
 
-        Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG).create();
+        //Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG).create();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
@@ -64,27 +70,31 @@ public final class RetrofitAPI {
         mjsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
     }
 
-    List<Training> mTrainingList;
+    List<Training1> mTrainingList;
 
     //Получить тренировки на день
-   public List<Training> getTrainings(Date date)
+   public List<Training1> getTrainings(Date date)
     {
-        Call<List<Training>> call = mjsonPlaceHolderApi.getTrainings();
-        call.enqueue(new Callback<List<Training>>() {
+
+        Call<List<Training1>> call = mjsonPlaceHolderApi.getTrainings( TimeFormatter.convertDate_y_M_d(date));
+
+        call.enqueue(new Callback<List<Training1>>() {
             @Override
-            public void onResponse(Call<List<Training>> call, Response<List<Training>> response) {
+            public void onResponse(Call<List<Training1>> call, Response<List<Training1>> response) {
 
                 if (!response.isSuccessful() && mCurrentview != null){
                     Snackbar.make(mCurrentview, "Code: " + response.code(), Snackbar.LENGTH_LONG)
                             .setAction("Code: " + response.code(), null).show();
                     return;
                 }
+//                if (response.code() == 403)
+//                {неверный логин и пароьл}
 
                 mTrainingList = response.body();
             }
 
             @Override
-            public void onFailure(Call<List<Training>> call, Throwable t) {
+            public void onFailure(Call<List<Training1>> call, Throwable t) {
 
                if (mCurrentview != null)
                {

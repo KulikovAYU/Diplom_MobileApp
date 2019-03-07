@@ -31,6 +31,9 @@ public class Training1 implements Serializable {
     @SerializedName("mCoachName")
     protected String mCoachName;//имя инструктора
 
+    @SerializedName("mCoachFamily")
+    protected String mCoachFamily;//фамилия инструктора
+
     @SerializedName("mDescription")
     protected String mDescription;// описание
 

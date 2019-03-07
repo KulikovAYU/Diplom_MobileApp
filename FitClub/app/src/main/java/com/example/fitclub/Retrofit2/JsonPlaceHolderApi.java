@@ -1,6 +1,7 @@
 package com.example.fitclub.Retrofit2;
 
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Training1;
 
 import java.util.Date;
 import java.util.List;
@@ -17,8 +18,8 @@ public interface JsonPlaceHolderApi {
 //    Call<List<Training>> getTrainings(@Path("date") Date date);
 
 //    @GET("trainings/{date}") //trainings - в серверной части
-@GET("trainings")
-Call<List<Training>> getTrainings();
+@GET("trainings/{date}")
+Call<List<Training1>> getTrainings(@Path("date") String date);
 
     //Записаться на тренировку
     @GET("trainings")
