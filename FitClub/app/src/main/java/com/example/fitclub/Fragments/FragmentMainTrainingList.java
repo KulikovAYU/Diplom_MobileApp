@@ -29,6 +29,7 @@ import com.example.fitclub.Adapters.MyTrainingRecyclerViewAdapter;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.R;
 import com.example.fitclub.ViewModels.TrainingViewModel;
+import com.example.fitclub.abstracts.IOnConnectionListener;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 
 import java.text.SimpleDateFormat;
@@ -50,29 +51,38 @@ public class FragmentMainTrainingList extends Fragment {
 
     public static final String TAG = "FragmentMainTrainingList";
 
+
+
     private TrainingViewModel mTrainingViewModel;
 
     private IOnListFragmentInteractionListener mListener;
 
+    private  IOnConnectionListener mConnectionListener;
+
     public static Date mDate;//выбранная дата
+
+    public  static Calendar mSelectedDate;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     private int mColumnCount = 1;
-
+    private static final String ARG_PARAM1 = "Date";
     public FragmentMainTrainingList() {
         // Required empty public constructor
     }
 
     //Создает экземпляр фрагмента
-    public static FragmentMainTrainingList newInstance() {
+    public static FragmentMainTrainingList newInstance(Calendar selectedDate) {
         FragmentMainTrainingList fragment = new FragmentMainTrainingList();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PARAM1,selectedDate);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null && getArguments().getSerializable(ARG_PARAM1) != null) {
+            mSelectedDate = (Calendar)getArguments().getSerializable(ARG_PARAM1);
             //можно получить параметры
         }
 
@@ -80,7 +90,7 @@ public class FragmentMainTrainingList extends Fragment {
         mTrainingViewModel.SetFragment(this.getActivity());
     }
 
-
+    HorizontalCalendar mHorizontalCalendar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,10 +105,16 @@ public class FragmentMainTrainingList extends Fragment {
         /* ends after 1 month from now */
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
-        HorizontalCalendar mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
-                .datesNumberOnScreen(5)
+        if (mSelectedDate != null)
+         mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
+                .datesNumberOnScreen(5).defaultSelectedDate(mSelectedDate)
                 .build();
-
+else
+        {
+            mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
+                    .datesNumberOnScreen(5)
+                    .build();
+        }
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshTrainingId);
 
@@ -112,10 +128,22 @@ public class FragmentMainTrainingList extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            //    if (mCurrCalendarDate == null) // УБРАТЬ! Просто для отладки
 
 
-            mDate = FragmentMainTrainingList.mDate == null ? new Date() : FragmentMainTrainingList.mDate;
+//            mDate = FragmentMainTrainingList.mDate == null ? new Date() : FragmentMainTrainingList.mDate;
+
+
+            if (mSelectedDate != null)
+            {
+                mDate = mSelectedDate.getTime();
+            }
+            else
+            {
+                mDate = new Date();
+            }
+
+
+
 
             //наш адаптер
             final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
@@ -124,7 +152,9 @@ public class FragmentMainTrainingList extends Fragment {
             mHorizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
                 @Override
                 public void onDateSelected(Calendar date, int position) {
+
                     FragmentMainTrainingList.this.SetSelectedDate(date);
+                    mConnectionListener.CheckConnection(R.id.trainingListId);
                     GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
                     //необходимо переопределить адаптер
                 }
@@ -171,7 +201,11 @@ public class FragmentMainTrainingList extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+    }
 
     private void GetTrainingsOnSelectedData(final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter) {
 
@@ -191,9 +225,8 @@ public class FragmentMainTrainingList extends Fragment {
 
     private void SetSelectedDate(Calendar date) {
         mDate = date.getTime();
+        mSelectedDate = date;
 
-//        if (mManager != null)
-//            mManager.RefreshTrainingFragment();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -208,7 +241,13 @@ public class FragmentMainTrainingList extends Fragment {
         super.onAttach(context);
         if (context instanceof IOnListFragmentInteractionListener) {
             mListener = (IOnListFragmentInteractionListener) context;
-        } else {
+        }
+
+        if (context instanceof  IOnConnectionListener)
+        {
+            mConnectionListener = (IOnConnectionListener) context;
+        }
+        else {
 //            throw new RuntimeException(context.toString()
             //          + " must implement OnFragmentInteractionListener");
         }
@@ -219,6 +258,8 @@ public class FragmentMainTrainingList extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

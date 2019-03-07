@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
-import com.example.fitclub.Models.Training;
+
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Navigators.LeftPanelNavigator;
 import com.example.fitclub.R;
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity
     public void CheckConnection(int nId) {
 
         LeftPanelNavigator.createInstance(this).GoTo(nId);
+
 
     }
 

@@ -15,6 +15,8 @@ import android.widget.Button;
 import com.example.fitclub.R;
 import com.example.fitclub.abstracts.IOnConnectionListener;
 
+import java.util.Calendar;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,12 +32,13 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "Id";
+    private static final String ARG_PARAM2 = "Date";
 
 
     // TODO: Rename and change types of parameters
     private int mParamId; //текущий id фрагмента
 
-
+    private Calendar mSelectedDate;
 
 
 
@@ -45,10 +48,11 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
 
 
     // TODO: Rename and change types and number of parameters
-    public static FragmentConnectionError newInstance(int nId) {
+    public static FragmentConnectionError newInstance(int nId, Calendar selectedDate) {
         FragmentConnectionError fragment = new FragmentConnectionError();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1,nId);
+        args.putSerializable(ARG_PARAM2,selectedDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,9 +62,15 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParamId = getArguments().getInt(ARG_PARAM1);
+            if (getArguments().getSerializable(ARG_PARAM2) != null)
+            mSelectedDate = (Calendar) getArguments().getSerializable(ARG_PARAM2);
        }
     }
 
+    public Calendar GetSaveDate()
+    {
+        return mSelectedDate;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
