@@ -6,24 +6,35 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
+import com.example.fitclub.Adapters.MyTrainingRecyclerViewAdapter;
 
-import com.example.fitclub.Managers.TrainingListFragmentFragmentPageManager;
 
+import com.example.fitclub.Models.Training1;
 import com.example.fitclub.R;
-import com.example.fitclub.abstracts.IOnConnectionListener;
+import com.example.fitclub.ViewModels.TrainingViewModel;
+import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
 
-
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -37,36 +48,24 @@ import java.util.Date;
 public class FragmentMainTrainingList extends Fragment {
 
 
-
     public static final String TAG = "FragmentMainTrainingList";
 
-    // TODO: Rename parameter arguments, choose names that match
+    private TrainingViewModel mTrainingViewModel;
 
+    private IOnListFragmentInteractionListener mListener;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static Date mDate;//выбранная дата
 
-    private OnFragmentInteractionListener mListener;
-
-    private TrainingListFragmentFragmentPageManager mManager;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private int mColumnCount = 1;
 
     public FragmentMainTrainingList() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentMainTrainingList.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentMainTrainingList newInstance(String param1, String param2) {
+    //Создает экземпляр фрагмента
+    public static FragmentMainTrainingList newInstance() {
         FragmentMainTrainingList fragment = new FragmentMainTrainingList();
-
         return fragment;
     }
 
@@ -74,18 +73,18 @@ public class FragmentMainTrainingList extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            //можно получить параметры
         }
 
-        mManager = new TrainingListFragmentFragmentPageManager(getFragmentManager(),mContext);
+        mTrainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
+        mTrainingViewModel.SetFragment(this.getActivity());
     }
 
-
-    public static Date mDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_training_list, container, false);
 
@@ -96,64 +95,122 @@ public class FragmentMainTrainingList extends Fragment {
         /* ends after 1 month from now */
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
-        HorizontalCalendar mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView) .range(startDate, endDate)
+        HorizontalCalendar mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
                 .datesNumberOnScreen(5)
                 .build();
 
-    //   mHorizontalCalendar.getSelectedDate();
 
-//        if (mHorizontalCalendar.getSelectedDate() != null)
-//        mBuf.putSerializable("selected_date",mHorizontalCalendar.getSelectedDate());
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshTrainingId);
 
-        mHorizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Calendar date, int position) {
-                FragmentMainTrainingList.this.SetSelectedDate(date);
+        View trainingListview = view.findViewById(R.id.TrainingListId);
+        // Set the adapter
+        if (trainingListview instanceof RecyclerView) {
+            Context context = trainingListview.getContext();
+            RecyclerView recyclerView = (RecyclerView) trainingListview;
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+            //    if (mCurrCalendarDate == null) // УБРАТЬ! Просто для отладки
 
-            @Override
-            public void onCalendarScroll(HorizontalCalendarView calendarView,
-                                         int dx, int dy) {
 
-            }
+            mDate = FragmentMainTrainingList.mDate == null ? new Date() : FragmentMainTrainingList.mDate;
 
-            @Override
-            public boolean onDateLongClicked(Calendar date, int position) {
-                return true;
-            }
-        });
+            //наш адаптер
+            final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
+            recyclerView.setAdapter(myTrainingRecyclerViewAdapter);
+
+            mHorizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+                @Override
+                public void onDateSelected(Calendar date, int position) {
+                    FragmentMainTrainingList.this.SetSelectedDate(date);
+                    GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+                    //необходимо переопределить адаптер
+                }
+
+                @Override
+                public void onCalendarScroll(HorizontalCalendarView calendarView,
+                                             int dx, int dy) {
+
+                }
+
+                @Override
+                public boolean onDateLongClicked(Calendar date, int position) {
+                    return true;
+                }
+            });
+
+
+
+
+            GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+
+            //подключим обновление
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    //Записать получение всех тренировок
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    }, 1000);
+                }
+            });
+        }
+
+        mSwipeRefreshLayout.setRefreshing(false);
 
         return view;
 
     }
 
+
+
+    private void GetTrainingsOnSelectedData(final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter) {
+
+        mTrainingViewModel.GetTrainings(mDate).observe(this, new Observer<List<Training1>>() {
+            @Override
+            public void onChanged(List<Training1> trainings) {
+                myTrainingRecyclerViewAdapter.setTrainings(trainings);
+                //update recycler view
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d."); //пока просто для отладки
+
+                String strRes = sdf.format(mDate);
+
+                Toast.makeText(getContext(), "onChanged date:" + strRes, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void SetSelectedDate(Calendar date) {
         mDate = date.getTime();
 
-        if (mManager != null)
-            mManager.RefreshTrainingFragment();
+//        if (mManager != null)
+//            mManager.RefreshTrainingFragment();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
     }
 
-   private Context mContext;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        }
-
-
-        else {
+        if (context instanceof IOnListFragmentInteractionListener) {
+            mListener = (IOnListFragmentInteractionListener) context;
+        } else {
 //            throw new RuntimeException(context.toString()
-          //          + " must implement OnFragmentInteractionListener");
+            //          + " must implement OnFragmentInteractionListener");
         }
     }
 

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Repository.Repository;
 
@@ -19,7 +20,7 @@ public class TrainingViewModel extends AndroidViewModel {
 
     private ITrainingsRepository mTrainingsRepository;
 
-    private LiveData<List<Training>> mTrainingsOnDay;
+    private LiveData<List<Training1>> mTrainingsOnDay;
 
     private LiveData<List<Training>> mUserTrainings;
 
@@ -35,7 +36,7 @@ public class TrainingViewModel extends AndroidViewModel {
         mTrainingsRepository.SetContext(context);//получим наш контекст
     }
     //Получить тренировки на день
-    public LiveData<List<Training>> GetTrainings(Date date) {
+    public LiveData<List<Training1>> GetTrainings(Date date) {
 
         mTrainingsOnDay = mTrainingsRepository.GetTrainings(date);
         return mTrainingsOnDay;

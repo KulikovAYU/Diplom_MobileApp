@@ -19,7 +19,7 @@ public interface JsonPlaceHolderApi {
 
 //    @GET("trainings/{date}") //trainings - в серверной части
 @GET("trainings/{date}")
-Call<List<Training1>> getTrainings(@Path("date") String date);
+Call<List<Training1>> getTrainingsRetrofit(@Path("date") String date);
 
     //Записаться на тренировку
     @GET("trainings")

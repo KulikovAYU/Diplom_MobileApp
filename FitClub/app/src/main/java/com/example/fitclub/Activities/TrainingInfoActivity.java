@@ -2,7 +2,6 @@ package com.example.fitclub.Activities;
 
 import android.os.Bundle;
 
-import com.example.fitclub.Managers.Manager;
 import com.example.fitclub.Models.CommercialTraining;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
@@ -176,7 +175,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
        // buf.putSerializable("selected_training",item);
 
        // Manager.GoToActivity(this, CoachInfoActivity.class,buf,"selected_training");
-        Manager.GoToActivity(this, CoachInfoActivity.class,null,"selected_training");//Пока загглушка
+      //  Manager.GoToActivity(this, CoachInfoActivity.class,null,"selected_training");//Пока загглушка
     }
 
 

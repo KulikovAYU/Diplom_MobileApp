@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.example.fitclub.Models.CommercialTraining;
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Retrofit2.RetrofitAPI;
 
@@ -19,13 +20,13 @@ import androidx.lifecycle.MutableLiveData;
 public class TrainingRepository implements ITrainingsRepository {
 
     //Тренировки на день
-    LiveData<List<Training>> mTrainings = null;
+    LiveData<List<Training1>> mTrainings = null;
 
     //Тренировки пользователя
     LiveData<List<Training>> mUserTrainings = null;
 
     @Override
-    public LiveData<List<Training>> GetTrainings(Date date) {
+    public LiveData<List<Training1>> GetTrainings(Date date) {
         try {
             mTrainings = new GetTrainingsAsyncTask().execute(date).get();
             return mTrainings;
@@ -96,14 +97,14 @@ public class TrainingRepository implements ITrainingsRepository {
 
     //////////////////////////////Классы для работы с ретрофит\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    private class GetTrainingsAsyncTask extends AsyncTask<Date, Void, LiveData<List<Training>>> {
+    private class GetTrainingsAsyncTask extends AsyncTask<Date, Void, LiveData<List<Training1>>> {
         @Override
-        protected LiveData<List<Training>> doInBackground(Date... dates) {
+        protected LiveData<List<Training1>> doInBackground(Date... dates) {
 
 
             RetrofitAPI api = new RetrofitAPI(mCurrContext);
 
-            api.getTrainings(dates[0]);
+            LiveData<List<Training1>> data_res =  api.getTrainings(dates[0]);
 
             LiveData<List<Training>> data = new MutableLiveData<List<Training>>();
             List<Training> list = new ArrayList<>();
@@ -211,7 +212,7 @@ public class TrainingRepository implements ITrainingsRepository {
 
              ((MutableLiveData<List<Training>>) data).postValue(list);
             //Запустить ретрофит
-            return data;
+            return data_res;
         }
     }
 

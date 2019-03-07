@@ -3,6 +3,7 @@ package com.example.fitclub.Repository.Interfaces;
 import android.content.Context;
 
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Training1;
 
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,7 @@ import androidx.lifecycle.LiveData;
 public interface ITrainingsRepository
 {
     //Получить тренировки на день
-    LiveData<List<Training>> GetTrainings(Date date);
+    LiveData<List<Training1>> GetTrainings(Date date);
 
     //Записаться на тренировку
     void SignUpOnTraining(Integer nUserId,Training training);

@@ -101,15 +101,15 @@ public class Training1 implements Serializable {
         return mDescription;
     }
 
-    public boolean isReplaced() {
+    public boolean getIsReplaced() {
         return mbIsReplaced;
     }
 
-    public boolean isMustPay() {
+    public boolean getIsMustPay() {
         return mbIsMustPay;
     }
 
-    public boolean isNewTraining() {
+    public boolean getIsNewTraining() {
         return mbIsNewTraining;
     }
 
@@ -117,7 +117,7 @@ public class Training1 implements Serializable {
         return mProgramType;
     }
 
-    public boolean isPopular() {
+    public boolean getIsPopular() {
         return mbIspopular;
     }
 

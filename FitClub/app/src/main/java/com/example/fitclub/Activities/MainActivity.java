@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Toast;
 
 
-import com.example.fitclub.Managers.Manager;
-import com.example.fitclub.Managers.NavigationManager;
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Navigators.LeftPanelNavigator;
 import com.example.fitclub.R;
 import com.example.fitclub.abstracts.IOnConnectionListener;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity
 
 
     //фикс повторного создания фрагмента при повороте экрана
-    private int nItemId = -1;
-
+    private int mnItemId = -1;
+    LeftPanelNavigator mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 
         Bundle bund = getIntent().getExtras();
         if (bund != null) {
-            nItemId = bund.getInt("Item");
+            mnItemId = bund.getInt("Item");
         }
 
 
@@ -109,14 +109,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        try {
-            NavigationManager.Instance().Invoke(id, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            NavigationManager.Instance().Invoke(id, this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+
+        LeftPanelNavigator.createInstance(this).GoTo(id);
+
 
         return true;
     }
@@ -124,12 +128,47 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            if (nItemId != -1)
-                NavigationManager.Instance().Invoke(nItemId, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        //зная mnItemId, можно загрузить фрагмент
+
+        //предварительно проверив подключение к сети
+
+        //загрузим фрагмент
+        LeftPanelNavigator.createInstance(this).GoTo(mnItemId);
+
+//        switch (mnItemId)
+//        {
+//
+//            case R.id.gotoStartActivityId:
+//            {
+//                Intent intent = new Intent(this, StartActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                this.startActivity(intent);
+//            }
+//            break;
+//
+//            case R.id.trainingListId:
+//            {
+//                FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
+//                if (getSupportFragmentManager().findFragmentByTag(FragmentMainTrainingList.TAG) == null) {
+//                    FragmentMainTrainingList mainTrainingListFragment =  FragmentMainTrainingList.newInstance();
+//                    fragmentTransaction.add(R.id.fragments_content, mainTrainingListFragment, mainTrainingListFragment.TAG);
+//                }
+//                fragmentTransaction.commit();
+//            }
+//            break;
+//
+////добавляем переходы к фрагментам
+//
+//        }
+
+
+//        try {
+//            if (mnItemId != -1)
+//                NavigationManager.Instance().Invoke(mnItemId, this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -137,12 +176,12 @@ public class MainActivity extends AppCompatActivity
 
     //событие при клике по элементу списка тренировки
     @Override
-    public void onListFragmentInteraction(Training item) {
+    public void onListFragmentInteraction(Training1 item) {
 
         Bundle buf = new Bundle();
         buf.putSerializable("selected_training", item);
 
-        Manager.GoToActivity(this, TrainingInfoActivity.class, buf, "selected_training");
+     //   Manager.GoToActivity(this, TrainingInfoActivity.class, buf, "selected_training");
 
         //передадим информацию о тренировке в фрагмент инфоромации о тренировке
         //   ((TrainingListFragmentFragmentPageManager) manager).AddTrainingInfoFragment(buf);
@@ -154,13 +193,10 @@ public class MainActivity extends AppCompatActivity
 
     //проверка подключения к сети
     @Override
-    public void CheckConnection(View view) {
-        try {
-            if (nItemId != -1)
-                NavigationManager.Instance().Invoke(nItemId, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void CheckConnection(int nId) {
+
+        LeftPanelNavigator.createInstance(this).GoTo(nId);
+
     }
 
 

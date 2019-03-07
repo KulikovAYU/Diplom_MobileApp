@@ -66,7 +66,7 @@
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
-                    android:onClick="OnTrainingListClick"
+                    android:onClick="OnButtonClick"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout

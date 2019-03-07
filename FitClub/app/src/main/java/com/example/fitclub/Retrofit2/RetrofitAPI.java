@@ -4,22 +4,23 @@ import com.example.fitclub.Connection.ConnectionManager;
 import android.content.Context;
 import android.view.View;
 
-import com.example.fitclub.Models.Training;
+
 import com.example.fitclub.Models.Training1;
-import com.example.fitclub.R;
+
 import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +35,7 @@ public final class RetrofitAPI {
 
    JsonPlaceHolderApi mjsonPlaceHolderApi;
 
-    View mCurrentview; //текущий вид
+    AppCompatActivity mCurrentview; //текущий вид
 
 
     public RetrofitAPI(Context currContext)
@@ -42,7 +43,8 @@ public final class RetrofitAPI {
 
         if (currContext instanceof AppCompatActivity)
         {
-            mCurrentview = ((AppCompatActivity)currContext).findViewById(R.id.fragment_container);
+            mCurrentview = ((AppCompatActivity)currContext);
+            //mCurrentview = ((AppCompatActivity)currContext).findViewById(R.id.fragment_container);
 //            AppCompatActivity mCurrContext = ((AppCompatActivity)currContext);
 //            mCurrentview = mCurrContext.getCurrentFocus();
 
@@ -70,27 +72,34 @@ public final class RetrofitAPI {
         mjsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
     }
 
-    List<Training1> mTrainingList;
+    MutableLiveData<List<Training1>> mTrainingList;
+
+    public LiveData<List<Training1>> getTrainings(Date date)
+    {
+        getTrainingsRetrofit(date);
+        return mTrainingList;
+    }
 
     //Получить тренировки на день
-   public List<Training1> getTrainings(Date date)
+   public void getTrainingsRetrofit(Date date)
     {
 
-        Call<List<Training1>> call = mjsonPlaceHolderApi.getTrainings( TimeFormatter.convertDate_y_M_d(date));
+        mTrainingList = new MutableLiveData<>();
+        Call<List<Training1>> call = mjsonPlaceHolderApi.getTrainingsRetrofit( TimeFormatter.convertDate_y_M_d(date));
 
         call.enqueue(new Callback<List<Training1>>() {
             @Override
             public void onResponse(Call<List<Training1>> call, Response<List<Training1>> response) {
 
                 if (!response.isSuccessful() && mCurrentview != null){
-                    Snackbar.make(mCurrentview, "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
                             .setAction("Code: " + response.code(), null).show();
                     return;
                 }
 //                if (response.code() == 403)
 //                {неверный логин и пароьл}
 
-                mTrainingList = response.body();
+                mTrainingList.setValue(response.body());
             }
 
             @Override
@@ -98,13 +107,11 @@ public final class RetrofitAPI {
 
                if (mCurrentview != null)
                {
-                   Snackbar.make(mCurrentview, "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
+                   Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
                            .setAction("Неудачный запрос: " + t.getMessage(), null).show();
                }
 
             }
         });
-
-        return mTrainingList;
     }
 }
