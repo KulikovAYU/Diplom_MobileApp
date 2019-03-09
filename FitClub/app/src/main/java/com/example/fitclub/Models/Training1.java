@@ -13,8 +13,8 @@ public class Training1 implements Serializable {
     @SerializedName("mStartTime")
     protected Date mStartTime;//время начала
 
-    @SerializedName("mEndDime")
-    protected Date mEndDime;//время окончания тренировки
+    @SerializedName("mEndTime")
+    protected Date mEndTime;//время окончания тренировки
 
     @SerializedName("mTrainingName")
     protected String mTrainingName;//название тренировки
@@ -73,15 +73,24 @@ public class Training1 implements Serializable {
         return mStartTime;
     }
 
-    public Date getEndDime() {
-        return mEndDime;
+    public Date getEndTime() {
+        return mEndTime;
     }
 
     public String getTrainingName() {
+
+
+        if (mbIsMustPay && !mTrainingName.contains(" (платная секция) по записи"))
+        {
+            mTrainingName += " (платная секция) по записи";
+
+        }
+
+
         return mTrainingName;
     }
 
-    public boolean isFinished() {
+    public boolean getIsFinished() {
         return mbIsFinished;
     }
 
@@ -96,6 +105,8 @@ public class Training1 implements Serializable {
     public String getCoachName() {
         return mCoachName;
     }
+
+    public String getCoachFamily(){return mCoachFamily;}
 
     public String getDescription() {
         return mDescription;
@@ -131,5 +142,12 @@ public class Training1 implements Serializable {
 
     public int getBusyPlacesCount() {
         return mnBusyPlacesCount;
+    }
+
+
+    //возможна ли запись
+    public boolean getRecordingIsPossible()
+    {
+        return (mnFreePlacesCount != mnBusyPlacesCount) && !mbIsFinished || mStartTime.after(new Date()) || mStartTime.equals(new Date());
     }
 }

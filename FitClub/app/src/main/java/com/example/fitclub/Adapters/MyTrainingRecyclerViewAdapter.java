@@ -55,7 +55,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         holder.mTrainingNameView.setText( holder.mItem.getTrainingName());
         holder.mGymView.setText( holder.mItem.getGymName());
         holder.mLevelView.setText( holder.mItem.getLevelName());
-        holder.mCoachNameView.setText( holder.mItem.getCoachName());
+        holder.mCoachNameView.setText( holder.mItem.getCoachName() + " " +  holder.mItem.getCoachFamily());
         holder.mIsReplacedView.setVisibility(holder.mItem.getIsReplaced() ?  View.VISIBLE : View.GONE);
         holder.mIsMustPayView.setVisibility(holder.mItem.getIsMustPay() ? View.VISIBLE : View.GONE);
         holder.mDifficultView.setBackgroundColor( ContextCompat.getColor(holder.mView.getContext(), TrainingDifficult.GetColorIndex(holder.mItem.getLevelName())));

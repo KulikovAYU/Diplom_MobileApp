@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp">
         <ImageView
+            android:id="@+id/item_coachPhotoId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -31,6 +32,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/item_coach_name_and_fam_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dimen_10dp"
@@ -45,7 +47,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/item_trainerImageId">
         <TextView
-            android:id="@+id/item_TrainerdescriptionId"
+            android:id="@+id/item_coach_descriptionId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dimen_10dp"

@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 
 import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Navigators.AbstractNavigator;
 import com.example.fitclub.Navigators.LeftPanelNavigator;
+import com.example.fitclub.Navigators.TrainingListNavigator;
 import com.example.fitclub.R;
 import com.example.fitclub.abstracts.IOnConnectionListener;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity
 
     //фикс повторного создания фрагмента при повороте экрана
     private int mnItemId = -1;
-    LeftPanelNavigator mNavigator;
+
+    AbstractNavigator mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
+        mNavigator = LeftPanelNavigator.createInstance(this);
     }
 
     @Override
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
 
-        LeftPanelNavigator.createInstance(this).GoTo(id);
+        mNavigator.GoTo(id);
 
 
         return true;
@@ -178,26 +181,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Training1 item) {
 
-        Bundle buf = new Bundle();
-        buf.putSerializable("selected_training", item);
-
-     //   Manager.GoToActivity(this, TrainingInfoActivity.class, buf, "selected_training");
-
-        //передадим информацию о тренировке в фрагмент инфоромации о тренировке
-        //   ((TrainingListFragmentFragmentPageManager) manager).AddTrainingInfoFragment(buf);
-
-
+        TrainingListNavigator.createInstance(this).GoToTrainingInfo(item);
         Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
     }
 
 
     //проверка подключения к сети
     @Override
-    public void CheckConnection(int nId) {
+    public boolean CheckConnection(int nId) {
 
-        LeftPanelNavigator.createInstance(this).GoTo(nId);
+        mNavigator.GoTo(nId);
 
-
+        return mNavigator.IsConnected();
     }
 
 

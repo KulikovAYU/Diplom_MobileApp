@@ -2,7 +2,6 @@ package com.example.fitclub.Repository.Interfaces;
 
 import android.content.Context;
 
-import com.example.fitclub.Models.Training;
 import com.example.fitclub.Models.Training1;
 
 import java.util.Date;
@@ -17,16 +16,16 @@ public interface ITrainingsRepository
     LiveData<List<Training1>> GetTrainings(Date date);
 
     //Записаться на тренировку
-    void SignUpOnTraining(Integer nUserId,Training training);
+    void SignUpOnTraining(Integer nUserId,Training1 training);
 
     //Отменить запись на тренировку
-    void RemoveSignUpOnTraining(Integer nUserId,Training training);
+    void RemoveSignUpOnTraining(Integer nUserId,Training1 training);
 
     //Получить все тренировки пользователя
-    LiveData<List<Training>> GetUserTrainings();
+    LiveData<List<Training1>> GetUserTrainings();
 
     //Получить тренировки пользователя на день
-    LiveData<List<Training>> GetUserTrainings(Date date);
+    LiveData<List<Training1>> GetUserTrainings(Date date);
 
     //устанавливает контекст
     void SetContext(Context currContext);

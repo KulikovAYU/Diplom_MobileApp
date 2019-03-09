@@ -5,7 +5,10 @@ package com.example.fitclub.Repository.Interfaces;
 public interface IRepository {
 
     //получить репозиторий для работы с тренировками
-    ITrainingsRepository GetTrainingRepository();
+    ITrainingsRepository getTrainingRepository();
+
+    //получить репозиторий для работы с тренерами
+    ICoachRepository getCoachRepository();
 
 }
 

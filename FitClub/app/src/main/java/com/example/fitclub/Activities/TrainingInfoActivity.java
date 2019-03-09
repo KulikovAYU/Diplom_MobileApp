@@ -2,9 +2,11 @@ package com.example.fitclub.Activities;
 
 import android.os.Bundle;
 
-import com.example.fitclub.Models.CommercialTraining;
-import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.Coach;
+import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Navigators.TrainingListNavigator;
 import com.example.fitclub.R;
+import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -21,7 +23,9 @@ import android.widget.TextView;
 
 public class TrainingInfoActivity extends AppCompatActivity {
 
-    protected Training mTraining;
+    protected Training1 mTraining;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +50,11 @@ public class TrainingInfoActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null)
         {
             //получим информацию о тренировке
-            Bundle arguments = (Bundle) (getIntent().getExtras()).get("selected_training");
+            Bundle arguments = (Bundle) (getIntent().getExtras()).get("ItemSelected_training");
 
-            if (arguments.getSerializable("selected_training") instanceof Training)
-                mTraining = (Training)arguments.getSerializable("selected_training");
+            if (arguments.getSerializable("selected_training") instanceof Training1)
+                mTraining = (Training1)arguments.getSerializable("selected_training");
         }
-
         LoadTrainingInfo();
     }
 
@@ -71,8 +74,8 @@ public class TrainingInfoActivity extends AppCompatActivity {
     //загружаем информацио о тренировке
     private void LoadTrainingInfo()
     {
-        //установим дату (она в тренировке)
-        setTitle( mTraining.getTimeDayDate());
+          //установим дату (она в тренировке)
+        setTitle(TimeFormatter.convertTimeEEEMMMd(mTraining.getStartTime()));
 
         //имя тренировки
         TextView trainingName = (TextView)findViewById(R.id.item_trainingNameId);
@@ -87,15 +90,15 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         //время начала
         TextView startTime = (TextView)findViewById(R.id.item_startTrainingTimeId);
-        startTime.setText(mTraining.getStartTimeHHmm());
+        startTime.setText(TimeFormatter.convertTimeHHmm(mTraining.getStartTime()));
 
         //время окончания
         TextView endTime =  (TextView)findViewById(R.id.item_endTrainingTimeId);
-        endTime.setText(mTraining.getEndTimeHHmm());
+        endTime.setText(TimeFormatter.convertTimeHHmm(mTraining.getEndTime()));
 
         //имя инструктора
         TextView coachName = (TextView)findViewById(R.id.item_CoachNameId);
-        coachName.setText(mTraining.getCoachName());
+        coachName.setText(mTraining.getCoachFamily() + " " + mTraining.getCoachName());
 
         //ДОБАВИТЬ ФОТО ТРЕНЕРА
 
@@ -111,7 +114,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
         }
 
         //Признак не коммерческого класса
-        if (!(mTraining instanceof CommercialTraining))
+        if (!(mTraining.getIsMustPay()))
         {
 
             LinearLayout layoutCommercial = (LinearLayout)findViewById(R.id.item_isCommercialId);
@@ -129,11 +132,11 @@ public class TrainingInfoActivity extends AppCompatActivity {
         else
         {
             //Признак коммерческого класса
-            CommercialTraining commercialTraining = (CommercialTraining)mTraining;
+          //  CommercialTraining commercialTraining = (CommercialTraining)mTraining;
 
             //получим поле количество свободных мест
             TextView freePlaces = (TextView)findViewById(R.id.item_freePlaceId);
-            freePlaces.setText(commercialTraining.getStrFreePlacesCount());
+            freePlaces.setText(String.valueOf(mTraining.getFreePlacesCount()));
 
             //получим поле количество свободных мест
             TextView finished = (TextView)findViewById(R.id.item_isFinishedId);
@@ -141,12 +144,14 @@ public class TrainingInfoActivity extends AppCompatActivity {
             Button btnRegister = (Button)findViewById(R.id.item_registerId);
 
             //если тренировка не закончена и места есть, то скрываем (подумать)
-            if (commercialTraining.getRecordingIsPossible())
+            if ( mTraining.getRecordingIsPossible())
             {
                 btnRegister.setVisibility(View.VISIBLE);
+                findViewById(R.id.item_vacation_places1_infoId).setVisibility(View.VISIBLE);
                 finished.setVisibility(View.GONE);
             }else
             {
+                findViewById(R.id.item_vacation_places1_infoId).setVisibility(View.GONE);
                 btnRegister.setVisibility(View.GONE);
             }
 
@@ -161,19 +166,12 @@ public class TrainingInfoActivity extends AppCompatActivity {
         //Описание тернировки
         TextView trainingDesc = (TextView)findViewById(R.id.item_descriptionId);
         trainingDesc.setText(mTraining.getDescription());
-
-
-
-
     }
 
 
+    //получить тренера
     public void OnProfileClick(View view) {
-
-        //Здесь необходимо получить тренера !!!!
-      //  Bundle buf = new Bundle();
-       // buf.putSerializable("selected_training",item);
-
+        TrainingListNavigator.createInstance(this).GoToCoachInfo(mTraining);
        // Manager.GoToActivity(this, CoachInfoActivity.class,buf,"selected_training");
       //  Manager.GoToActivity(this, CoachInfoActivity.class,null,"selected_training");//Пока загглушка
     }

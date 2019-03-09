@@ -3,7 +3,6 @@ package com.example.fitclub.ViewModels;
 import android.app.Application;
 import android.content.Context;
 
-import com.example.fitclub.Models.Training;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Repository.Repository;
@@ -22,16 +21,16 @@ public class TrainingViewModel extends AndroidViewModel {
 
     private LiveData<List<Training1>> mTrainingsOnDay;
 
-    private LiveData<List<Training>> mUserTrainings;
+    private LiveData<List<Training1>> mUserTrainings;
 
     public TrainingViewModel(@NonNull Application application) {
         super(application);
 
         //получим наш репозиторий тренировок
-        mTrainingsRepository = new Repository().GetTrainingRepository();
+        mTrainingsRepository = new Repository().getTrainingRepository();
     }
 
-    public void SetFragment(Context context)
+    public void SetContext(Context context)
     {
         mTrainingsRepository.SetContext(context);//получим наш контекст
     }
@@ -43,23 +42,23 @@ public class TrainingViewModel extends AndroidViewModel {
     }
 
     //Записаться на тренировку
-    void SignUpOnTraining(Integer nUserId, Training training) {
+    void SignUpOnTraining(Integer nUserId, Training1 training) {
         mTrainingsRepository.SignUpOnTraining(nUserId, training);
     }
 
     //Отменить запись на тренировку
-    void RemoveSignUpOnTraining(Integer nUserId, Training training) {
+    void RemoveSignUpOnTraining(Integer nUserId, Training1 training) {
         mTrainingsRepository.RemoveSignUpOnTraining(nUserId, training);
     }
 
     //Получить все тренировки пользователя
-    LiveData<List<Training>> GetUserTrainings() {
+    LiveData<List<Training1>> GetUserTrainings() {
         mUserTrainings = mTrainingsRepository.GetUserTrainings();
         return mUserTrainings;
     }
 
     //Получить тренировки пользователя на день
-    LiveData<List<Training>> GetUserTrainings(Date date) {
+    LiveData<List<Training1>> GetUserTrainings(Date date) {
         return mTrainingsRepository.GetUserTrainings(date);
     }
 }

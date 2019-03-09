@@ -42,8 +42,6 @@ public class Training implements Serializable {
         mProgramType = trainingBuilder.GetProgramType();
         mbIsFinished = trainingBuilder.GetIsFinished();
         mbIspopular = trainingBuilder.GetIsPopular();
-        if (mbIsMustPay)
-            mTrainingName += " (платная секция) по записи";
     }
 
 

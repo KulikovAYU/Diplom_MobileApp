@@ -112,7 +112,7 @@
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
-                    android:onClick="OnTrainingListClick"
+
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground">
 

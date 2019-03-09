@@ -52,20 +52,20 @@ public class FragmentMainTrainingList extends Fragment {
     public static final String TAG = "FragmentMainTrainingList";
 
 
-
     private TrainingViewModel mTrainingViewModel;
 
     private IOnListFragmentInteractionListener mListener;
 
-    private  IOnConnectionListener mConnectionListener;
+    private IOnConnectionListener mConnectionListener;
 
     public static Date mDate;//выбранная дата
 
-    public  static Calendar mSelectedDate;
+    public static Calendar mSelectedDate;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     private int mColumnCount = 1;
     private static final String ARG_PARAM1 = "Date";
+
     public FragmentMainTrainingList() {
         // Required empty public constructor
     }
@@ -74,7 +74,7 @@ public class FragmentMainTrainingList extends Fragment {
     public static FragmentMainTrainingList newInstance(Calendar selectedDate) {
         FragmentMainTrainingList fragment = new FragmentMainTrainingList();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1,selectedDate);
+        args.putSerializable(ARG_PARAM1, selectedDate);
         return fragment;
     }
 
@@ -82,15 +82,16 @@ public class FragmentMainTrainingList extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null && getArguments().getSerializable(ARG_PARAM1) != null) {
-            mSelectedDate = (Calendar)getArguments().getSerializable(ARG_PARAM1);
+            mSelectedDate = (Calendar) getArguments().getSerializable(ARG_PARAM1);
             //можно получить параметры
         }
 
         mTrainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
-        mTrainingViewModel.SetFragment(this.getActivity());
+        mTrainingViewModel.SetContext(this.getActivity());
     }
 
     HorizontalCalendar mHorizontalCalendar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -106,11 +107,10 @@ public class FragmentMainTrainingList extends Fragment {
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
         if (mSelectedDate != null)
-         mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
-                .datesNumberOnScreen(5).defaultSelectedDate(mSelectedDate)
-                .build();
-else
-        {
+            mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
+                    .datesNumberOnScreen(5).defaultSelectedDate(mSelectedDate)
+                    .build();
+        else {
             mHorizontalCalendar = new HorizontalCalendar.Builder(view.findViewById(R.id.fragment_root_training_list), R.id.calendarView).range(startDate, endDate)
                     .datesNumberOnScreen(5)
                     .build();
@@ -133,16 +133,11 @@ else
 //            mDate = FragmentMainTrainingList.mDate == null ? new Date() : FragmentMainTrainingList.mDate;
 
 
-            if (mSelectedDate != null)
-            {
+            if (mSelectedDate != null) {
                 mDate = mSelectedDate.getTime();
-            }
-            else
-            {
+            } else {
                 mDate = new Date();
             }
-
-
 
 
             //наш адаптер
@@ -172,9 +167,12 @@ else
             });
 
 
-
-
             GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+
+            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
 
             //подключим обновление
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -208,7 +206,7 @@ else
     }
 
     private void GetTrainingsOnSelectedData(final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter) {
-
+        mSwipeRefreshLayout.setRefreshing(true);
         mTrainingViewModel.GetTrainings(mDate).observe(this, new Observer<List<Training1>>() {
             @Override
             public void onChanged(List<Training1> trainings) {
@@ -221,6 +219,7 @@ else
                 Toast.makeText(getContext(), "onChanged date:" + strRes, Toast.LENGTH_SHORT).show();
             }
         });
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void SetSelectedDate(Calendar date) {
@@ -243,11 +242,9 @@ else
             mListener = (IOnListFragmentInteractionListener) context;
         }
 
-        if (context instanceof  IOnConnectionListener)
-        {
+        if (context instanceof IOnConnectionListener) {
             mConnectionListener = (IOnConnectionListener) context;
-        }
-        else {
+        } else {
 //            throw new RuntimeException(context.toString()
             //          + " must implement OnFragmentInteractionListener");
         }
@@ -258,7 +255,6 @@ else
         super.onDetach();
         mListener = null;
     }
-
 
 
     /**

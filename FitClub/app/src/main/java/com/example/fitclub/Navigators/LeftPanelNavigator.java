@@ -2,7 +2,6 @@ package com.example.fitclub.Navigators;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.example.fitclub.Activities.StartActivity;
 import com.example.fitclub.Connection.ConnectionManager;
@@ -13,14 +12,9 @@ import com.example.fitclub.R;
 import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LeftPanelNavigator {
-
-
-    private Context mContext;
-    FragmentManager manager;
+public class LeftPanelNavigator extends AbstractNavigator {
 
     private LeftPanelNavigator(Context context) {
         mContext = context;
@@ -30,7 +24,7 @@ public class LeftPanelNavigator {
     }
 
     //создает навигатор для левой панели
-    public static LeftPanelNavigator createInstance(Context context) {
+    public static AbstractNavigator createInstance(Context context) {
         return new LeftPanelNavigator(context);
     }
 
@@ -71,7 +65,9 @@ public class LeftPanelNavigator {
                 ///и т.д.
             }
         } else {
-            Toast.makeText(mContext, "Нет сети", Toast.LENGTH_LONG).show(); //выведем сообщение
+            mbIsconnected = false;
+
+            ShowNoConnectMessage(); //выведем сообщение
 
             //если к сети не подключен
             if (manager.findFragmentByTag(FragmentConnectionError.TAG) == null) //если нет фрагмента отсутствия подключения к сети
@@ -86,6 +82,5 @@ public class LeftPanelNavigator {
         }
 
         fragmentTransaction.commit();
-
     }
 }

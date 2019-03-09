@@ -52,7 +52,11 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
         FragmentConnectionError fragment = new FragmentConnectionError();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1,nId);
-        args.putSerializable(ARG_PARAM2,selectedDate);
+        if (selectedDate != null)
+        {
+            args.putSerializable(ARG_PARAM2,selectedDate);
+        }
+
         fragment.setArguments(args);
         return fragment;
     }
