@@ -13,7 +13,6 @@ public class Repository implements IRepository {
     {
         //создаем наши репозитории
         mTrainingRepository = new TrainingRepository();
-
         mCoachRepository = new CoachRepository();
     }
     ITrainingsRepository mTrainingRepository;
@@ -28,6 +27,5 @@ public class Repository implements IRepository {
     public ICoachRepository getCoachRepository() {
         return mCoachRepository;
     }
-
 
 }

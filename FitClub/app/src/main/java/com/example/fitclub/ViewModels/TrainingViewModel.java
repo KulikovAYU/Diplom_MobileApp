@@ -30,10 +30,10 @@ public class TrainingViewModel extends AndroidViewModel {
         mTrainingsRepository = new Repository().getTrainingRepository();
     }
 
-    public void SetContext(Context context)
-    {
+    public void SetContext(Context context) {
         mTrainingsRepository.SetContext(context);//получим наш контекст
     }
+
     //Получить тренировки на день
     public LiveData<List<Training1>> GetTrainings(Date date) {
 

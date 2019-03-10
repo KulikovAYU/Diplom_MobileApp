@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.example.fitclub.Models.Coach;
-import com.example.fitclub.Models.Training;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Repository.Interfaces.ICoachRepository;
 import com.example.fitclub.Repository.Repository;
@@ -22,14 +21,11 @@ public class CoachViewModel extends AndroidViewModel {
         mCoachRepository = new Repository().getCoachRepository();
     }
 
-    public void SetContext(Context context)
-    {
+    public void SetContext(Context context) {
         mCoachRepository.SetContext(context);//получим наш контекст
     }
 
-    public LiveData<Coach> getCoach(Training1 currentTraining)
-    {
+    public LiveData<Coach> getCoach(Training1 currentTraining) {
         return mCoachRepository.getCoach(currentTraining);
     }
-
 }

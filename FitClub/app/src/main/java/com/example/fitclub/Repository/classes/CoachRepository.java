@@ -2,15 +2,11 @@ package com.example.fitclub.Repository.classes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import com.example.fitclub.Models.Coach;
 import com.example.fitclub.Models.Training1;
-
 import com.example.fitclub.Repository.Interfaces.ICoachRepository;
 import com.example.fitclub.Retrofit2.RetrofitAPI;
-
 import java.util.concurrent.ExecutionException;
-
 import androidx.lifecycle.LiveData;
 
 
@@ -49,8 +45,8 @@ public class CoachRepository implements ICoachRepository {
         protected LiveData<Coach> doInBackground(Training1... trainings) {
 
             RetrofitAPI api = new RetrofitAPI(mCurrContext);
-            api.getCoach(trainings[0]);
-            return null;
+            LiveData<Coach> coach = api.getCoach(trainings[0]);
+            return coach;
         }
     }
 }

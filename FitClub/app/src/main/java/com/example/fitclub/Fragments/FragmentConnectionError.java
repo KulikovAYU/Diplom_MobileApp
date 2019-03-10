@@ -1,7 +1,7 @@
 package com.example.fitclub.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -41,7 +41,6 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
     private Calendar mSelectedDate;
 
 
-
     public FragmentConnectionError() {
         // Required empty public constructor
     }
@@ -51,10 +50,9 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
     public static FragmentConnectionError newInstance(int nId, Calendar selectedDate) {
         FragmentConnectionError fragment = new FragmentConnectionError();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1,nId);
-        if (selectedDate != null)
-        {
-            args.putSerializable(ARG_PARAM2,selectedDate);
+        args.putInt(ARG_PARAM1, nId);
+        if (selectedDate != null) {
+            args.putSerializable(ARG_PARAM2, selectedDate);
         }
 
         fragment.setArguments(args);
@@ -67,14 +65,14 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
         if (getArguments() != null) {
             mParamId = getArguments().getInt(ARG_PARAM1);
             if (getArguments().getSerializable(ARG_PARAM2) != null)
-            mSelectedDate = (Calendar) getArguments().getSerializable(ARG_PARAM2);
-       }
+                mSelectedDate = (Calendar) getArguments().getSerializable(ARG_PARAM2);
+        }
     }
 
-    public Calendar GetSaveDate()
-    {
+    public Calendar GetSaveDate() {
         return mSelectedDate;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,12 +88,11 @@ public class FragmentConnectionError extends Fragment implements View.OnClickLis
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof IOnConnectionListener)
-            mConnectionListener = (IOnConnectionListener)context;
+            mConnectionListener = (IOnConnectionListener) context;
 
         else {
 //            throw new RuntimeException(context.toString()

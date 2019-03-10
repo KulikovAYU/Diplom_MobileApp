@@ -62,7 +62,6 @@ public class Training1 implements Serializable {
     protected int mnBusyPlacesCount;// количество занятых мест
 
 
-
     //геттеры
     public Integer getTrtainingId() {
 
@@ -79,13 +78,9 @@ public class Training1 implements Serializable {
 
     public String getTrainingName() {
 
-
-        if (mbIsMustPay && !mTrainingName.contains(" (платная секция) по записи"))
-        {
+        if (mbIsMustPay && !mTrainingName.contains(" (платная секция) по записи")) {
             mTrainingName += " (платная секция) по записи";
-
         }
-
 
         return mTrainingName;
     }
@@ -106,7 +101,7 @@ public class Training1 implements Serializable {
         return mCoachName;
     }
 
-    public String getCoachFamily(){return mCoachFamily;}
+    public String getCoachFamily() { return mCoachFamily;}
 
     public String getDescription() {
         return mDescription;
@@ -146,8 +141,7 @@ public class Training1 implements Serializable {
 
 
     //возможна ли запись
-    public boolean getRecordingIsPossible()
-    {
+    public boolean getRecordingIsPossible() {
         return (mnFreePlacesCount != mnBusyPlacesCount) && !mbIsFinished || mStartTime.after(new Date()) || mStartTime.equals(new Date());
     }
 }

@@ -3,8 +3,6 @@ package com.example.fitclub.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-
-
 import com.example.fitclub.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -13,22 +11,18 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-
-
 public class StartActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,40 +100,8 @@ public class StartActivity extends AppCompatActivity
         return true;
     }
 
-
-
     public void OnButtonClick(View view) {
         int id = view.getId();
         startActivity(new Intent(this, MainActivity.class).putExtra("Item", id));
     }
-
-//    public void OnProfileClick(View view) {
-//        //пока выведем просто тост. потом, возможно, реализуем
-//        Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
-//        onBackPressed();
-//    }
-
-
-    //
-//    public void OnTrainingListClick(View view) {
-//
-
-//
-//
-//    }
-
-
-
-//    private void CreateFragment(@NonNull int id)
-//    {
-//
-//        try {
-//            NavigationManager.Instance().Invoke(id,this);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }

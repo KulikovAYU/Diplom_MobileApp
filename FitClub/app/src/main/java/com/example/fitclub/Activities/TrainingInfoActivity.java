@@ -2,7 +2,6 @@ package com.example.fitclub.Activities;
 
 import android.os.Bundle;
 
-import com.example.fitclub.Models.Coach;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Navigators.TrainingListNavigator;
 import com.example.fitclub.R;
@@ -47,13 +46,12 @@ public class TrainingInfoActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (getIntent().getExtras() != null)
-        {
+        if (getIntent().getExtras() != null) {
             //получим информацию о тренировке
             Bundle arguments = (Bundle) (getIntent().getExtras()).get("ItemSelected_training");
 
             if (arguments.getSerializable("selected_training") instanceof Training1)
-                mTraining = (Training1)arguments.getSerializable("selected_training");
+                mTraining = (Training1) arguments.getSerializable("selected_training");
         }
         LoadTrainingInfo();
     }
@@ -72,99 +70,89 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
 
     //загружаем информацио о тренировке
-    private void LoadTrainingInfo()
-    {
-          //установим дату (она в тренировке)
+    private void LoadTrainingInfo() {
+        //установим дату (она в тренировке)
         setTitle(TimeFormatter.convertTimeEEEMMMd(mTraining.getStartTime()));
 
         //имя тренировки
-        TextView trainingName = (TextView)findViewById(R.id.item_trainingNameId);
+        TextView trainingName = (TextView) findViewById(R.id.item_trainingNameId);
         trainingName.setText(mTraining.getTrainingName());
 
-        ImageView replacedImage = (ImageView)findViewById(R.id.item_isReplacedId);
+        ImageView replacedImage = (ImageView) findViewById(R.id.item_isReplacedId);
         if (!mTraining.getIsReplaced())
             replacedImage.setVisibility(View.GONE);
         //имя зала
-        TextView gymName = (TextView)findViewById(R.id.item_gymNameId);
+        TextView gymName = (TextView) findViewById(R.id.item_gymNameId);
         gymName.setText(mTraining.getGymName());
 
         //время начала
-        TextView startTime = (TextView)findViewById(R.id.item_startTrainingTimeId);
+        TextView startTime = (TextView) findViewById(R.id.item_startTrainingTimeId);
         startTime.setText(TimeFormatter.convertTimeHHmm(mTraining.getStartTime()));
 
         //время окончания
-        TextView endTime =  (TextView)findViewById(R.id.item_endTrainingTimeId);
+        TextView endTime = (TextView) findViewById(R.id.item_endTrainingTimeId);
         endTime.setText(TimeFormatter.convertTimeHHmm(mTraining.getEndTime()));
 
         //имя инструктора
-        TextView coachName = (TextView)findViewById(R.id.item_CoachNameId);
+        TextView coachName = (TextView) findViewById(R.id.item_CoachNameId);
         coachName.setText(mTraining.getCoachFamily() + " " + mTraining.getCoachName());
 
         //ДОБАВИТЬ ФОТО ТРЕНЕРА
 
         //интенсивность
-        TextView levelName = (TextView)findViewById(R.id.item_levelId);
+        TextView levelName = (TextView) findViewById(R.id.item_levelId);
         levelName.setText(mTraining.getLevelName());
 
         //Если занятие не популярное, то скроем
-        if (!mTraining.getIsPopular())
-        {
-            LinearLayout layoutIsPopular = (LinearLayout)findViewById(R.id.item_isPopularId);
+        if (!mTraining.getIsPopular()) {
+            LinearLayout layoutIsPopular = (LinearLayout) findViewById(R.id.item_isPopularId);
             layoutIsPopular.setVisibility(View.GONE);
         }
 
         //Признак не коммерческого класса
-        if (!(mTraining.getIsMustPay()))
-        {
+        if (!(mTraining.getIsMustPay())) {
 
-            LinearLayout layoutCommercial = (LinearLayout)findViewById(R.id.item_isCommercialId);
+            LinearLayout layoutCommercial = (LinearLayout) findViewById(R.id.item_isCommercialId);
             layoutCommercial.setVisibility(View.GONE);
 
-            LinearLayout layoutCommercialInfo = (LinearLayout)findViewById(R.id.item_commercial_training_infoId);
+            LinearLayout layoutCommercialInfo = (LinearLayout) findViewById(R.id.item_commercial_training_infoId);
             layoutCommercialInfo.setVisibility(View.GONE);
 
-            LinearLayout layoutCommercialInfoDivider = (LinearLayout)findViewById(R.id.item_divider2Id);
+            LinearLayout layoutCommercialInfoDivider = (LinearLayout) findViewById(R.id.item_divider2Id);
             layoutCommercialInfoDivider.setVisibility(View.GONE);
 
-            TextView mustRegister = (TextView)findViewById(R.id.item_MustToWriteId);
+            TextView mustRegister = (TextView) findViewById(R.id.item_MustToWriteId);
             mustRegister.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             //Признак коммерческого класса
-          //  CommercialTraining commercialTraining = (CommercialTraining)mTraining;
+            //  CommercialTraining commercialTraining = (CommercialTraining)mTraining;
 
             //получим поле количество свободных мест
-            TextView freePlaces = (TextView)findViewById(R.id.item_freePlaceId);
+            TextView freePlaces = (TextView) findViewById(R.id.item_freePlaceId);
             freePlaces.setText(String.valueOf(mTraining.getFreePlacesCount()));
 
             //получим поле количество свободных мест
-            TextView finished = (TextView)findViewById(R.id.item_isFinishedId);
+            TextView finished = (TextView) findViewById(R.id.item_isFinishedId);
 
-            Button btnRegister = (Button)findViewById(R.id.item_registerId);
+            Button btnRegister = (Button) findViewById(R.id.item_registerId);
 
             //если тренировка не закончена и места есть, то скрываем (подумать)
-            if ( mTraining.getRecordingIsPossible())
-            {
+            if (mTraining.getRecordingIsPossible()) {
                 btnRegister.setVisibility(View.VISIBLE);
                 findViewById(R.id.item_vacation_places1_infoId).setVisibility(View.VISIBLE);
                 finished.setVisibility(View.GONE);
-            }else
-            {
+            } else {
                 findViewById(R.id.item_vacation_places1_infoId).setVisibility(View.GONE);
                 btnRegister.setVisibility(View.GONE);
             }
-
-
         }
 
-
         //Тип программы
-        TextView trainingType = (TextView)findViewById(R.id.item_descriptionTypeId);
+        TextView trainingType = (TextView) findViewById(R.id.item_descriptionTypeId);
         trainingType.setText(mTraining.getProgramType());
 
         //Описание тернировки
-        TextView trainingDesc = (TextView)findViewById(R.id.item_descriptionId);
+        TextView trainingDesc = (TextView) findViewById(R.id.item_descriptionId);
         trainingDesc.setText(mTraining.getDescription());
     }
 
@@ -172,10 +160,5 @@ public class TrainingInfoActivity extends AppCompatActivity {
     //получить тренера
     public void OnProfileClick(View view) {
         TrainingListNavigator.createInstance(this).GoToCoachInfo(mTraining);
-       // Manager.GoToActivity(this, CoachInfoActivity.class,buf,"selected_training");
-      //  Manager.GoToActivity(this, CoachInfoActivity.class,null,"selected_training");//Пока загглушка
     }
-
-
-
 }

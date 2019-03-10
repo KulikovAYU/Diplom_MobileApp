@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 
-
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Navigators.AbstractNavigator;
 import com.example.fitclub.Navigators.LeftPanelNavigator;
@@ -30,7 +29,6 @@ import static com.google.android.material.navigation.NavigationView.OnNavigation
 
 public class MainActivity extends AppCompatActivity
         implements OnNavigationItemSelectedListener, IOnListFragmentInteractionListener, IOnConnectionListener {
-
 
 
     //фикс повторного создания фрагмента при повороте экрана
@@ -133,45 +131,9 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         //зная mnItemId, можно загрузить фрагмент
-
-        //предварительно проверив подключение к сети
-
         //загрузим фрагмент
         LeftPanelNavigator.createInstance(this).GoTo(mnItemId);
 
-//        switch (mnItemId)
-//        {
-//
-//            case R.id.gotoStartActivityId:
-//            {
-//                Intent intent = new Intent(this, StartActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                this.startActivity(intent);
-//            }
-//            break;
-//
-//            case R.id.trainingListId:
-//            {
-//                FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
-//                if (getSupportFragmentManager().findFragmentByTag(FragmentMainTrainingList.TAG) == null) {
-//                    FragmentMainTrainingList mainTrainingListFragment =  FragmentMainTrainingList.newInstance();
-//                    fragmentTransaction.add(R.id.fragments_content, mainTrainingListFragment, mainTrainingListFragment.TAG);
-//                }
-//                fragmentTransaction.commit();
-//            }
-//            break;
-//
-////добавляем переходы к фрагментам
-//
-//        }
-
-
-//        try {
-//            if (mnItemId != -1)
-//                NavigationManager.Instance().Invoke(mnItemId, this);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
 
@@ -185,7 +147,6 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
     }
 
-
     //проверка подключения к сети
     @Override
     public boolean CheckConnection(int nId) {
@@ -194,7 +155,4 @@ public class MainActivity extends AppCompatActivity
 
         return mNavigator.IsConnected();
     }
-
-
-
 }

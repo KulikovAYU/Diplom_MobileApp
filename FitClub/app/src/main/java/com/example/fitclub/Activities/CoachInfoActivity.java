@@ -13,7 +13,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
+
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.MenuItem;
@@ -24,9 +25,9 @@ import android.widget.TextView;
 public class CoachInfoActivity extends AppCompatActivity {
 
 
-    private CoachViewModel mCoachInfo;
+    private CoachViewModel mCoachInfoViewModel;
     private Training1 mTraining;
-    private LiveData<Coach> mCoach;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +51,24 @@ public class CoachInfoActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //подключим view model
-        mCoachInfo = ViewModelProviders.of(this).get(CoachViewModel.class);
-        mCoachInfo.SetContext(this);
+        mCoachInfoViewModel = ViewModelProviders.of(this).get(CoachViewModel.class);
+        mCoachInfoViewModel.SetContext(this);
+
 
         Bundle args = getIntent().getExtras();
 
-        if (args != null)
-        {
+        if (args != null) {
             //получим информацию о тренировке
             Bundle arguments = (Bundle) (args).get("ItemSelected_training_coach");
 
-            if (arguments.getSerializable("selected_training_coach") instanceof Training1)
-            {
-                mTraining = (Training1)arguments.getSerializable("selected_training_coach");
-                mCoach = mCoachInfo.getCoach(mTraining);
+            if (arguments.getSerializable("selected_training_coach") instanceof Training1) {
+                mTraining = (Training1) arguments.getSerializable("selected_training_coach");
+                mCoachInfoViewModel.getCoach(mTraining).observe(this, new Observer<Coach>() {
+                    @Override
+                    public void onChanged(Coach coach) {
+                        SetCoachData(coach);
+                    }
+                });
             }
         }
     }
@@ -72,25 +77,25 @@ public class CoachInfoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mCoach == null)
-            return;
+    }
 
-        //имя - фамилия
+
+    void SetCoachData(Coach mCoach) {
         TextView nameAndFam = findViewById(R.id.item_coach_name_and_fam_id);
 
-        nameAndFam.setText(mCoach.getValue().getCoachFamily() + " " + mCoach.getValue().getCoachName());
+        //имя - фамилия
+        nameAndFam.setText(mCoach.getCoachFamily() + " " + mCoach.getCoachName());
 
         //описание тренера
         TextView mCoachDesc = findViewById(R.id.item_coach_descriptionId);
 
-        mCoachDesc.setText(mCoach.getValue().getCoachDesc());
+        mCoachDesc.setText(mCoach.getCoachDesc());
 
         //фото
         ImageView mView = findViewById(R.id.item_coachPhotoId);
 
-        Bitmap coachPhoto = mCoach.getValue().getCoachPhoto();
-        if (coachPhoto != null)
-        {
+        Bitmap coachPhoto = mCoach.getCoachPhoto();
+        if (coachPhoto != null) {
             mView.setImageBitmap(coachPhoto);
         }
     }

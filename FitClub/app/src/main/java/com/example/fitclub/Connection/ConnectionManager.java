@@ -4,10 +4,8 @@ package com.example.fitclub.Connection;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 
 import androidx.annotation.NonNull;
 
@@ -28,9 +26,9 @@ public final class ConnectionManager {
     private static String mStrConnection; //строка подключения
 
     //по умолчанию поставим с телефона
-   public static ConnectionManager Instance() {
+    public static ConnectionManager Instance() {
 
-       SetConnPhone();
+        SetConnPhone();
 
         if (mManager == null)
             mManager = new ConnectionManager();
@@ -44,27 +42,24 @@ public final class ConnectionManager {
         return mStrConnection;
     }
 
-    public static void SetConnGenymotion()
-    {
+    public static void SetConnGenymotion() {
         mStrConnection = GetConnString(eGenymotion);
     }
 
-    public static void SetConnPhone()
-    {
+    public static void SetConnPhone() {
         mStrConnection = GetConnString(ePhone);
     }
 
 
-    private static String GetConnString(ConnectionMode mode)
-    {
+    private static String GetConnString(ConnectionMode mode) {
         StringBuilder builder = new StringBuilder();
 
         switch (mode) {
             case ePhone:
-                builder.append(BASEURL_PHONE).append("/api/");
+                builder.append(BASEURL_PHONE).append(":").append(PORT).append("/api/");
                 break;
             case eGenymotion:
-                builder.append(BASEURL_GENYMOTION).append("/api/");
+                builder.append(BASEURL_GENYMOTION).append(":").append(PORT).append("/api/");
                 break;
         }
 
@@ -73,46 +68,41 @@ public final class ConnectionManager {
     }
 
     //вернуть URL подключения
-    static String GetConnectionURL()
-    {
+    static String GetConnectionURL() {
         return mStrConnection;
     }
 
     //проверка подключения
-    public static boolean IsConnected(Context ctx)
-    {
+    public static boolean IsConnected(Context ctx) {
         ConnectivityManager connectionManager = (ConnectivityManager)
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         BroadcastReceiver connectivityStatusReceiver = new NetworkConnectionStatusReceiver(connectionManager);
 
-        return  ((NetworkConnectionStatusReceiver) connectivityStatusReceiver).hasConnection();
+        return ((NetworkConnectionStatusReceiver) connectivityStatusReceiver).hasConnection();
     }
 
-    private ConnectionManager()
-    {
+    private ConnectionManager() {
 
     }
-
-
 }
 
 class NetworkConnectionStatusReceiver extends BroadcastReceiver {
 
     ConnectivityManager connectivityManager;
 
-    public NetworkConnectionStatusReceiver(ConnectivityManager connectivityManager)
-    {
+    public NetworkConnectionStatusReceiver(ConnectivityManager connectivityManager) {
         this.connectivityManager = connectivityManager;
     }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (hasConnection()) {
-            int n =1;
+            int n = 1;
             // network available
         } else {
             // no network
-        };
+        }
     }
 
     protected boolean hasConnection() {

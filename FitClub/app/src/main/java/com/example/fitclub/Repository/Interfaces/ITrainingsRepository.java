@@ -1,9 +1,7 @@
 package com.example.fitclub.Repository.Interfaces;
 
 import android.content.Context;
-
 import com.example.fitclub.Models.Training1;
-
 import java.util.Date;
 import java.util.List;
 
@@ -29,5 +27,4 @@ public interface ITrainingsRepository
 
     //устанавливает контекст
     void SetContext(Context currContext);
-
 }

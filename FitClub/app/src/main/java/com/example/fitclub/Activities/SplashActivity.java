@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class SplashActivity extends AppCompatActivity implements Serializable {
 
     private static int SPLASH_TIME_OUT = 500;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,6 @@ public class SplashActivity extends AppCompatActivity implements Serializable {
                 startActivity(intent);
                 finish();
             }
-        },SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);
     }
 }

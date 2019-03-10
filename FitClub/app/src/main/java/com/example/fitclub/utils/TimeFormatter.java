@@ -7,10 +7,9 @@ import java.util.Date;
 public class TimeFormatter {
 
 
-    public static String convertTimeHHmm(Date inputDate)
-    {
+    public static String convertTimeHHmm(Date inputDate) {
         if (inputDate == null) {
-           // throw new RuntimeException("inputDate is null");
+            // throw new RuntimeException("inputDate is null");
             return new String();
         }
 
@@ -18,11 +17,10 @@ public class TimeFormatter {
         return sdf.format(inputDate);
     }
 
-     //формат даты г-м-д 2012-12-31
-    public static String convertDate_y_M_d(Date inputDate)
-    {
+    //формат даты г-м-д 2012-12-31
+    public static String convertDate_y_M_d(Date inputDate) {
         if (inputDate == null) {
-           // throw new RuntimeException("inputDate is null");
+            // throw new RuntimeException("inputDate is null");
             return new String();
         }
 
@@ -42,7 +40,4 @@ public class TimeFormatter {
 
         return sdf.format(inputDate);
     }
-
-
-
 }

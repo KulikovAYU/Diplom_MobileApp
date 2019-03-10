@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.R;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
@@ -32,7 +31,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
     private final IOnListFragmentInteractionListener mListener;
 
     public MyTrainingRecyclerViewAdapter(IOnListFragmentInteractionListener listener) {
-          mListener = listener;
+        mListener = listener;
     }
 
 //    public MyTrainingRecyclerViewAdapter(List<Training> items, IOnListFragmentInteractionListener listener) {
@@ -52,24 +51,23 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         holder.mItem = mValues.get(position);
 
         holder.mTimeIdView.setText(TimeFormatter.convertTimeHHmm(holder.mItem.getStartTime()));
-        holder.mTrainingNameView.setText( holder.mItem.getTrainingName());
-        holder.mGymView.setText( holder.mItem.getGymName());
-        holder.mLevelView.setText( holder.mItem.getLevelName());
-        holder.mCoachNameView.setText( holder.mItem.getCoachName() + " " +  holder.mItem.getCoachFamily());
-        holder.mIsReplacedView.setVisibility(holder.mItem.getIsReplaced() ?  View.VISIBLE : View.GONE);
+        holder.mTrainingNameView.setText(holder.mItem.getTrainingName());
+        holder.mGymView.setText(holder.mItem.getGymName());
+        holder.mLevelView.setText(holder.mItem.getLevelName());
+        holder.mCoachNameView.setText(holder.mItem.getCoachName() + " " + holder.mItem.getCoachFamily());
+        holder.mIsReplacedView.setVisibility(holder.mItem.getIsReplaced() ? View.VISIBLE : View.GONE);
         holder.mIsMustPayView.setVisibility(holder.mItem.getIsMustPay() ? View.VISIBLE : View.GONE);
-        holder.mDifficultView.setBackgroundColor( ContextCompat.getColor(holder.mView.getContext(), TrainingDifficult.GetColorIndex(holder.mItem.getLevelName())));
+        holder.mDifficultView.setBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), TrainingDifficult.GetColorIndex(holder.mItem.getLevelName())));
         holder.mIsNewTrainingView.setVisibility(holder.mItem.getIsNewTraining() ? View.VISIBLE : View.GONE);
         holder.mbIsPopularView.setVisibility(holder.mItem.getIsPopular() ? View.VISIBLE : View.GONE);
         //Color.alpha(TrainingDifficult.GetColorIndex(holder.mItem.getLevelName()))
-
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-              //  Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
+                //  Toast.makeText(this,"OnProfileClick",Toast.LENGTH_LONG).show();
 
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
@@ -87,8 +85,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         return (mValues != null) ? mValues.size() : 0;
     }
 
-    public void setTrainings(List<Training1> items)
-    {
+    public void setTrainings(List<Training1> items) {
         mValues = items;
         notifyDataSetChanged();
     }
@@ -116,11 +113,11 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
             mGymView = (TextView) view.findViewById(R.id.item_gymId);
             mLevelView = (TextView) view.findViewById(R.id.item_levelId);
             mCoachNameView = (TextView) view.findViewById(R.id.item_CoachNameId);
-            mIsReplacedView = (ImageView)view.findViewById(R.id.item_isReplacedId);
-            mIsMustPayView = (LinearLayout)view.findViewById(R.id.item_mustPayId);
-            mDifficultView = (LinearLayout)view.findViewById(R.id.item_difficultId);
-            mIsNewTrainingView = (LinearLayout)view.findViewById(R.id.item_newTrainingId);
-            mbIsPopularView = (LinearLayout)view.findViewById(R.id.item_isPopularId);
+            mIsReplacedView = (ImageView) view.findViewById(R.id.item_isReplacedId);
+            mIsMustPayView = (LinearLayout) view.findViewById(R.id.item_mustPayId);
+            mDifficultView = (LinearLayout) view.findViewById(R.id.item_difficultId);
+            mIsNewTrainingView = (LinearLayout) view.findViewById(R.id.item_newTrainingId);
+            mbIsPopularView = (LinearLayout) view.findViewById(R.id.item_isPopularId);
         }
 
         @Override
@@ -129,20 +126,17 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         }
     }
 
-    public static class TrainingDifficult
-    {
-       private static HashMap<String, Integer> map = new HashMap<>();
+    public static class TrainingDifficult {
+        private static HashMap<String, Integer> map = new HashMap<>();
 
         //Вовзрат индекса в зависимости от сложности
-        public static int GetColorIndex(String difficult)
-        {
+        public static int GetColorIndex(String difficult) {
             //интенсивности
             map.put("Высокая интенсивность", R.color.md_orange_300);
             map.put("Для всех уровней подготовки", R.color.md_light_green_300);
             map.put("Низкая интенсивность", R.color.md_teal_100);
 
-            if (map.containsKey(difficult))
-            {
+            if (map.containsKey(difficult)) {
                 int ress = map.get(difficult);
                 return map.get(difficult);
             }

@@ -2,7 +2,6 @@ package com.example.fitclub.Navigators;
 
 import android.content.Context;
 import android.widget.Toast;
-
 import androidx.fragment.app.FragmentManager;
 
 public abstract class AbstractNavigator {
