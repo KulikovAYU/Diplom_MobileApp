@@ -1,11 +1,15 @@
 package com.example.fitclub.Activities;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.fitclub.Models.Coach;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.R;
+import com.example.fitclub.Repository.classes.CoachRepository;
+import com.example.fitclub.Retrofit2.RetrofitAPI;
 import com.example.fitclub.ViewModels.CoachViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -14,13 +18,26 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CoachInfoActivity extends AppCompatActivity {
 
@@ -92,11 +109,50 @@ public class CoachInfoActivity extends AppCompatActivity {
         mCoachDesc.setText(mCoach.getCoachDesc());
 
         //фото
-        ImageView mView = findViewById(R.id.item_coachPhotoId);
+        final ImageView mView = findViewById(R.id.item_coachPhotoId);
 
-        Bitmap coachPhoto = mCoach.getCoachPhoto();
-        if (coachPhoto != null) {
-            mView.setImageBitmap(coachPhoto);
+//        final Bitmap coachPhoto = mCoach.getCoachPhoto();
+//        if (coachPhoto != null) {
+//            mView.setImageBitmap(coachPhoto);
+//        }
+
+
+//        OkHttpClient client = new OkHttpClient();
+//
+//        Request request = new Request.Builder().get()
+//                .url("http://localhost:56073/api/employees/getcoachPhoto/1")
+//                .build();
+//
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call request, IOException e) {
+//                System.out.println("request failed: " + e.getMessage());
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                InputStream is =  response.body().byteStream();
+//                Bitmap bmp = BitmapFactory.decodeStream(is);
+//
+//                Bitmap coachPhoto1 = bmp;// Read the data from the stream
+//                mView.setImageBitmap(coachPhoto1);
+//            }
+//
+//
+//        });
+        ResponseBody response = null;
+        try {
+            response = new GetPhoto().execute().get();
+                   } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (response != null)
+        {
+            int n =1;
         }
     }
 
@@ -110,4 +166,17 @@ public class CoachInfoActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private class GetPhoto extends AsyncTask<Void, Void, ResponseBody>
+    {
+
+        @Override
+        protected ResponseBody doInBackground(Void... voids) {
+            RetrofitAPI api = new RetrofitAPI(CoachInfoActivity.this);
+             api.getPhoto("1");
+             return null;
+
+        }
+    }
+
 }

@@ -43,7 +43,7 @@ public final class ConnectionManager {
     }
 
     public static void SetConnGenymotion() {
-        mStrConnection = GetConnString(eGenymotion);
+        mStrConnection = GetConnString(ePhone);
     }
 
     public static void SetConnPhone() {

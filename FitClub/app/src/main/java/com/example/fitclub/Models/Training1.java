@@ -7,58 +7,61 @@ import java.util.Date;
 
 public class Training1 implements Serializable {
 
-    @SerializedName("mnTrtainingId")
+    @SerializedName("Id")
     private int mnTrtainingId;
 
-    @SerializedName("mStartTime")
+    @SerializedName("startTime")
     protected Date mStartTime;//время начала
 
-    @SerializedName("mEndTime")
+    @SerializedName("endTime")
     protected Date mEndTime;//время окончания тренировки
 
-    @SerializedName("mTrainingName")
+    @SerializedName("trainingName")
     protected String mTrainingName;//название тренировки
 
-    @SerializedName("mbIsFinished")
+    @SerializedName("isFinished")
     protected boolean mbIsFinished = false;//признак законченной тренировки
 
-    @SerializedName("mGymName")
+    @SerializedName("gymName")
     protected String mGymName;//название зала
 
-    @SerializedName("mLevelName")
+    @SerializedName("levelName")
     protected String mLevelName;//уровень
 
-    @SerializedName("mCoachName")
+    @SerializedName("coachId")
+    protected String coachId;//Id инструктора
+
+    @SerializedName("coachName")
     protected String mCoachName;//имя инструктора
 
-    @SerializedName("mCoachFamily")
+    @SerializedName("coachFamily")
     protected String mCoachFamily;//фамилия инструктора
 
-    @SerializedName("mDescription")
+    @SerializedName("description")
     protected String mDescription;// описание
 
-    @SerializedName("mbIsReplaced")
+    @SerializedName("isReplaced")
     protected boolean mbIsReplaced;//заменена ли тренировка
 
-    @SerializedName("mbIsMustPay")
+    @SerializedName("isMustPay")
     protected boolean mbIsMustPay = false; //платная
 
-    @SerializedName("mbIsNewTraining")
+    @SerializedName("isNewTraining")
     protected boolean mbIsNewTraining; // признак новой тренировки
 
-    @SerializedName("mProgramType")
+    @SerializedName("programType")
     protected String mProgramType; //тип программы
 
-    @SerializedName("mbIspopular")
+    @SerializedName("ispopular")
     protected boolean mbIspopular = false;//признак популярности
 
-    @SerializedName("mnplacesCount")
+    @SerializedName("placesCount")
     protected int mnplacesCount;//количество записей (вместимость)
 
-    @SerializedName("mnFreePlacesCount")
+    @SerializedName("freePlacesCount")
     protected int mnFreePlacesCount;//количество свободных мест
 
-    @SerializedName("mnBusyPlacesCount")
+    @SerializedName("busyPlacesCount")
     protected int mnBusyPlacesCount;// количество занятых мест
 
 

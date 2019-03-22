@@ -1,11 +1,14 @@
 package com.example.fitclub.Retrofit2;
 
-import com.example.fitclub.Connection.ConnectionManager;
-
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 
+import com.example.fitclub.Connection.ConnectionManager;
 import com.example.fitclub.Models.Coach;
 import com.example.fitclub.Models.Training1;
+import com.example.fitclub.R;
 import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -17,6 +20,8 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +77,17 @@ public final class RetrofitAPI {
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
         getCoachRetrofit(currentTraining);
         return mCoach;
+    }
+
+    //получить тренера на конкретную тренировку
+    public void getPhoto(String trainerId) {
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .client(new OkHttpClient())
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+        getPhotoRetrofit(trainerId);
+
     }
 
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -136,4 +152,46 @@ public final class RetrofitAPI {
             }
         });
     }
+
+    protected void getPhotoRetrofit(String trainerId) {
+//        if (currentTraining == null)
+//            return;
+
+
+        Call<ResponseBody> call = mjsonPlaceHolderApi.getCoachPhotoRetrofit(trainerId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (!response.isSuccessful() && mCurrentview != null) {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    return;
+                }
+                writeResponseBodyToDisk(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (mCurrentview != null) {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
+                            .setAction("Неудачный запрос: " + t.getMessage(), null).show();
+                }
+            }
+        });
+
+    }
+
+
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+
+       Bitmap bmp = BitmapFactory.decodeStream(body.byteStream());
+        ((ImageView) mCurrentview.findViewById(R.id.item_coachPhotoId)).setImageBitmap(bmp);
+//       if (bmp != null)
+//         Picasso.with(mCurrentview).load("http://localhost:56073/api/Employees/getcoachPhoto/1").into((ImageView) mCurrentview.findViewById(R.id.item_coachPhotoId));
+return true;
+    }
+
+
 }

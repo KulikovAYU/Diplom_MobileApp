@@ -1,13 +1,18 @@
 package com.example.fitclub.Retrofit2;
 
+import android.graphics.Bitmap;
+
 import com.example.fitclub.Models.Coach;
 import com.example.fitclub.Models.Training1;
 import java.util.List;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
 
 
 public interface JsonPlaceHolderApi {
@@ -18,9 +23,11 @@ public interface JsonPlaceHolderApi {
 
     //    @GET("trainings/{date}") //trainings - в серверной части
     //получить список тренировок на день
-    @GET("trainings/gettrainingsList/{date}")
+    @GET("trainings1/gettrainingsList/{date}")
     Call<List<Training1>> getTrainingsRetrofit(@Path("date") String date);
 
+   @GET("employees/getcoachPhoto/{trainerId}")
+    Call<ResponseBody> getCoachPhotoRetrofit(@Path("trainerId") String trainerId);
 
     //получить тренера конкретной тренировки
 //    @GET("trainings")
