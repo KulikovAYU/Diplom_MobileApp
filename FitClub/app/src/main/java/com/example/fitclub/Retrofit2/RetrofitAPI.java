@@ -6,9 +6,8 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import com.example.fitclub.Connection.ConnectionManager;
-import com.example.fitclub.Models.Coach;
+import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training1;
-import com.example.fitclub.R;
 import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -41,7 +40,7 @@ public final class RetrofitAPI {
 
     protected MutableLiveData<List<Training1>> mTrainingList;
 
-    protected MutableLiveData<Coach> mCoach;
+    protected MutableLiveData<Employee> mCoach;
 
     public RetrofitAPI(Context currContext) {
 
@@ -69,7 +68,7 @@ public final class RetrofitAPI {
     }
 
     //получить тренера на конкретную тренировку
-    public MutableLiveData<Coach> getCoach(Training1 currentTraining) {
+    public MutableLiveData<Employee> getCoach(Training1 currentTraining) {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -79,15 +78,14 @@ public final class RetrofitAPI {
         return mCoach;
     }
 
-    //получить тренера на конкретную тренировку
-    public void getPhoto(String trainerId) {
+    //получить фото
+    public void getPhoto(String role,int Id, ImageView View) {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
                 .client(new OkHttpClient())
                 .build();
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
-        getPhotoRetrofit(trainerId);
-
+        getPhotoRetrofit(role,Id,View);
     }
 
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -130,11 +128,11 @@ public final class RetrofitAPI {
             return;
         mCoach = new MutableLiveData<>();
 
-        Call<Coach> call = mjsonPlaceHolderApi.getCoachOnTrainingRetrofit(currentTraining);
+        Call<Employee> call = mjsonPlaceHolderApi.getCoachOnTrainingRetrofit(currentTraining);
 
-        call.enqueue(new Callback<Coach>() {
+        call.enqueue(new Callback<Employee>() {
             @Override
-            public void onResponse(Call<Coach> call, Response<Coach> response) {
+            public void onResponse(Call<Employee> call, Response<Employee> response) {
                 if (!response.isSuccessful() && mCurrentview != null) {
                     Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
                             .setAction("Code: " + response.code(), null).show();
@@ -144,7 +142,7 @@ public final class RetrofitAPI {
             }
 
             @Override
-            public void onFailure(Call<Coach> call, Throwable t) {
+            public void onFailure(Call<Employee> call, Throwable t) {
                 if (mCurrentview != null) {
                     Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
                             .setAction("Неудачный запрос: " + t.getMessage(), null).show();
@@ -153,12 +151,9 @@ public final class RetrofitAPI {
         });
     }
 
-    protected void getPhotoRetrofit(String trainerId) {
-//        if (currentTraining == null)
-//            return;
+    protected void getPhotoRetrofit(String role, int Id, final ImageView View) {
 
-
-        Call<ResponseBody> call = mjsonPlaceHolderApi.getCoachPhotoRetrofit(trainerId);
+        Call<ResponseBody> call = mjsonPlaceHolderApi.getPhotoRetrofit(role,String.valueOf(Id));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -168,8 +163,16 @@ public final class RetrofitAPI {
                             .setAction("Code: " + response.code(), null).show();
                     return;
                 }
-                writeResponseBodyToDisk(response.body());
 
+                if (response.code() == 200)
+                {
+                    Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                    if (bmp != null)
+                        View.setImageBitmap(bmp);
+
+                }
+//                ImageView image =  ((ImageView) mCurrentview.findViewById(R.id.item_coachPhotoId));
+//                image.setImageBitmap(BitmapFactory.decodeStream(response.body().byteStream()));
             }
 
             @Override
@@ -183,15 +186,6 @@ public final class RetrofitAPI {
 
     }
 
-
-    private boolean writeResponseBodyToDisk(ResponseBody body) {
-
-       Bitmap bmp = BitmapFactory.decodeStream(body.byteStream());
-        ((ImageView) mCurrentview.findViewById(R.id.item_coachPhotoId)).setImageBitmap(bmp);
-//       if (bmp != null)
-//         Picasso.with(mCurrentview).load("http://localhost:56073/api/Employees/getcoachPhoto/1").into((ImageView) mCurrentview.findViewById(R.id.item_coachPhotoId));
-return true;
-    }
 
 
 }

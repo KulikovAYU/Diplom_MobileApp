@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Training1 implements Serializable {
 
-    @SerializedName("Id")
+    @SerializedName("id")
     private int mnTrtainingId;
 
     @SerializedName("startTime")
@@ -29,7 +29,7 @@ public class Training1 implements Serializable {
     protected String mLevelName;//уровень
 
     @SerializedName("coachId")
-    protected String coachId;//Id инструктора
+    protected int coachId;//Id инструктора
 
     @SerializedName("coachName")
     protected String mCoachName;//имя инструктора

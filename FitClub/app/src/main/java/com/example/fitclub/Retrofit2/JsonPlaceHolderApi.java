@@ -1,18 +1,16 @@
 package com.example.fitclub.Retrofit2;
 
-import android.graphics.Bitmap;
-
-import com.example.fitclub.Models.Coach;
+import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training1;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Streaming;
 
 
 public interface JsonPlaceHolderApi {
@@ -26,20 +24,20 @@ public interface JsonPlaceHolderApi {
     @GET("trainings1/gettrainingsList/{date}")
     Call<List<Training1>> getTrainingsRetrofit(@Path("date") String date);
 
-   @GET("employees/getcoachPhoto/{trainerId}")
-    Call<ResponseBody> getCoachPhotoRetrofit(@Path("trainerId") String trainerId);
+   @GET("{role}/getPhoto/{Id}")
+    Call<ResponseBody> getPhotoRetrofit(@Path("role") String role, @Path("Id") String Id);
 
     //получить тренера конкретной тренировки
 //    @GET("trainings")
-//    Call<Coach> getCoachOnTrainingRetrofit(@QueryMap Map<String,String> parametrs);
+//    Call<Employee> getCoachOnTrainingRetrofit(@QueryMap Map<String,String> parametrs);
 
 
     //получить тренера конкретной тренировки
 //    @GET("trainings/{currTraining}")
-//    Call<Coach> getCoachOnTrainingRetrofit(@Path("currTraining") Training1 currentTraining);
+//    Call<Employee> getCoachOnTrainingRetrofit(@Path("currTraining") Training1 currentTraining);
 
-    @POST("trainings")
-    Call<Coach> getCoachOnTrainingRetrofit(@Body Training1 currentTraining);
+    @PUT("employees")
+    Call<Employee> getCoachOnTrainingRetrofit(@Body Training1 currentTraining);
 
     //Записаться на тренировку
 //    @GET("trainings")

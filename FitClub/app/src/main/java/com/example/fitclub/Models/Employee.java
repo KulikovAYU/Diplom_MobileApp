@@ -1,22 +1,25 @@
 package com.example.fitclub.Models;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 //тренер
-public class Coach implements Serializable {
+public class Employee implements Serializable {
 
+    @SerializedName("id")
+    private int Id;
     @SerializedName("name")
     private String mCoachName;
     @SerializedName("family")
     private String mCoachFamily;
     @SerializedName("desc")
     private String mCoachDesc;
-    private Bitmap mCoachPhoto;
 
+    public int getId()
+    {
+        return Id;
+    }
 
     public String getCoachName() {
         return mCoachName;
@@ -30,7 +33,5 @@ public class Coach implements Serializable {
         return mCoachDesc;
     }
 
-    public Bitmap getCoachPhoto() {
-        return mCoachPhoto;
-    }
+
 }

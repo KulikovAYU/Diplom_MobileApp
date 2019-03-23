@@ -2,23 +2,27 @@ package com.example.fitclub.Repository.classes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.example.fitclub.Models.Coach;
+import android.widget.ImageView;
+
+import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.Repository.Interfaces.ICoachRepository;
 import com.example.fitclub.Retrofit2.RetrofitAPI;
+
 import java.util.concurrent.ExecutionException;
+
 import androidx.lifecycle.LiveData;
 
 
 public class CoachRepository implements ICoachRepository {
 
-    LiveData<Coach> mCoach;
+    LiveData<Employee> mCoach;
     //контекст активити
     Context mCurrContext;
 
     //получить тренера,связанного с тренировкой
     @Override
-    public LiveData<Coach> getCoach(Training1 currentTraining) {
+    public LiveData<Employee> getCoach(Training1 currentTraining) {
 
         try {
             mCoach = new GetCoachAsyncTask().execute(currentTraining).get();
@@ -31,6 +35,20 @@ public class CoachRepository implements ICoachRepository {
         return null;
     }
 
+    public void setPhoto(int Id, ImageView View)
+    {
+        try {
+
+            new GetPhotoAsyncTask().execute("employees",Id, View).get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public void SetContext(Context currContext) {
         mCurrContext = currContext;
@@ -39,14 +57,28 @@ public class CoachRepository implements ICoachRepository {
 
     //////////////////////////////Классы для работы с ретрофит\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    private class GetCoachAsyncTask extends AsyncTask<Training1, Void, LiveData<Coach>>
+    private class GetCoachAsyncTask extends AsyncTask<Training1, Void, LiveData<Employee>>
     {
         @Override
-        protected LiveData<Coach> doInBackground(Training1... trainings) {
+        protected LiveData<Employee> doInBackground(Training1... trainings) {
 
             RetrofitAPI api = new RetrofitAPI(mCurrContext);
-            LiveData<Coach> coach = api.getCoach(trainings[0]);
+            LiveData<Employee> coach = api.getCoach(trainings[0]);
             return coach;
+        }
+    }
+
+
+    private class GetPhotoAsyncTask extends AsyncTask<Object, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Object... values) {
+            RetrofitAPI api = new RetrofitAPI(mCurrContext);
+
+            api.getPhoto((String) values[0],(int)values[1],(ImageView)values[2]);
+            return null;
+//            LiveData<Employee> coach =
+//            return coach;
         }
     }
 }

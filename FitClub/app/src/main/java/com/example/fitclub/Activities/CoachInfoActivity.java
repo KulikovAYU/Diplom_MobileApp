@@ -1,15 +1,14 @@
 package com.example.fitclub.Activities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.example.fitclub.Models.Coach;
+import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training1;
 import com.example.fitclub.R;
-import com.example.fitclub.Repository.classes.CoachRepository;
-import com.example.fitclub.Retrofit2.RetrofitAPI;
 import com.example.fitclub.ViewModels.CoachViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,27 +16,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class CoachInfoActivity extends AppCompatActivity {
 
@@ -80,10 +60,10 @@ public class CoachInfoActivity extends AppCompatActivity {
 
             if (arguments.getSerializable("selected_training_coach") instanceof Training1) {
                 mTraining = (Training1) arguments.getSerializable("selected_training_coach");
-                mCoachInfoViewModel.getCoach(mTraining).observe(this, new Observer<Coach>() {
+                mCoachInfoViewModel.getCoach(mTraining).observe(this, new Observer<Employee>() {
                     @Override
-                    public void onChanged(Coach coach) {
-                        SetCoachData(coach);
+                    public void onChanged(Employee employee) {
+                        SetCoachData(employee);
                     }
                 });
             }
@@ -97,21 +77,22 @@ public class CoachInfoActivity extends AppCompatActivity {
     }
 
 
-    void SetCoachData(Coach mCoach) {
+    void SetCoachData(Employee mEmployee) {
         TextView nameAndFam = findViewById(R.id.item_coach_name_and_fam_id);
 
         //имя - фамилия
-        nameAndFam.setText(mCoach.getCoachFamily() + " " + mCoach.getCoachName());
+        nameAndFam.setText(mEmployee.getCoachFamily() + " " + mEmployee.getCoachName());
 
         //описание тренера
         TextView mCoachDesc = findViewById(R.id.item_coach_descriptionId);
 
-        mCoachDesc.setText(mCoach.getCoachDesc());
+        mCoachDesc.setText(mEmployee.getCoachDesc());
 
         //фото
-        final ImageView mView = findViewById(R.id.item_coachPhotoId);
+        ImageView mView = findViewById(R.id.item_coachPhotoId);
 
-//        final Bitmap coachPhoto = mCoach.getCoachPhoto();
+        mCoachInfoViewModel.setImage(mEmployee.getId(),mView);
+//        final Bitmap coachPhoto = mEmployee.getCoachPhoto();
 //        if (coachPhoto != null) {
 //            mView.setImageBitmap(coachPhoto);
 //        }
@@ -141,19 +122,19 @@ public class CoachInfoActivity extends AppCompatActivity {
 //
 //
 //        });
-        ResponseBody response = null;
-        try {
-            response = new GetPhoto().execute().get();
-                   } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if (response != null)
-        {
-            int n =1;
-        }
+//        ResponseBody response = null;
+//        try {
+//            response = new GetPhoto().execute().get();
+//                   } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (response != null)
+//        {
+//            int n =1;
+//        }
     }
 
     @Override
@@ -167,16 +148,15 @@ public class CoachInfoActivity extends AppCompatActivity {
         }
     }
 
-    private class GetPhoto extends AsyncTask<Void, Void, ResponseBody>
-    {
-
-        @Override
-        protected ResponseBody doInBackground(Void... voids) {
-            RetrofitAPI api = new RetrofitAPI(CoachInfoActivity.this);
-             api.getPhoto("1");
-             return null;
-
-        }
-    }
+//    private class GetPhoto extends AsyncTask<Void, Void, ResponseBody>
+//    {
+//        @Override
+//        protected ResponseBody doInBackground(Void... voids) {
+//            RetrofitAPI api = new RetrofitAPI(CoachInfoActivity.this);
+//             api.setPhoto("1");
+//             return null;
+//
+//        }
+//    }
 
 }
