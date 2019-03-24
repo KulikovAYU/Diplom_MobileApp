@@ -3,9 +3,23 @@ package com.example.fitclub.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.fitclub.Adapters.MyTrainingRecyclerViewAdapter;
+import com.example.fitclub.Models.Training;
+import com.example.fitclub.R;
+import com.example.fitclub.ViewModels.TrainingListViewModel;
+import com.example.fitclub.abstracts.IOnConnectionListener;
+import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
-
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,27 +29,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
-
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-
-import com.example.fitclub.Adapters.MyTrainingRecyclerViewAdapter;
-
-
-import com.example.fitclub.Models.Training1;
-import com.example.fitclub.R;
-import com.example.fitclub.ViewModels.TrainingViewModel;
-import com.example.fitclub.abstracts.IOnConnectionListener;
-import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -52,7 +45,7 @@ public class FragmentMainTrainingList extends Fragment {
     public static final String TAG = "FragmentMainTrainingList";
 
 
-    private TrainingViewModel mTrainingViewModel;
+    private TrainingListViewModel mTrainingListViewModel;
 
     private IOnListFragmentInteractionListener mListener;
 
@@ -86,8 +79,8 @@ public class FragmentMainTrainingList extends Fragment {
             //можно получить параметры
         }
 
-        mTrainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
-        mTrainingViewModel.SetContext(this.getActivity());
+        mTrainingListViewModel = ViewModelProviders.of(this).get(TrainingListViewModel.class);
+        mTrainingListViewModel.SetContext(this.getActivity());
     }
 
     HorizontalCalendar mHorizontalCalendar;
@@ -207,16 +200,16 @@ public class FragmentMainTrainingList extends Fragment {
 
     private void GetTrainingsOnSelectedData(final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter) {
         mSwipeRefreshLayout.setRefreshing(true);
-        mTrainingViewModel.GetTrainings(mDate).observe(this, new Observer<List<Training1>>() {
+        mTrainingListViewModel.GetTrainings(mDate).observe(this, new Observer<List<Training>>() {
             @Override
-            public void onChanged(List<Training1> trainings) {
+            public void onChanged(List<Training> trainings) {
                 myTrainingRecyclerViewAdapter.setTrainings(trainings);
-                //update recycler view
-                SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d."); //пока просто для отладки
-
-                String strRes = sdf.format(mDate);
-
-                Toast.makeText(getContext(), "onChanged date:" + strRes, Toast.LENGTH_SHORT).show();
+                //Отладочный код
+//                SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d."); //пока просто для отладки
+//
+//                String strRes = sdf.format(mDate);
+//
+//                Toast.makeText(getContext(), "onChanged date:" + strRes, Toast.LENGTH_SHORT).show();
             }
         });
         mSwipeRefreshLayout.setRefreshing(false);

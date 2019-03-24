@@ -29,6 +29,18 @@ public class TimeFormatter {
         return sdf.format(inputDate);
     }
 
+    //формат даты г-м-д 2012-12-31 12:30
+    public static String convertDate_y_M_d_HH_mm(Date inputDate) {
+        if (inputDate == null) {
+            // throw new RuntimeException("inputDate is null");
+            return new String();
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        return sdf.format(inputDate);
+    }
+
 
     public static String convertTimeEEEMMMd(Date inputDate) {
         if (inputDate == null) {
@@ -40,4 +52,6 @@ public class TimeFormatter {
 
         return sdf.format(inputDate);
     }
+
+
 }

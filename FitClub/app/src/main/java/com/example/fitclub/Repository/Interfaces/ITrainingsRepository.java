@@ -1,7 +1,9 @@
 package com.example.fitclub.Repository.Interfaces;
 
 import android.content.Context;
-import com.example.fitclub.Models.Training1;
+
+import com.example.fitclub.Models.Training;
+
 import java.util.Date;
 import java.util.List;
 
@@ -11,20 +13,23 @@ import androidx.lifecycle.LiveData;
 public interface ITrainingsRepository
 {
     //Получить тренировки на день
-    LiveData<List<Training1>> GetTrainings(Date date);
+    LiveData<List<Training>> getTrainings(Date date);
 
     //Записаться на тренировку
-    void SignUpOnTraining(Integer nUserId,Training1 training);
+    void signUpOnTraining(Integer nUserId, Training training);
 
     //Отменить запись на тренировку
-    void RemoveSignUpOnTraining(Integer nUserId,Training1 training);
+    void removeSignUpOnTraining(Integer nUserId, Training training);
 
     //Получить все тренировки пользователя
-    LiveData<List<Training1>> GetUserTrainings();
+    LiveData<List<Training>> getUserTrainings();
 
     //Получить тренировки пользователя на день
-    LiveData<List<Training1>> GetUserTrainings(Date date);
+    LiveData<List<Training>> getUserTrainings(Date date);
+
+    //получить информацию о тренировке
+    LiveData<Training> getTrainingInfo(Integer Id, Date date);
 
     //устанавливает контекст
-    void SetContext(Context currContext);
+    void setContext(Context currContext);
 }

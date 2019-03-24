@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.fitclub.Activities.CoachInfoActivity;
 import com.example.fitclub.Activities.TrainingInfoActivity;
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,14 +28,14 @@ public class TrainingListNavigator{
     }
 
 
-    public void GoToTrainingInfo(Training1 selectedTraining) {
+    public void GoToTrainingInfo(Training selectedTraining) {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("selected_training",selectedTraining);
         mActivity.startActivity(new Intent(mActivity, TrainingInfoActivity.class).putExtra("ItemSelected_training", bundle));
     }
 
-    public void GoToCoachInfo(Training1 selectedTraining) {
+    public void GoToCoachInfo(Training selectedTraining) {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("selected_training_coach",selectedTraining);

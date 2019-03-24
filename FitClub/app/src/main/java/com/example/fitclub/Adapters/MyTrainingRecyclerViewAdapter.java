@@ -10,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
 import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
-import com.example.fitclub.Models.Training;
 import com.example.fitclub.utils.TimeFormatter;
 
 
@@ -27,7 +26,7 @@ import java.util.List;
  */
 public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingRecyclerViewAdapter.ViewHolder> {
 
-    private List<Training1> mValues;
+    private List<Training> mValues;
     private final IOnListFragmentInteractionListener mListener;
 
     public MyTrainingRecyclerViewAdapter(IOnListFragmentInteractionListener listener) {
@@ -85,7 +84,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         return (mValues != null) ? mValues.size() : 0;
     }
 
-    public void setTrainings(List<Training1> items) {
+    public void setTrainings(List<Training> items) {
         mValues = items;
         notifyDataSetChanged();
     }
@@ -103,7 +102,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         public final LinearLayout mIsNewTrainingView; //признак нового занятия (желтая надпись Новое занятие)
         public final LinearLayout mbIsPopularView;//признак популярного занятия
 
-        public Training1 mItem;
+        public Training mItem;
 
         public ViewHolder(View view) {
             super(view);

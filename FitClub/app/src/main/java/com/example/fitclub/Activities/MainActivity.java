@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.Navigators.AbstractNavigator;
 import com.example.fitclub.Navigators.LeftPanelNavigator;
 import com.example.fitclub.Navigators.TrainingListNavigator;
@@ -141,10 +140,11 @@ public class MainActivity extends AppCompatActivity
 
     //событие при клике по элементу списка тренировки
     @Override
-    public void onListFragmentInteraction(Training1 item) {
+    public void onListFragmentInteraction(Training item) {
 
         TrainingListNavigator.createInstance(this).GoToTrainingInfo(item);
-        Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
+        //Отладочный код
+        //Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
     }
 
     //проверка подключения к сети

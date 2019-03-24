@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fitclub.Models.Employee;
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
 import com.example.fitclub.ViewModels.CoachViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +23,7 @@ public class CoachInfoActivity extends AppCompatActivity {
 
 
     private CoachViewModel mCoachInfoViewModel;
-    private Training1 mTraining;
+    private Training mTraining;
 
 
     @Override
@@ -58,8 +58,8 @@ public class CoachInfoActivity extends AppCompatActivity {
             //получим информацию о тренировке
             Bundle arguments = (Bundle) (args).get("ItemSelected_training_coach");
 
-            if (arguments.getSerializable("selected_training_coach") instanceof Training1) {
-                mTraining = (Training1) arguments.getSerializable("selected_training_coach");
+            if (arguments.getSerializable("selected_training_coach") instanceof Training) {
+                mTraining = (Training) arguments.getSerializable("selected_training_coach");
                 mCoachInfoViewModel.getCoach(mTraining).observe(this, new Observer<Employee>() {
                     @Override
                     public void onChanged(Employee employee) {

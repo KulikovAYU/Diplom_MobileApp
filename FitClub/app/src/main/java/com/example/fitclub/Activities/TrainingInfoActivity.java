@@ -2,9 +2,10 @@ package com.example.fitclub.Activities;
 
 import android.os.Bundle;
 
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.Navigators.TrainingListNavigator;
 import com.example.fitclub.R;
+import com.example.fitclub.ViewModels.SelectedTrainingViewModel;
 import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -12,6 +13,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +25,9 @@ import android.widget.TextView;
 
 public class TrainingInfoActivity extends AppCompatActivity {
 
-    protected Training1 mTraining;
+    protected Training mTraining;
+
+    SelectedTrainingViewModel mSelectedTrainingViewModel;
 
 
     @Override
@@ -50,10 +55,25 @@ public class TrainingInfoActivity extends AppCompatActivity {
             //получим информацию о тренировке
             Bundle arguments = (Bundle) (getIntent().getExtras()).get("ItemSelected_training");
 
-            if (arguments.getSerializable("selected_training") instanceof Training1)
-                mTraining = (Training1) arguments.getSerializable("selected_training");
+            if (arguments.getSerializable("selected_training") instanceof Training)
+                mTraining = (Training) arguments.getSerializable("selected_training");
         }
+
+
+        //подключим view model
+        mSelectedTrainingViewModel = ViewModelProviders.of(this).get(SelectedTrainingViewModel.class);
+        mSelectedTrainingViewModel.SetContext(this);
+
+        mSelectedTrainingViewModel.getTrainingInfo(mTraining.getTrtainingId(),mTraining.getStartTime()).observe(this, new Observer<Training>() {
+            @Override
+            public void onChanged(Training training) {
+                mTraining = training;
+                LoadTrainingInfo();
+            }
+        });
+
         LoadTrainingInfo();
+
     }
 
 
@@ -129,7 +149,9 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
             //получим поле количество свободных мест
             TextView freePlaces = (TextView) findViewById(R.id.item_freePlaceId);
-            freePlaces.setText(String.valueOf(mTraining.getFreePlacesCount()));
+            //получим кол-во свободных мест
+            int freeplacescount = mTraining.getPlacesCount() - mTraining.getBusyPlacesCount();
+            freePlaces.setText(String.valueOf(freeplacescount));
 
             //получим поле количество свободных мест
             TextView finished = (TextView) findViewById(R.id.item_isFinishedId);
@@ -154,6 +176,11 @@ public class TrainingInfoActivity extends AppCompatActivity {
         //Описание тернировки
         TextView trainingDesc = (TextView) findViewById(R.id.item_descriptionId);
         trainingDesc.setText(mTraining.getDescription());
+
+        //получить фото тренера
+        ImageView coachPhoto = (ImageView)findViewById(R.id.CoachImageView);
+
+        mSelectedTrainingViewModel.setImage(mTraining.getCoachId(),coachPhoto);
     }
 
 

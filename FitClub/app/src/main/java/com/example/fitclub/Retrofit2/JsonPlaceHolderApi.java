@@ -1,7 +1,7 @@
 package com.example.fitclub.Retrofit2;
 
 import com.example.fitclub.Models.Employee;
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface JsonPlaceHolderApi {
@@ -20,12 +21,22 @@ public interface JsonPlaceHolderApi {
 //    Call<List<Training>> getTrainings(@Path("date") Date date);
 
     //    @GET("trainings/{date}") //trainings - в серверной части
-    //получить список тренировок на день
-    @GET("trainings1/gettrainingsList/{date}")
-    Call<List<Training1>> getTrainingsRetrofit(@Path("date") String date);
 
-   @GET("{role}/getPhoto/{Id}")
+    //получить список тренировок на день
+    @GET("trainings/gettrainingsList/{date}")
+    Call<List<Training>> getTrainingsRetrofit(@Path("date") String date);
+
+    //получить фотографию сотрудника
+    @GET("{role}/getPhoto/{Id}")
     Call<ResponseBody> getPhotoRetrofit(@Path("role") String role, @Path("Id") String Id);
+
+    //получить ифнформацию о тренере
+    @PUT("employees")
+    Call<Employee> getCoachOnTrainingRetrofit(@Body Training currentTraining);
+
+    //получить информацию о тренировке
+    @GET("trainings/gettraining")
+    Call<Training> getTrainingInfoRetrofit(@Query("trainingId") String id, @Query("trainingDate") String date);
 
     //получить тренера конкретной тренировки
 //    @GET("trainings")
@@ -34,25 +45,24 @@ public interface JsonPlaceHolderApi {
 
     //получить тренера конкретной тренировки
 //    @GET("trainings/{currTraining}")
-//    Call<Employee> getCoachOnTrainingRetrofit(@Path("currTraining") Training1 currentTraining);
+//    Call<Employee> getCoachOnTrainingRetrofit(@Path("currTraining") Training currentTraining);
 
-    @PUT("employees")
-    Call<Employee> getCoachOnTrainingRetrofit(@Body Training1 currentTraining);
+
 
     //Записаться на тренировку
 //    @GET("trainings")
-//    void SignUpOnTraining(@Query("nUserId") Integer nUserId,
+//    void signUpOnTraining(@Query("nUserId") Integer nUserId,
 //                          @Query("training") Training training);
 //
 //    //
 ////    //Отменить запись на тренировку
 //    @GET("trainings")
-//    void RemoveSignUpOnTraining(@Query("nUserId") Integer nUserId,
+//    void removeSignUpOnTraining(@Query("nUserId") Integer nUserId,
 //                                @Query("training") Training training);
 //
 //    //Получить все тренировки пользователя
-//    List<Training> GetUserTrainings();
+//    List<Training> getUserTrainings();
 //
 //    //Получить тренировки пользователя на день
-//    List<Training> GetUserTrainings(Date date);
+//    List<Training> getUserTrainings(Date date);
 }

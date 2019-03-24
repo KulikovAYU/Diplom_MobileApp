@@ -16,9 +16,9 @@ public class Employee implements Serializable {
     @SerializedName("desc")
     private String mCoachDesc;
 
-    public int getId()
+    public Integer getId()
     {
-        return Id;
+        return new Integer(Id);
     }
 
     public String getCoachName() {

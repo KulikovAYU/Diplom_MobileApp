@@ -1,7 +1,7 @@
 package com.example.fitclub.abstracts;
 
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 
 public interface IOnListFragmentInteractionListener {
-    void onListFragmentInteraction(Training1 item);
+    void onListFragmentInteraction(Training item);
 }

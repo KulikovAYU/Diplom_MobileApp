@@ -5,7 +5,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.example.fitclub.Models.Employee;
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ICoachRepository;
 import com.example.fitclub.Repository.Repository;
 
@@ -26,7 +26,7 @@ public class CoachViewModel extends AndroidViewModel {
         mCoachRepository.SetContext(context);//получим наш контекст
     }
 
-    public LiveData<Employee> getCoach(Training1 currentTraining) {
+    public LiveData<Employee> getCoach(Training currentTraining) {
         return mCoachRepository.getCoach(currentTraining);
     }
 

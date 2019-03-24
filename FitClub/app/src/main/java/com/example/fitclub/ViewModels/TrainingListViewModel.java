@@ -3,7 +3,7 @@ package com.example.fitclub.ViewModels;
 import android.app.Application;
 import android.content.Context;
 
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Repository.Repository;
 
@@ -15,15 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-public class TrainingViewModel extends AndroidViewModel {
+public class TrainingListViewModel extends AndroidViewModel {
 
     private ITrainingsRepository mTrainingsRepository;
 
-    private LiveData<List<Training1>> mTrainingsOnDay;
+    private LiveData<List<Training>> mTrainingsOnDay;
 
-    private LiveData<List<Training1>> mUserTrainings;
+//    private LiveData<List<Training>> mUserTrainings;
 
-    public TrainingViewModel(@NonNull Application application) {
+    public TrainingListViewModel(@NonNull Application application) {
         super(application);
 
         //получим наш репозиторий тренировок
@@ -31,34 +31,34 @@ public class TrainingViewModel extends AndroidViewModel {
     }
 
     public void SetContext(Context context) {
-        mTrainingsRepository.SetContext(context);//получим наш контекст
+        mTrainingsRepository.setContext(context);//получим наш контекст
     }
 
     //Получить тренировки на день
-    public LiveData<List<Training1>> GetTrainings(Date date) {
+    public LiveData<List<Training>> GetTrainings(Date date) {
 
-        mTrainingsOnDay = mTrainingsRepository.GetTrainings(date);
+        mTrainingsOnDay = mTrainingsRepository.getTrainings(date);
         return mTrainingsOnDay;
     }
 
     //Записаться на тренировку
-    void SignUpOnTraining(Integer nUserId, Training1 training) {
-        mTrainingsRepository.SignUpOnTraining(nUserId, training);
+    void SignUpOnTraining(Integer nUserId, Training training) {
+        mTrainingsRepository.signUpOnTraining(nUserId, training);
     }
 
     //Отменить запись на тренировку
-    void RemoveSignUpOnTraining(Integer nUserId, Training1 training) {
-        mTrainingsRepository.RemoveSignUpOnTraining(nUserId, training);
+    void RemoveSignUpOnTraining(Integer nUserId, Training training) {
+        mTrainingsRepository.removeSignUpOnTraining(nUserId, training);
     }
 
     //Получить все тренировки пользователя
-    LiveData<List<Training1>> GetUserTrainings() {
-        mUserTrainings = mTrainingsRepository.GetUserTrainings();
-        return mUserTrainings;
-    }
+//    LiveData<List<Training>> getUserTrainings() {
+//        mUserTrainings = mTrainingsRepository.getUserTrainings();
+//        return mUserTrainings;
+//    }
 
     //Получить тренировки пользователя на день
-    LiveData<List<Training1>> GetUserTrainings(Date date) {
-        return mTrainingsRepository.GetUserTrainings(date);
+    LiveData<List<Training>> GetUserTrainings(Date date) {
+        return mTrainingsRepository.getUserTrainings(date);
     }
 }

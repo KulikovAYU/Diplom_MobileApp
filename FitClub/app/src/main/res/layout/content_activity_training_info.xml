@@ -109,8 +109,8 @@
                     android:orientation="horizontal"
                     android:onClick="OnProfileClick">
 
-                    <ImageView
-                        android:id="@+id/imageView"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/CoachImageView"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"

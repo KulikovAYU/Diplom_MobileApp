@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.example.fitclub.Connection.ConnectionManager;
 import com.example.fitclub.Models.Employee;
-import com.example.fitclub.Models.Training1;
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -38,9 +38,11 @@ public final class RetrofitAPI {
 
     protected Retrofit mRetrofit;
 
-    protected MutableLiveData<List<Training1>> mTrainingList;
+    protected MutableLiveData<List<Training>> mTrainingList;
 
     protected MutableLiveData<Employee> mCoach;
+
+    protected MutableLiveData<Training> mTraining;
 
     public RetrofitAPI(Context currContext) {
 
@@ -49,10 +51,12 @@ public final class RetrofitAPI {
         }
     }
 
+
+
     //////////////////Методы доступа из Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     //Получить тренировки на день
-    public LiveData<List<Training1>> getTrainings(Date date) {
+    public LiveData<List<Training>> getTrainings(Date date) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 .create();
@@ -68,7 +72,7 @@ public final class RetrofitAPI {
     }
 
     //получить тренера на конкретную тренировку
-    public MutableLiveData<Employee> getCoach(Training1 currentTraining) {
+    public MutableLiveData<Employee> getCoach(Training currentTraining) {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -79,7 +83,7 @@ public final class RetrofitAPI {
     }
 
     //получить фото
-    public void getPhoto(String role,int Id, ImageView View) {
+    public void getPhoto(String role,Integer Id, ImageView View) {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
                 .client(new OkHttpClient())
@@ -88,17 +92,33 @@ public final class RetrofitAPI {
         getPhotoRetrofit(role,Id,View);
     }
 
+    //получить информацию о тренировке
+    public LiveData<Training> getTrainingInfo(Integer Id, Date date)
+    {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
+
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+        getTrainingInfoRetrofit(Id,date);
+        return mTraining;
+    }
+
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    //Получить тренировки на день
+    //Получить тренировки на день (список тренировок)
     protected void getTrainingsRetrofit(Date date) {
 
         mTrainingList = new MutableLiveData<>();
-        Call<List<Training1>> call = mjsonPlaceHolderApi.getTrainingsRetrofit(TimeFormatter.convertDate_y_M_d(date));
+        Call<List<Training>> call = mjsonPlaceHolderApi.getTrainingsRetrofit(TimeFormatter.convertDate_y_M_d(date));
 
-        call.enqueue(new Callback<List<Training1>>() {
+        call.enqueue(new Callback<List<Training>>() {
             @Override
-            public void onResponse(Call<List<Training1>> call, Response<List<Training1>> response) {
+            public void onResponse(Call<List<Training>> call, Response<List<Training>> response) {
 
                 if (!response.isSuccessful() && mCurrentview != null) {
                     Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
@@ -112,18 +132,15 @@ public final class RetrofitAPI {
             }
 
             @Override
-            public void onFailure(Call<List<Training1>> call, Throwable t) {
+            public void onFailure(Call<List<Training>> call, Throwable t) {
 
-                if (mCurrentview != null) {
-                    Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
-                            .setAction("Неудачный запрос: " + t.getMessage(), null).show();
-                }
+                FailureReqouestMessage(t);
             }
         });
     }
 
-
-    protected void getCoachRetrofit(Training1 currentTraining) {
+    //получить информацию о тренере
+    protected void getCoachRetrofit(Training currentTraining) {
         if (currentTraining == null)
             return;
         mCoach = new MutableLiveData<>();
@@ -143,15 +160,21 @@ public final class RetrofitAPI {
 
             @Override
             public void onFailure(Call<Employee> call, Throwable t) {
-                if (mCurrentview != null) {
-                    Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
-                            .setAction("Неудачный запрос: " + t.getMessage(), null).show();
-                }
+                FailureReqouestMessage(t);
             }
         });
     }
 
-    protected void getPhotoRetrofit(String role, int Id, final ImageView View) {
+    //показать неудачный запрос
+    private void FailureReqouestMessage(Throwable t) {
+        if (mCurrentview != null) {
+            Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
+                    .setAction("Неудачный запрос: " + t.getMessage(), null).show();
+        }
+    }
+
+    //получить(заполнить) фото
+    protected void getPhotoRetrofit(String role, Integer Id, final ImageView View) {
 
         Call<ResponseBody> call = mjsonPlaceHolderApi.getPhotoRetrofit(role,String.valueOf(Id));
 
@@ -177,14 +200,40 @@ public final class RetrofitAPI {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (mCurrentview != null) {
-                    Snackbar.make(mCurrentview.getCurrentFocus(), "Неудачный запрос: " + t.getMessage(), Snackbar.LENGTH_LONG)
-                            .setAction("Неудачный запрос: " + t.getMessage(), null).show();
-                }
+                FailureReqouestMessage(t);
             }
         });
 
     }
+
+    protected void getTrainingInfoRetrofit(Integer Id, Date date)
+    {
+        mTraining = new MutableLiveData<>();
+
+        Call<Training> training1Call = mjsonPlaceHolderApi.getTrainingInfoRetrofit(Id.toString(),TimeFormatter.convertDate_y_M_d_HH_mm(date));
+        training1Call.enqueue(new Callback<Training>() {
+            @Override
+            public void onResponse(Call<Training> call, Response<Training> response) {
+                if (!response.isSuccessful() && mCurrentview != null) {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    return;
+                }
+                if (response.code() == 200)
+                {
+                    mTraining.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Training> call, Throwable t) {
+                FailureReqouestMessage(t);
+            }
+        });
+
+    }
+
+
 
 
 
