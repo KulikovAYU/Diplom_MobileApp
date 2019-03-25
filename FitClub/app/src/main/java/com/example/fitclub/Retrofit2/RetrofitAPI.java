@@ -44,6 +44,10 @@ public final class RetrofitAPI {
 
     protected MutableLiveData<Training> mTraining;
 
+    MutableLiveData<Boolean> mCheckingTraining;
+
+//    protected MutableLiveData<Boolean> mCheckingTraining;
+
     public RetrofitAPI(Context currContext) {
 
         if (currContext instanceof AppCompatActivity) {
@@ -93,8 +97,7 @@ public final class RetrofitAPI {
     }
 
     //получить информацию о тренировке
-    public LiveData<Training> getTrainingInfo(Integer Id, Date date)
-    {
+    public LiveData<Training> getTrainingInfo(Integer Id, Date date){
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 .create();
@@ -107,6 +110,21 @@ public final class RetrofitAPI {
         getTrainingInfoRetrofit(Id,date);
         return mTraining;
     }
+
+    //проверить записан ли клиент на тренировку
+    public LiveData<Boolean> checkWriting(Integer userId,Integer trainingId)
+    {
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+        checkWritingRetrofit(userId,trainingId);
+        return mCheckingTraining;
+    }
+
+
+
 
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -206,8 +224,8 @@ public final class RetrofitAPI {
 
     }
 
-    protected void getTrainingInfoRetrofit(Integer Id, Date date)
-    {
+    //получить ифнормацию о тренировке
+    protected void getTrainingInfoRetrofit(Integer Id, Date date){
         mTraining = new MutableLiveData<>();
 
         Call<Training> training1Call = mjsonPlaceHolderApi.getTrainingInfoRetrofit(Id.toString(),TimeFormatter.convertDate_y_M_d_HH_mm(date));
@@ -234,6 +252,31 @@ public final class RetrofitAPI {
     }
 
 
+    private void checkWritingRetrofit(Integer userId, Integer trainingId) {
+        mCheckingTraining = new MutableLiveData<>();
+        Call<Boolean> call = mjsonPlaceHolderApi.checkWriting(userId,trainingId);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (!response.isSuccessful() && mCurrentview != null) {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    return;
+                }
+                if (response.code() == 200)
+                {
+                    (mCheckingTraining).setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                FailureReqouestMessage(t);
+            }
+        });
+
+    }
 
 
 

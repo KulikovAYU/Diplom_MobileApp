@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ICoachRepository;
 import com.example.fitclub.Repository.Interfaces.IRepository;
+import com.example.fitclub.Repository.Interfaces.ITrainingClientRepository;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Repository.Repository;
 
@@ -20,6 +21,7 @@ public class SelectedTrainingViewModel extends AndroidViewModel {
 
     private ITrainingsRepository mTrainingsRepository;
     private ICoachRepository mCoachRepository;
+    private ITrainingClientRepository mTrainingClientRepository;
 
     public SelectedTrainingViewModel(@NonNull Application application) {
         super(application);
@@ -29,6 +31,7 @@ public class SelectedTrainingViewModel extends AndroidViewModel {
 
         mTrainingsRepository = repo.getTrainingRepository();
         mCoachRepository = repo.getCoachRepository();
+        mTrainingClientRepository = repo.getTrainingClientRepository();
     }
 
     public void SetContext(Context context) {
@@ -44,4 +47,12 @@ public class SelectedTrainingViewModel extends AndroidViewModel {
     {
         return mTrainingsRepository.getTrainingInfo(Id,date);
     }
+
+    //проверить записался ли пользователь на тренировку
+    public LiveData<Boolean> bIsAlereadyWriting(Integer userId,Integer trainingId)
+    {
+        //поставим пока заглушку. потом реализуем сущность пользователя
+        return mTrainingClientRepository.bIsAlereadyWriting(userId,trainingId);
+    }
+
 }

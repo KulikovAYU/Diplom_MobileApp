@@ -285,7 +285,7 @@
 
                     <LinearLayout
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/nav_header_desc" />
 
@@ -313,7 +313,31 @@
                             android:text="12"
                             android:textColor="@color/md_light_primary_text"
                             android:textSize="@dimen/text_size_normal_big" />
+
                     </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/item_vacation_places_infoId1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/nav_header_desc" />
+                    <TextView
+                        android:id="@+id/isSucsessWriting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:gravity="center_vertical"
+                        android:text="Вы успешно записаны"
+                        android:textColor="@color/md_light_primary_text"
+                        android:textSize="@dimen/text_size_normal_big" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -341,7 +365,9 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="10dp"
                         android:background="@color/md_yellow_A700"
-                        android:text="Записаться" />
+                        android:text="Записаться"
+                        android:onClick="WriteToTrainingClick"
+                        />
                 </LinearLayout>
 
                 <!-- TODO: Надпись Запись окончена -->

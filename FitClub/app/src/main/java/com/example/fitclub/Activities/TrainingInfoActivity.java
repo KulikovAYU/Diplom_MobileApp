@@ -1,6 +1,12 @@
 package com.example.fitclub.Activities;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.Navigators.TrainingListNavigator;
@@ -16,19 +22,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 public class TrainingInfoActivity extends AppCompatActivity {
 
     protected Training mTraining;
 
     SelectedTrainingViewModel mSelectedTrainingViewModel;
 
+    Boolean bIswriting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,15 @@ public class TrainingInfoActivity extends AppCompatActivity {
             }
         });
 
+        mSelectedTrainingViewModel.bIsAlereadyWriting(2,mTraining.getTrtainingId()).observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                bIswriting = aBoolean;
+                CheckWriting(bIswriting);
+            }
+        });
         LoadTrainingInfo();
+        CheckWriting(bIswriting);
 
     }
 
@@ -181,11 +189,35 @@ public class TrainingInfoActivity extends AppCompatActivity {
         ImageView coachPhoto = (ImageView)findViewById(R.id.CoachImageView);
 
         mSelectedTrainingViewModel.setImage(mTraining.getCoachId(),coachPhoto);
+
+
+
     }
 
+    public void CheckWriting(Boolean aBoolean)
+    {
+        //проверим записан ли текущий пользователь на тренировку
+        LinearLayout sucessWriting = findViewById(R.id.item_vacation_places_infoId1);
+        if(aBoolean)
+        {
+            Button btnRegister = (Button) findViewById(R.id.item_registerId);
+            btnRegister.setText(getString(R.string.AbortWriting));
+            //получим поле количество свободных мест
+            sucessWriting.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            sucessWriting.setVisibility(View.GONE);
+        }
+    }
 
     //получить тренера
     public void OnProfileClick(View view) {
         TrainingListNavigator.createInstance(this).GoToCoachInfo(mTraining);
+    }
+
+    //записаться на тренировку
+    public void WriteToTrainingClick(View view) {
+
     }
 }

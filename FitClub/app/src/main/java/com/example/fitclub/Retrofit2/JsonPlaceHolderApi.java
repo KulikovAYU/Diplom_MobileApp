@@ -38,6 +38,10 @@ public interface JsonPlaceHolderApi {
     @GET("trainings/gettraining")
     Call<Training> getTrainingInfoRetrofit(@Query("trainingId") String id, @Query("trainingDate") String date);
 
+    //проверить записан ли клиент предварительно на тренировку
+    @GET("trainingclients/checkWriting")
+    Call<Boolean> checkWriting(@Query("userId")Integer userId,@Query("trainingId")Integer trainingId);
+
     //получить тренера конкретной тренировки
 //    @GET("trainings")
 //    Call<Employee> getCoachOnTrainingRetrofit(@QueryMap Map<String,String> parametrs);
