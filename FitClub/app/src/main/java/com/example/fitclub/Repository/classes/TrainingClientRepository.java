@@ -3,11 +3,14 @@ package com.example.fitclub.Repository.classes;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ITrainingClientRepository;
 import com.example.fitclub.Retrofit2.RetrofitAPI;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
 public class TrainingClientRepository implements ITrainingClientRepository {
@@ -34,6 +37,24 @@ public class TrainingClientRepository implements ITrainingClientRepository {
         mCurrContext = currContext;
     }
 
+    //предварительно записаться на тренировку
+    @Override
+    public LiveData<Training> createRegistrationOnTraining(Integer userId, Integer trainingId, Date startTime, AlertDialog progressDlg) {
+
+
+        try {
+            return new CreateRegistrationOnTrainingAsyncTask().execute(userId,trainingId,startTime,progressDlg).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    return null;
+    }
+
+
+
 
     //////////////////////////////Классы для работы с ретрофит\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -47,5 +68,18 @@ public class TrainingClientRepository implements ITrainingClientRepository {
             return bIsWriting;
         }
     }
+
+    private class CreateRegistrationOnTrainingAsyncTask extends AsyncTask<Object,Void,LiveData<Training>>
+    {
+        @Override
+        protected LiveData<Training> doInBackground(Object... datas) {
+            RetrofitAPI api = new RetrofitAPI(mCurrContext);
+            LiveData<Training> trainingLiveData = api.CreateRegistrationOnTraining((Integer)datas[0],(Integer)datas[1],(Date)datas[2],(AlertDialog)datas[3]);
+
+            return trainingLiveData;
+        }
+    }
+
+
 
 }

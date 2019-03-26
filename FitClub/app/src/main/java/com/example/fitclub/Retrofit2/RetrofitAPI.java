@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
+import com.example.fitclub.Activities.TrainingInfoActivity;
 import com.example.fitclub.Connection.ConnectionManager;
 import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training;
@@ -16,6 +17,7 @@ import com.google.gson.GsonBuilder;
 import java.util.Date;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -123,7 +125,21 @@ public final class RetrofitAPI {
         return mCheckingTraining;
     }
 
+    //оформить предварительную запись на тренировку
+    public LiveData<Training> CreateRegistrationOnTraining(Integer userId, Integer trtainingId, Date startTime, AlertDialog progressDlg)
+    {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
 
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+        createRegistrationOnTrainingRetrofit(userId,trtainingId,startTime,progressDlg);
+        return mTraining;
+    }
 
 
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -251,7 +267,7 @@ public final class RetrofitAPI {
 
     }
 
-
+    //проверка записи клиента на тренировку
     private void checkWritingRetrofit(Integer userId, Integer trainingId) {
         mCheckingTraining = new MutableLiveData<>();
         Call<Boolean> call = mjsonPlaceHolderApi.checkWriting(userId,trainingId);
@@ -278,6 +294,37 @@ public final class RetrofitAPI {
 
     }
 
+    private void createRegistrationOnTrainingRetrofit(Integer userId, Integer trtainingId, Date startTime, final AlertDialog progressDlg)
+    {
+        if (mTraining == null)
+            mTraining = new MutableLiveData<>();
 
+
+        Call<Training> trainingCall = mjsonPlaceHolderApi.CreateRegistrationOnTrainingRetrofit(userId,trtainingId,TimeFormatter.convertDate_y_M_d_HH_mm(startTime));
+        trainingCall.enqueue(new Callback<Training>() {
+            @Override
+            public void onResponse(Call<Training> call, Response<Training> response) {
+                progressDlg.dismiss();
+                if (!response.isSuccessful() && mCurrentview != null) {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    return;
+                }
+                if (response.code() == 200)
+                {
+                    mTraining.setValue(response.body());
+                    //mTraining.notifyAll();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Training> call, Throwable t)  {
+                FailureReqouestMessage(t);
+            }
+
+        });
+
+    }
 
 }

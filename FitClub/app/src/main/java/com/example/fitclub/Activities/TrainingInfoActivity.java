@@ -1,11 +1,14 @@
 package com.example.fitclub.Activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.fitclub.Models.Training;
@@ -17,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -29,6 +33,8 @@ public class TrainingInfoActivity extends AppCompatActivity {
     SelectedTrainingViewModel mSelectedTrainingViewModel;
 
     Boolean bIswriting = false;
+
+    static Integer USERID = 1; //id пользователя
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +78,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
             }
         });
 
-        mSelectedTrainingViewModel.bIsAlereadyWriting(2,mTraining.getTrtainingId()).observe(this, new Observer<Boolean>() {
+        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId()).observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 bIswriting = aBoolean;
@@ -215,9 +221,45 @@ public class TrainingInfoActivity extends AppCompatActivity {
     public void OnProfileClick(View view) {
         TrainingListNavigator.createInstance(this).GoToCoachInfo(mTraining);
     }
+    AlertDialog progressDlg;
+
 
     //записаться на тренировку
     public void WriteToTrainingClick(View view) {
+        View layout = getLayoutInflater().inflate(R.layout.preentry,null);
+
+        progressDlg = new AlertDialog.Builder(this).setView(layout).create();
+        progressDlg.show();
+
+       mSelectedTrainingViewModel.createRegistrationOnTraining(USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
+
+
+
 
     }
+
+
+//    class ProgressTaskAsync extends AsyncTask<Void,Void,Void>
+//    {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            progressDlg.show();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... objects) {
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            progressDlg.dismiss();
+//        }
+//    }
 }
+
+

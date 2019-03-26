@@ -14,6 +14,7 @@ import com.example.fitclub.Repository.Repository;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -55,4 +56,8 @@ public class SelectedTrainingViewModel extends AndroidViewModel {
         return mTrainingClientRepository.bIsAlereadyWriting(userId,trainingId);
     }
 
+    public LiveData<Training> createRegistrationOnTraining(Integer userId, Integer trainingId, Date startTime, AlertDialog progressDlg) {
+
+       return mTrainingClientRepository. createRegistrationOnTraining(userId,trainingId,startTime,progressDlg);
+    }
 }

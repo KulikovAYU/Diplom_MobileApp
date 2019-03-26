@@ -42,6 +42,10 @@ public interface JsonPlaceHolderApi {
     @GET("trainingclients/checkWriting")
     Call<Boolean> checkWriting(@Query("userId")Integer userId,@Query("trainingId")Integer trainingId);
 
+    //оформить предварительную запись
+    @GET("trainingclients/createregistrationtraining")
+    Call<Training> CreateRegistrationOnTrainingRetrofit(@Query("userId")Integer userId,@Query("trainingId")Integer trainingId,@Query("date") String date);
+
     //получить тренера конкретной тренировки
 //    @GET("trainings")
 //    Call<Employee> getCoachOnTrainingRetrofit(@QueryMap Map<String,String> parametrs);

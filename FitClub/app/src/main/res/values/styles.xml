@@ -24,4 +24,8 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="YellowAccent">
+        <item name="colorAccent">#FFCA28</item>
+    </style>
+
 </resources>
