@@ -19,7 +19,7 @@ public class TrainingListViewModel extends AndroidViewModel {
 
     private ITrainingsRepository mTrainingsRepository;
 
-    private LiveData<List<Training>> mTrainingsOnDay;
+
 
 //    private LiveData<List<Training>> mUserTrainings;
 
@@ -30,15 +30,20 @@ public class TrainingListViewModel extends AndroidViewModel {
         mTrainingsRepository = new Repository().getTrainingRepository();
     }
 
-    public void SetContext(Context context) {
-        mTrainingsRepository.setContext(context);//получим наш контекст
-    }
+
+//    public LiveData<List<Training>> getTrainings(Date date)
+//    {
+//        return mTrainingsRepository.getTrainings(date);
+//    }
 
     //Получить тренировки на день
-    public LiveData<List<Training>> GetTrainings(Date date) {
+    public LiveData<List<Training>> initializeTrainingList(Context context) {
+        return mTrainingsRepository.initializeTrainingList(context);
+    }
 
-        mTrainingsOnDay = mTrainingsRepository.getTrainings(date);
-        return mTrainingsOnDay;
+    public void getTrainings(Date date)
+    {
+        mTrainingsRepository.getTrainings(date);
     }
 
     //Записаться на тренировку

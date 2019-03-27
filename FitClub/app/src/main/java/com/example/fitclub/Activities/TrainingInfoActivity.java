@@ -1,14 +1,11 @@
 package com.example.fitclub.Activities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.fitclub.Models.Training;
@@ -68,9 +65,8 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         //подключим view model
         mSelectedTrainingViewModel = ViewModelProviders.of(this).get(SelectedTrainingViewModel.class);
-        mSelectedTrainingViewModel.SetContext(this);
 
-        mSelectedTrainingViewModel.getTrainingInfo(mTraining.getTrtainingId(),mTraining.getStartTime()).observe(this, new Observer<Training>() {
+        mSelectedTrainingViewModel.initializeTrainingInfo(this).observe(this,new Observer<Training>() {
             @Override
             public void onChanged(Training training) {
                 mTraining = training;
@@ -78,15 +74,40 @@ public class TrainingInfoActivity extends AppCompatActivity {
             }
         });
 
-        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId()).observe(this, new Observer<Boolean>() {
+
+        mSelectedTrainingViewModel.getTrainingInfo(mTraining.getTrtainingId(),mTraining.getStartTime());
+
+
+        mSelectedTrainingViewModel.initializeIsWriting(this).observe(this,new Observer<Boolean>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                bIswriting = aBoolean;
-                CheckWriting(bIswriting);
+            public void onChanged(Boolean training) {
+                CheckWriting(training);
             }
         });
-        LoadTrainingInfo();
-        CheckWriting(bIswriting);
+
+        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId());
+
+      //  mSelectedTrainingViewModel.SetContext(this);
+
+//        mSelectedTrainingViewModel.getTrainingInfo(mTraining.getTrtainingId(),mTraining.getStartTime()).observe(this, new Observer<Training>() {
+//            @Override
+//            public void onChanged(Training training) {
+//                mTraining = training;
+//                LoadTrainingInfo();
+//            }
+//        });
+
+//        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId()).observe(this, new Observer<Boolean>() {
+//            @Override
+//            public void onChanged(Boolean aBoolean) {
+//                bIswriting = aBoolean;
+//                CheckWriting(bIswriting);
+//            }
+//        });
+
+       LoadTrainingInfo();
+
+//        CheckWriting(bIswriting);
 
     }
 
@@ -105,6 +126,8 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
     //загружаем информацио о тренировке
     private void LoadTrainingInfo() {
+
+
         //установим дату (она в тренировке)
         setTitle(TimeFormatter.convertTimeEEEMMMd(mTraining.getStartTime()));
 
@@ -230,6 +253,8 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         progressDlg = new AlertDialog.Builder(this).setView(layout).create();
         progressDlg.show();
+
+        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId());
 
        mSelectedTrainingViewModel.createRegistrationOnTraining(USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
 

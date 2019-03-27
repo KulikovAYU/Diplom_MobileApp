@@ -5,7 +5,6 @@ import com.example.fitclub.Repository.Interfaces.IRepository;
 import com.example.fitclub.Repository.Interfaces.ITrainingClientRepository;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Repository.classes.CoachRepository;
-import com.example.fitclub.Repository.classes.TrainingClientRepository;
 import com.example.fitclub.Repository.classes.TrainingRepository;
 
 //главный репозиторий, через который можно получить другие репозитории
@@ -16,7 +15,7 @@ public class Repository implements IRepository {
         //создаем наши репозитории
         mTrainingRepository = new TrainingRepository();
         mCoachRepository = new CoachRepository();
-        mTrainingClientRepository = new TrainingClientRepository();
+
     }
     ITrainingsRepository mTrainingRepository;
     ICoachRepository mCoachRepository;

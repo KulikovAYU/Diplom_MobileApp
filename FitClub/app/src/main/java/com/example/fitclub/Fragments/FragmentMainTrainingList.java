@@ -80,11 +80,27 @@ public class FragmentMainTrainingList extends Fragment {
         }
 
         mTrainingListViewModel = ViewModelProviders.of(this).get(TrainingListViewModel.class);
-        mTrainingListViewModel.SetContext(this.getActivity());
+
+        mTrainingListViewModel.initializeTrainingList(this.getActivity()).observe(this, new Observer<List<Training>>() {
+            @Override
+            public void onChanged(List<Training> trainings) {
+                if (myTrainingRecyclerViewAdapter != null)
+                    myTrainingRecyclerViewAdapter.setTrainings(trainings);
+                //Отладочный код
+//                SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d."); //пока просто для отладки
+//
+//                String strRes = sdf.format(mDate);
+//
+//                Toast.makeText(getContext(), "onChanged date:" + strRes, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     HorizontalCalendar mHorizontalCalendar;
-
+    //наш адаптер
+    MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -134,7 +150,7 @@ public class FragmentMainTrainingList extends Fragment {
 
 
             //наш адаптер
-            final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
+            myTrainingRecyclerViewAdapter = new MyTrainingRecyclerViewAdapter(mListener);
             recyclerView.setAdapter(myTrainingRecyclerViewAdapter);
 
             mHorizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
@@ -143,7 +159,7 @@ public class FragmentMainTrainingList extends Fragment {
 
                     FragmentMainTrainingList.this.SetSelectedDate(date);
                     mConnectionListener.CheckConnection(R.id.trainingListId);
-                    GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+                    GetTrainingsOnSelectedData();
                     //необходимо переопределить адаптер
                 }
 
@@ -160,7 +176,7 @@ public class FragmentMainTrainingList extends Fragment {
             });
 
 
-            GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+            GetTrainingsOnSelectedData();
 
             mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
@@ -177,7 +193,7 @@ public class FragmentMainTrainingList extends Fragment {
                         @Override
                         public void run() {
 
-                            GetTrainingsOnSelectedData(myTrainingRecyclerViewAdapter);
+                            GetTrainingsOnSelectedData();
 
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
@@ -198,20 +214,10 @@ public class FragmentMainTrainingList extends Fragment {
 
     }
 
-    private void GetTrainingsOnSelectedData(final MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter) {
+    private void GetTrainingsOnSelectedData() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mTrainingListViewModel.GetTrainings(mDate).observe(this, new Observer<List<Training>>() {
-            @Override
-            public void onChanged(List<Training> trainings) {
-                myTrainingRecyclerViewAdapter.setTrainings(trainings);
-                //Отладочный код
-//                SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d."); //пока просто для отладки
-//
-//                String strRes = sdf.format(mDate);
-//
-//                Toast.makeText(getContext(), "onChanged date:" + strRes, Toast.LENGTH_SHORT).show();
-            }
-        });
+        mTrainingListViewModel.getTrainings(mDate);
+
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

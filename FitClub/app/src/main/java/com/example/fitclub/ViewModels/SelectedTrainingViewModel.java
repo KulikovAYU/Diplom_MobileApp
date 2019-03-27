@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.Repository.Interfaces.ICoachRepository;
 import com.example.fitclub.Repository.Interfaces.IRepository;
-import com.example.fitclub.Repository.Interfaces.ITrainingClientRepository;
 import com.example.fitclub.Repository.Interfaces.ITrainingsRepository;
 import com.example.fitclub.Repository.Repository;
 
@@ -17,26 +16,34 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class SelectedTrainingViewModel extends AndroidViewModel {
 
     private ITrainingsRepository mTrainingsRepository;
     private ICoachRepository mCoachRepository;
-    private ITrainingClientRepository mTrainingClientRepository;
+
+
+
 
     public SelectedTrainingViewModel(@NonNull Application application) {
         super(application);
 
         //получим наш репозиторий тренировок
         IRepository repo = new Repository();
-
         mTrainingsRepository = repo.getTrainingRepository();
         mCoachRepository = repo.getCoachRepository();
-        mTrainingClientRepository = repo.getTrainingClientRepository();
     }
 
-    public void SetContext(Context context) {
-        mTrainingsRepository.setContext(context);//получим наш контекст
+
+    public MutableLiveData<Training> initializeTrainingInfo(Context context)
+    {
+      return   mTrainingsRepository.initializeTrainingInfo(context);
+    }
+
+    public MutableLiveData<Boolean> initializeIsWriting(Context context)
+    {
+        return   mTrainingsRepository.initializeIsWriting(context);
     }
 
     public void setImage (Integer Id, ImageView View ) {
@@ -44,20 +51,20 @@ public class SelectedTrainingViewModel extends AndroidViewModel {
     }
 
     //получить информацию о тренировке
-    public LiveData<Training> getTrainingInfo(Integer Id, Date date)
+    public void getTrainingInfo(Integer Id, Date date)
     {
-        return mTrainingsRepository.getTrainingInfo(Id,date);
+        mTrainingsRepository.getTrainingInfo(Id,date);
     }
 
     //проверить записался ли пользователь на тренировку
     public LiveData<Boolean> bIsAlereadyWriting(Integer userId,Integer trainingId)
     {
         //поставим пока заглушку. потом реализуем сущность пользователя
-        return mTrainingClientRepository.bIsAlereadyWriting(userId,trainingId);
+        return mTrainingsRepository.bIsAlereadyWriting(userId,trainingId);
     }
 
-    public LiveData<Training> createRegistrationOnTraining(Integer userId, Integer trainingId, Date startTime, AlertDialog progressDlg) {
+    public void createRegistrationOnTraining(Integer userId, Integer trainingId, Date startTime, AlertDialog progressDlg) {
 
-       return mTrainingClientRepository. createRegistrationOnTraining(userId,trainingId,startTime,progressDlg);
+        mTrainingsRepository.createRegistrationOnTraining(userId,trainingId,startTime,progressDlg);
     }
 }
