@@ -26,33 +26,17 @@ import androidx.lifecycle.ViewModelProviders;
 public class TrainingInfoActivity extends AppCompatActivity {
 
     protected Training mTraining;
+    protected AlertDialog progressDlg;
 
-    SelectedTrainingViewModel mSelectedTrainingViewModel;
+    protected SelectedTrainingViewModel mSelectedTrainingViewModel;
 
-    Boolean bIswriting = false;
+    protected Boolean mbIswriting = false;
 
     static Integer USERID = 1; //id пользователя
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_info);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        //Подключим кнопку назад
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (getIntent().getExtras() != null) {
             //получим информацию о тренировке
@@ -77,40 +61,35 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         mSelectedTrainingViewModel.getTrainingInfo(mTraining.getTrtainingId(),mTraining.getStartTime());
 
-
         mSelectedTrainingViewModel.initializeIsWriting(this).observe(this,new Observer<Boolean>() {
             @Override
-            public void onChanged(Boolean training) {
-                CheckWriting(training);
+            public void onChanged(Boolean isWriting) {
+                mbIswriting = isWriting;
+                CheckWriting(isWriting);
             }
         });
 
-        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId());
 
-      //  mSelectedTrainingViewModel.SetContext(this);
+        setContentView(R.layout.activity_training_info);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-//        mSelectedTrainingViewModel.getTrainingInfo(mTraining.getTrtainingId(),mTraining.getStartTime()).observe(this, new Observer<Training>() {
-//            @Override
-//            public void onChanged(Training training) {
-//                mTraining = training;
-//                LoadTrainingInfo();
-//            }
-//        });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
-//        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId()).observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean aBoolean) {
-//                bIswriting = aBoolean;
-//                CheckWriting(bIswriting);
-//            }
-//        });
+        //Подключим кнопку назад
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-       LoadTrainingInfo();
-
-//        CheckWriting(bIswriting);
-
+        LoadTrainingInfo();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,10 +102,11 @@ public class TrainingInfoActivity extends AppCompatActivity {
         }
     }
 
-
     //загружаем информацио о тренировке
     private void LoadTrainingInfo() {
 
+        if (mTraining == null)
+            return;
 
         //установим дату (она в тренировке)
         setTitle(TimeFormatter.convertTimeEEEMMMd(mTraining.getStartTime()));
@@ -153,8 +133,6 @@ public class TrainingInfoActivity extends AppCompatActivity {
         //имя инструктора
         TextView coachName = (TextView) findViewById(R.id.item_CoachNameId);
         coachName.setText(mTraining.getCoachFamily() + " " + mTraining.getCoachName());
-
-        //ДОБАВИТЬ ФОТО ТРЕНЕРА
 
         //интенсивность
         TextView levelName = (TextView) findViewById(R.id.item_levelId);
@@ -219,23 +197,23 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         mSelectedTrainingViewModel.setImage(mTraining.getCoachId(),coachPhoto);
 
-
-
+        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId());
     }
 
     public void CheckWriting(Boolean aBoolean)
     {
         //проверим записан ли текущий пользователь на тренировку
         LinearLayout sucessWriting = findViewById(R.id.item_vacation_places_infoId1);
-        if(aBoolean)
+        Button btnRegister = (Button) findViewById(R.id.item_registerId);
+        if(aBoolean) // в случае успешной записи
         {
-            Button btnRegister = (Button) findViewById(R.id.item_registerId);
             btnRegister.setText(getString(R.string.AbortWriting));
             //получим поле количество свободных мест
             sucessWriting.setVisibility(View.VISIBLE);
         }
         else
         {
+            btnRegister.setText(getString(R.string.Writing));
             sucessWriting.setVisibility(View.GONE);
         }
     }
@@ -244,47 +222,14 @@ public class TrainingInfoActivity extends AppCompatActivity {
     public void OnProfileClick(View view) {
         TrainingListNavigator.createInstance(this).GoToCoachInfo(mTraining);
     }
-    AlertDialog progressDlg;
-
 
     //записаться на тренировку
     public void WriteToTrainingClick(View view) {
         View layout = getLayoutInflater().inflate(R.layout.preentry,null);
-
         progressDlg = new AlertDialog.Builder(this).setView(layout).create();
         progressDlg.show();
-
-        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId());
-
-       mSelectedTrainingViewModel.createRegistrationOnTraining(USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
-
-
-
-
+        mSelectedTrainingViewModel.createRegistrationOnTraining(USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
     }
-
-
-//    class ProgressTaskAsync extends AsyncTask<Void,Void,Void>
-//    {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            progressDlg.show();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... objects) {
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            super.onPostExecute(result);
-//            progressDlg.dismiss();
-//        }
-//    }
 }
 
 

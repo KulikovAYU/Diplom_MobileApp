@@ -29,6 +29,7 @@
     <string name="title_activity_coach_info">Инструктор</string>
 
     <string name="connection_error_fragment_msg">Отсутсвует подключение к сети</string>
+    <string name="Writing">ЗАПИСАТЬСЯ</string>
     <string name="AbortWriting">ОТМЕНИТЬ ЗАПИСЬ</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -3,12 +3,14 @@ package com.example.fitclub.Retrofit2;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.fitclub.Activities.TrainingInfoActivity;
 import com.example.fitclub.Connection.ConnectionManager;
 import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.R;
 import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -32,6 +34,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitAPI {
 
+    public RetrofitAPI(Context currContext) {
+
+        if (currContext instanceof AppCompatActivity) {
+            mCurrentview = ((AppCompatActivity) currContext);
+        }
+    }
+
     protected static String BASEURL = ConnectionManager.Instance().toString();
 
     protected JsonPlaceHolderApi mjsonPlaceHolderApi;
@@ -46,17 +55,7 @@ public final class RetrofitAPI {
 
     protected MutableLiveData<Training> mTraining;
 
-    MutableLiveData<Boolean> mCheckingTraining;
-
-//    protected MutableLiveData<Boolean> mCheckingTraining;
-
-    public RetrofitAPI(Context currContext) {
-
-        if (currContext instanceof AppCompatActivity) {
-            mCurrentview = ((AppCompatActivity) currContext);
-        }
-    }
-
+    protected MutableLiveData<Boolean> mCheckingTraining;
 
 
     //////////////////Методы доступа из Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -119,8 +118,8 @@ public final class RetrofitAPI {
     }
 
     //проверить записан ли клиент на тренировку
-    public void checkWriting(Integer userId,Integer trainingId,MutableLiveData<Boolean> iswriting)
-    {
+    public void checkWriting(Integer userId,Integer trainingId,MutableLiveData<Boolean> iswriting){
+
         mCheckingTraining = iswriting;
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
@@ -131,8 +130,8 @@ public final class RetrofitAPI {
     }
 
     //оформить предварительную запись на тренировку
-    public void CreateRegistrationOnTraining(Integer userId, Integer trtainingId, Date startTime, AlertDialog progressDlg,MutableLiveData<Training> training)
-    {
+    public void CreateRegistrationOnTraining(Integer userId, Integer trtainingId, Date startTime, AlertDialog progressDlg,MutableLiveData<Training> training){
+
         mTraining = training;
 
         Gson gson = new GsonBuilder()
@@ -233,8 +232,6 @@ public final class RetrofitAPI {
                         View.setImageBitmap(bmp);
 
                 }
-//                ImageView image =  ((ImageView) mCurrentview.findViewById(R.id.item_coachPhotoId));
-//                image.setImageBitmap(BitmapFactory.decodeStream(response.body().byteStream()));
             }
 
             @Override
@@ -313,25 +310,33 @@ public final class RetrofitAPI {
                         progressDlg.dismiss();
                         return;
                     }
-
                 }
-                if (response.code() == 200)
+
+                //в случае записи на тренировку
+                if (response.code() == 201)
                 {
                     mTraining.setValue(response.body());
+
                     Snackbar.make(mCurrentview.getCurrentFocus(), "Вы успешно записаны", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
+
+                } else if (response.code() == 202) //в случае отмены записи
+                {
+                    mTraining.setValue(response.body());
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Запись отменена", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
+
                 progressDlg.dismiss();
             }
 
             @Override
             public void onFailure(Call<Training> call, Throwable t)  {
+                progressDlg.dismiss();
                 FailureReqouestMessage(t);
             }
-
         });
-
     }
 
 }

@@ -20,9 +20,6 @@ public class TrainingListViewModel extends AndroidViewModel {
     private ITrainingsRepository mTrainingsRepository;
 
 
-
-//    private LiveData<List<Training>> mUserTrainings;
-
     public TrainingListViewModel(@NonNull Application application) {
         super(application);
 
@@ -30,40 +27,17 @@ public class TrainingListViewModel extends AndroidViewModel {
         mTrainingsRepository = new Repository().getTrainingRepository();
     }
 
-
-//    public LiveData<List<Training>> getTrainings(Date date)
-//    {
-//        return mTrainingsRepository.getTrainings(date);
-//    }
-
     //Получить тренировки на день
     public LiveData<List<Training>> initializeTrainingList(Context context) {
+
         return mTrainingsRepository.initializeTrainingList(context);
+
     }
 
-    public void getTrainings(Date date)
-    {
+    public void getTrainings(Date date){
+
         mTrainingsRepository.getTrainings(date);
+
     }
 
-    //Записаться на тренировку
-    void SignUpOnTraining(Integer nUserId, Training training) {
-        mTrainingsRepository.signUpOnTraining(nUserId, training);
-    }
-
-    //Отменить запись на тренировку
-    void RemoveSignUpOnTraining(Integer nUserId, Training training) {
-        mTrainingsRepository.removeSignUpOnTraining(nUserId, training);
-    }
-
-    //Получить все тренировки пользователя
-//    LiveData<List<Training>> getUserTrainings() {
-//        mUserTrainings = mTrainingsRepository.getUserTrainings();
-//        return mUserTrainings;
-//    }
-
-    //Получить тренировки пользователя на день
-    LiveData<List<Training>> GetUserTrainings(Date date) {
-        return mTrainingsRepository.getUserTrainings(date);
-    }
 }
