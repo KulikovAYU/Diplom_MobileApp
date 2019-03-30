@@ -54,4 +54,7 @@ dependencies {
     //CircleImageView https://github.com/hdodenhof/CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+    //google fit api
+    implementation 'com.google.android.gms:play-services-fitness:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 }

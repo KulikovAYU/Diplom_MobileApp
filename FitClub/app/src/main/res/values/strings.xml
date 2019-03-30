@@ -4,6 +4,7 @@
     <string name="MyTrainings">Мои занятия</string>
     <string name="MyCabinet">Личный кабинет</string>
     <string name="MyNews">Уведомления</string>
+    <string name="MyFitApi">Fitness API</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -34,5 +35,6 @@
     <string name="AbortWriting">ОТМЕНИТЬ ЗАПИСЬ</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-
+    <string name="FIT_API_KEY">709044121734-c4bt9qulau1tg6nqdg21ktlefiju1b00.apps.googleusercontent.com</string>
+    <string name="title_activity_fitness_api">Мой fitnessAPI</string>
 </resources>

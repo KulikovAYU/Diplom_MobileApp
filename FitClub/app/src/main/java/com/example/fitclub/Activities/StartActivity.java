@@ -116,6 +116,9 @@ public class StartActivity extends AppCompatActivity
                 startActivity(new Intent(this, MyFavouriteTrainingActivity.class).putExtra("Item", id));
                 break;
 
+            case R.id.myFitAPIId:
+                startActivity(new Intent(this, FitnessAPIActivity.class).putExtra("Item", id));
+                break;
         }
     }
 }

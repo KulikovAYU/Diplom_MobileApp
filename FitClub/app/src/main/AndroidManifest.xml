@@ -16,7 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".Activities.FitnessAPIActivity"
+            android:label="@string/title_activity_fitness_api"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,17 +51,11 @@
             android:name=".Activities.TrainingInfoActivity"
             android:label="@string/title_activity_training_info"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".Activities.MainActivity_old" />
-
-        <activity android:name=".Activities.MyFavouriteTrainingActivity"
+        <activity
+            android:name=".Activities.MyFavouriteTrainingActivity"
             android:label="@string/title_activity_my_favourite_training_caption"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-
-
-
-
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
