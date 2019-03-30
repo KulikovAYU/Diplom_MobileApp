@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragments_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activities.TrainingListActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context=".Activities.MyFavouriteTrainingActivity"
+    tools:showIn="@layout/app_bar_my_favourite_training">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.fitclub.Activities;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.fitclub.Models.Training;
+import com.example.fitclub.Models.User;
 import com.example.fitclub.Navigators.TrainingListNavigator;
 import com.example.fitclub.R;
 import com.example.fitclub.ViewModels.SelectedTrainingViewModel;
@@ -16,6 +19,7 @@ import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +36,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
     protected Boolean mbIswriting = false;
 
-    static Integer USERID = 1; //id пользователя
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,14 +201,14 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         mSelectedTrainingViewModel.setImage(mTraining.getCoachId(),coachPhoto);
 
-        mSelectedTrainingViewModel.bIsAlereadyWriting(USERID,mTraining.getTrtainingId());
+        mSelectedTrainingViewModel.bIsAlereadyWriting(User.USERID,mTraining.getTrtainingId());
     }
-
+    Button btnRegister;
     public void CheckWriting(Boolean aBoolean)
     {
         //проверим записан ли текущий пользователь на тренировку
         LinearLayout sucessWriting = findViewById(R.id.item_vacation_places_infoId1);
-        Button btnRegister = (Button) findViewById(R.id.item_registerId);
+        btnRegister = (Button) findViewById(R.id.item_registerId);
         if(aBoolean) // в случае успешной записи
         {
             btnRegister.setText(getString(R.string.AbortWriting));
@@ -225,10 +229,40 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
     //записаться на тренировку
     public void WriteToTrainingClick(View view) {
-        View layout = getLayoutInflater().inflate(R.layout.preentry,null);
-        progressDlg = new AlertDialog.Builder(this).setView(layout).create();
-        progressDlg.show();
-        mSelectedTrainingViewModel.createRegistrationOnTraining(USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
+
+
+        if (btnRegister.getText().equals(getString(R.string.AbortWriting)))
+        {
+            AlertDialog alert = new AlertDialog.Builder(this).setMessage("Вы уверены, что хотите отменить запись?").setNegativeButton("НЕТ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                        return;
+                }
+            }).setPositiveButton("ДА", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    View layout = getLayoutInflater().inflate(R.layout.preentry,null);
+                    progressDlg = new AlertDialog.Builder(TrainingInfoActivity.this).setView(layout).create();
+                    progressDlg.show();
+                    mSelectedTrainingViewModel.createRegistrationOnTraining(User.USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
+                }
+            }).create();
+            alert.show();
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            //Set negative button text color
+            nbutton.setTextColor(Color.rgb(255,214,0));
+
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            //Set positive button text color
+            pbutton.setTextColor(Color.rgb(255,214,0));
+        }
+        else
+        {
+            View layout = getLayoutInflater().inflate(R.layout.preentry,null);
+            progressDlg = new AlertDialog.Builder(TrainingInfoActivity.this).setView(layout).create();
+            progressDlg.show();
+            mSelectedTrainingViewModel.createRegistrationOnTraining(User.USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
+        }
     }
 }
 

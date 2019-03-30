@@ -41,17 +41,28 @@ public class TimeFormatter {
         return sdf.format(inputDate);
     }
 
-
+    //формат даты: чт, марта 28.
     public static String convertTimeEEEMMMd(Date inputDate) {
         if (inputDate == null) {
             //throw new RuntimeException("inputDate is null");
             return new String();
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d.");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d");
 
         return sdf.format(inputDate);
     }
 
+    //формат даты: чт,28 марта .
+    public static String convertTimeEEEdMMM(Date inputDate) {
+        if (inputDate == null) {
+            //throw new RuntimeException("inputDate is null");
+            return new String();
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM");
+
+        return sdf.format(inputDate);
+    }
 
 }

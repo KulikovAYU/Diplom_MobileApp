@@ -22,6 +22,9 @@ public interface ITrainingsRepository
     //инициализация для получения списка тренировок на день
     MutableLiveData<List<Training>> initializeTrainingList(Context context);
 
+    //инициализация для получения списка тренировок на которые записан пользователь
+    MutableLiveData<List<Training>> initializeMyTrainingList(Context context);
+
     //Получить тренировки на день
     void getTrainings(Date date);
 
@@ -36,4 +39,7 @@ public interface ITrainingsRepository
 
     //записаться на тренировку
     void createRegistrationOnTraining(Integer userId, Integer trainingId, Date startTime, AlertDialog progressDlg);
+
+    //получить тренировки, на которые записан пользователь
+    void getMyTrainings(Integer UserId);
 }

@@ -31,14 +31,6 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentMainTrainingList.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentMainTrainingList#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentMainTrainingList extends Fragment {
 
 
@@ -51,11 +43,17 @@ public class FragmentMainTrainingList extends Fragment {
 
     private IOnConnectionListener mConnectionListener;
 
+    private HorizontalCalendar mHorizontalCalendar;
+    //наш адаптер
+    private MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter;
+
     public static Date mDate;//выбранная дата
 
     public static Calendar mSelectedDate;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+
     private int mColumnCount = 1;
     private static final String ARG_PARAM1 = "Date";
 
@@ -98,9 +96,7 @@ public class FragmentMainTrainingList extends Fragment {
 
     }
 
-    HorizontalCalendar mHorizontalCalendar;
-    //наш адаптер
-    MyTrainingRecyclerViewAdapter myTrainingRecyclerViewAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -138,10 +134,6 @@ public class FragmentMainTrainingList extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-
-//            mDate = FragmentMainTrainingList.mDate == null ? new Date() : FragmentMainTrainingList.mDate;
-
-
             if (mSelectedDate != null) {
                 mDate = mSelectedDate.getTime();
             } else {
@@ -174,9 +166,6 @@ public class FragmentMainTrainingList extends Fragment {
                     return true;
                 }
             });
-
-
-            GetTrainingsOnSelectedData();
 
             mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
@@ -245,7 +234,7 @@ public class FragmentMainTrainingList extends Fragment {
             mConnectionListener = (IOnConnectionListener) context;
         } else {
 //            throw new RuntimeException(context.toString()
-            //          + " must implement OnFragmentInteractionListener");
+//                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -269,5 +258,11 @@ public class FragmentMainTrainingList extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        GetTrainingsOnSelectedData();
     }
 }

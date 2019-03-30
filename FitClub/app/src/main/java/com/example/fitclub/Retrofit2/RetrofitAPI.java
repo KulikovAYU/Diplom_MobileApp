@@ -57,7 +57,6 @@ public final class RetrofitAPI {
 
     protected MutableLiveData<Boolean> mCheckingTraining;
 
-
     //////////////////Методы доступа из Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     //Получить тренировки на день
@@ -76,7 +75,6 @@ public final class RetrofitAPI {
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
 
         getTrainingsRetrofit(date);
-
     }
 
     //получить тренера на конкретную тренировку
@@ -145,6 +143,24 @@ public final class RetrofitAPI {
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
         createRegistrationOnTrainingRetrofit(userId,trtainingId,startTime,progressDlg);
     }
+
+    //получить список тренировок, на который записан пользователь
+    public void getMyTrainings(Integer userId,MutableLiveData<List<Training>> training) {
+        mTrainingList = training;
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
+
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+
+        getMyTrainingsRetrofit(userId);
+    }
+
 
 
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -245,7 +261,6 @@ public final class RetrofitAPI {
     //получить ифнормацию о тренировке
     protected void getTrainingInfoRetrofit(Integer Id, Date date){
 
-
         Call<Training> training1Call = mjsonPlaceHolderApi.getTrainingInfoRetrofit(Id.toString(),TimeFormatter.convertDate_y_M_d_HH_mm(date));
         training1Call.enqueue(new Callback<Training>() {
             @Override
@@ -266,7 +281,6 @@ public final class RetrofitAPI {
                 FailureReqouestMessage(t);
             }
         });
-
     }
 
     //проверка записи клиента на тренировку
@@ -293,11 +307,10 @@ public final class RetrofitAPI {
                 FailureReqouestMessage(t);
             }
         });
-
     }
 
-    private void createRegistrationOnTrainingRetrofit(Integer userId, Integer trtainingId, Date startTime, final AlertDialog progressDlg)
-    {
+    //записаться / отменить запись на тренировку
+    private void createRegistrationOnTrainingRetrofit(Integer userId, Integer trtainingId, Date startTime, final AlertDialog progressDlg){
         Call<Training> trainingCall = mjsonPlaceHolderApi.CreateRegistrationOnTrainingRetrofit(userId,trtainingId,TimeFormatter.convertDate_y_M_d_HH_mm(startTime));
         trainingCall.enqueue(new Callback<Training>() {
             @Override
@@ -339,4 +352,30 @@ public final class RetrofitAPI {
         });
     }
 
+    //получить список тренировок, на которые записан клиент
+    private void getMyTrainingsRetrofit(Integer userId){
+
+        Call<List<Training>> myTrainingCall = mjsonPlaceHolderApi.getMyTrainingsRetrofit(userId);
+
+        myTrainingCall.enqueue(new Callback<List<Training>>() {
+            @Override
+            public void onResponse(Call<List<Training>> call, Response<List<Training>> response) {
+                if (!response.isSuccessful() && mCurrentview != null)
+                {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    return;
+                }
+                if (response.code() == 200)
+                {
+                    mTrainingList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Training>> call, Throwable t) {
+                    FailureReqouestMessage(t);
+            }
+        });
+    }
 }

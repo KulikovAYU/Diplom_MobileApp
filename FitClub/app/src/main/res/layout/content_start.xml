@@ -112,7 +112,7 @@
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
-
+                    android:onClick="OnButtonClick"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground">
 
@@ -172,7 +172,7 @@
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
-                    android:onClick="OnTrainingListClick"
+                    android:onClick="OnButtonClick"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -218,7 +218,7 @@
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
-                    android:onClick="OnTrainingListClick"
+                    android:onClick="OnButtonClick"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout

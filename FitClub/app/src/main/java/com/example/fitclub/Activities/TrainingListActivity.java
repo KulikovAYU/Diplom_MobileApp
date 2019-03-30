@@ -2,34 +2,47 @@ package com.example.fitclub.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.fitclub.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.material.navigation.NavigationView;
 
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import com.example.fitclub.Models.Training;
+import com.example.fitclub.Navigators.AbstractNavigator;
+import com.example.fitclub.Navigators.LeftPanelNavigator;
+import com.example.fitclub.Navigators.TrainingListNavigator;
+import com.example.fitclub.R;
+import com.example.fitclub.abstracts.IOnConnectionListener;
+import com.example.fitclub.abstracts.IOnListFragmentInteractionListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.view.Menu;
-import android.view.MenuItem;
+import static com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 
-public class StartActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class TrainingListActivity extends AppCompatActivity
+        implements OnNavigationItemSelectedListener, IOnListFragmentInteractionListener, IOnConnectionListener {
+
+
+    //фикс повторного создания фрагмента при повороте экрана
+    private int mnItemId = -1;
+
+    AbstractNavigator mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarid);
+
+        setContentView(R.layout.activity_training_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -50,6 +63,13 @@ public class StartActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Bundle bund = getIntent().getExtras();
+        if (bund != null) {
+            mnItemId = bund.getInt("Item");
+        }
+
+
+        mNavigator = LeftPanelNavigator.createInstance(this);
     }
 
     @Override
@@ -65,7 +85,7 @@ public class StartActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -84,29 +104,13 @@ public class StartActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        GoToActivity(id);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
-        return true;
-    }
-
-    public void OnButtonClick(View view) {
-        int id = view.getId();
-
-        GoToActivity(id);
-    }
-
-    private void GoToActivity(int id)
-    {
         switch (id)
         {
             case R.id.trainingListId:
@@ -117,5 +121,45 @@ public class StartActivity extends AppCompatActivity
                 break;
 
         }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        mNavigator.GoTo(id);
+
+
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //зная mnItemId, можно загрузить фрагмент
+        //загрузим фрагмент
+        mNavigator.GoTo(mnItemId);
+      //  LeftPanelNavigator.createInstance(this).GoTo(mnItemId);
+
+    }
+
+
+//////interfaces imolemetation\\\
+
+    //событие при клике по элементу списка тренировки
+    @Override
+    public void onListFragmentInteraction(Training item) {
+
+        TrainingListNavigator.createInstance(this).GoToTrainingInfo(item);
+        //Отладочный код
+        //Toast.makeText(this, "Тренировка :" + item.getTrainingName(), Toast.LENGTH_LONG).show();
+    }
+
+    //проверка подключения к сети
+    @Override
+    public boolean CheckConnection(int nId) {
+
+        mNavigator.GoTo(nId);
+
+        return mNavigator.IsConnected();
     }
 }

@@ -18,6 +18,9 @@ public class TrainingRepository implements ITrainingsRepository {
     //Тренировки на день
     MutableLiveData<List<Training>> mTrainings = null;
 
+    //Тренировки на день
+    MutableLiveData<List<Training>> mMyTrainings = null;
+
     //Тренировки пользователя
     MutableLiveData<Training> mSelectedTraining = null;
 
@@ -35,18 +38,26 @@ public class TrainingRepository implements ITrainingsRepository {
     }
 
 
-    public MutableLiveData<Boolean> initializeIsWriting(Context context)
-    {
+    public MutableLiveData<Boolean> initializeIsWriting(Context context){
         mCurrContext = context;
-        mIswriting = new MutableLiveData<>();
+        if (mIswriting == null)
+            mIswriting = new MutableLiveData<>();
         return mIswriting;
     }
 
-    public MutableLiveData<List<Training>> initializeTrainingList(Context context)
-    {
+    public MutableLiveData<List<Training>> initializeTrainingList(Context context){
         mCurrContext = context;
-        mTrainings = new MutableLiveData<>();
+        if (mTrainings == null)
+            mTrainings = new MutableLiveData<>();
         return mTrainings;
+    }
+
+    public MutableLiveData<List<Training>> initializeMyTrainingList(Context context){
+        mCurrContext = context;
+        if (mMyTrainings == null)
+            mMyTrainings = new MutableLiveData<>();
+
+        return mMyTrainings;
     }
 
 
@@ -82,6 +93,17 @@ public class TrainingRepository implements ITrainingsRepository {
     public void createRegistrationOnTraining(Integer userId, Integer trainingId, Date startTime, AlertDialog progressDlg) {
         try {
             new CreateRegistrationOnTrainingAsyncTask().execute(userId,trainingId,startTime,progressDlg).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getMyTrainings(Integer UserId) {
+        try {
+            new GetMyTrainingAsyncTask().execute(UserId).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -136,6 +158,17 @@ public class TrainingRepository implements ITrainingsRepository {
         protected Void doInBackground(Object... datas) {
             RetrofitAPI api = new RetrofitAPI(mCurrContext);
             api.CreateRegistrationOnTraining((Integer)datas[0],(Integer)datas[1],(Date)datas[2],(AlertDialog)datas[3], mSelectedTraining);
+            return null;
+        }
+    }
+
+    private class GetMyTrainingAsyncTask extends AsyncTask<Integer,Void, Void>
+    {
+
+        @Override
+        protected Void doInBackground(Integer... datas) {
+            RetrofitAPI api = new RetrofitAPI(mCurrContext);
+            api.getMyTrainings((Integer)datas[0],mMyTrainings);
             return null;
         }
     }

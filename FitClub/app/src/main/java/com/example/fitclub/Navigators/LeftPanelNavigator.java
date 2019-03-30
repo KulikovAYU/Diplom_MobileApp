@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.example.fitclub.Activities.StartActivity;
 import com.example.fitclub.Connection.ConnectionManager;
+import com.example.fitclub.Fragments.FragmentMyFavTraining;
 import com.example.fitclub.Fragments.FragmentConnectionError;
 import com.example.fitclub.Fragments.FragmentMainTrainingList;
 import com.example.fitclub.R;
@@ -57,6 +58,11 @@ public class LeftPanelNavigator extends AbstractNavigator {
                 }
                 break;
                 case R.id.myTrainingId: {
+                    if (manager.findFragmentByTag(FragmentMyFavTraining.TAG) == null)
+                    {
+                        FragmentMyFavTraining fragmentMyFavTraining = FragmentMyFavTraining.newInstance();
+                        fragmentTransaction.replace(R.id.fragments_content, fragmentMyFavTraining, FragmentMyFavTraining.TAG);
+                    }
 
                 }
                 break;
@@ -68,19 +74,24 @@ public class LeftPanelNavigator extends AbstractNavigator {
             mbIsconnected = false;
 
             ShowNoConnectMessage(); //выведем сообщение
+            Calendar selectedDate = null;
+
 
             //если к сети не подключен
             if (manager.findFragmentByTag(FragmentConnectionError.TAG) == null) //если нет фрагмента отсутствия подключения к сети
             {
-                Calendar selectedDate = null;
+
                 if (manager.findFragmentByTag(FragmentMainTrainingList.TAG) != null)//если есть дата
                 {
                     selectedDate = FragmentMainTrainingList.mSelectedDate;//получим дату
                 }
-                fragmentTransaction.replace(R.id.fragments_content, FragmentConnectionError.newInstance(nItemId, selectedDate), FragmentConnectionError.TAG);
+                connError = FragmentConnectionError.newInstance(nItemId, selectedDate);
+                fragmentTransaction.replace(R.id.fragments_content,connError, FragmentConnectionError.TAG);
             }
         }
 
         fragmentTransaction.commit();
     }
+
+    FragmentConnectionError connError;
 }

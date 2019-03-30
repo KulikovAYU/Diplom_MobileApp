@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
             tools:context=".Fragments.FragmentMainTrainingList"
-            tools:listitem="@layout/fragment_training" />
+            tools:listitem="@layout/item_training" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
