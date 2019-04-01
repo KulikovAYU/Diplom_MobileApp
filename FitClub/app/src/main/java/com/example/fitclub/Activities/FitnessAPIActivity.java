@@ -1,6 +1,5 @@
 package com.example.fitclub.Activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,24 +8,16 @@ import android.widget.TextView;
 
 import com.example.fitclub.R;
 import com.example.fitclub.common.Log;
-import com.example.fitclub.common.LogView;
-import com.example.fitclub.common.LogWrapper;
-import com.example.fitclub.common.MessageOnlyLogFilter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.Bucket;
-import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.data.Value;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
-import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,14 +25,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -135,6 +122,8 @@ public class FitnessAPIActivity extends AppCompatActivity {
 
 
     }
+
+
 
     private void comesIntoGoogleAccount() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -237,8 +226,9 @@ public class FitnessAPIActivity extends AppCompatActivity {
             public void onSuccess(DataSet dataSet) {
                 TextView text = (TextView)findViewById(R.id.item_distance_countId);
                 long total = dataSet.isEmpty() ? 0 : (long) dataSet.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
+                DecimalFormat df = new DecimalFormat("#,####");
 
-                text.setText(String.valueOf(total));
+                text.setText(String.valueOf( df.format(total/1000)));
             }
         });
 
@@ -439,9 +429,17 @@ public class FitnessAPIActivity extends AppCompatActivity {
                     });
             return true;
         }
+        if (id == android.R.id.home)
+        {
+            this.finish();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
     /** Initializes a custom log class that outputs both to in-app targets and logcat. */
     private void initializeLogging() {
 //        // Wraps Android's native log framework.
@@ -494,9 +492,11 @@ public class FitnessAPIActivity extends AppCompatActivity {
 
         Date now = new Date();
         cal.setTime(now);
+//        cal.add(Calendar.DAY_OF_WEEK, -1);
         long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        cal.add(Calendar.DAY_OF_WEEK, -1);
         long startTime = cal.getTimeInMillis();
+
 
         DataReadRequest readRequest =
                 new DataReadRequest.Builder()
@@ -509,7 +509,7 @@ public class FitnessAPIActivity extends AppCompatActivity {
                         // Analogous to a "Group By" in SQL, defines how data should be aggregated.
                         // bucketByTime allows for a time span, whereas bucketBySession would allow
                         // bucketing by "sessions", which would need to be defined in code.
-                        .bucketByTime(7, TimeUnit.DAYS)
+                        .bucketByTime(1, TimeUnit.DAYS)
                         .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                         .build();
 
@@ -547,52 +547,64 @@ public class FitnessAPIActivity extends AppCompatActivity {
 
 
     public void printData(DataReadResponse dataReadResult) {
-        GraphView graph = (GraphView) findViewById(R.id.graph); //http://www.android-graphview.org/bar-chart/ (Рисовалка графиков)
-
-        BarGraphSeries<com.jjoe64.graphview.series.DataPoint> series = new BarGraphSeries<>();
-
-        // [START parse_read_data_result]
-        // If the DataReadRequest object specified aggregated data, dataReadResult will be returned
-        // as buckets containing DataSets, instead of just DataSets.
-        if (dataReadResult.getBuckets().size() > 0) {
-            Log.i(
-                    TAG, "Number of returned buckets of DataSets is: " + dataReadResult.getBuckets().size());
-            for (Bucket bucket : dataReadResult.getBuckets()) {
-                List<DataSet> dataSets = bucket.getDataSets();
-                for (DataSet dataSet : dataSets) {
-
-                    List<com.jjoe64.graphview.series.DataPointInterface> points = new ArrayList<>();
-
-
-                    for (DataPoint dp : dataSet.getDataPoints())
-                    {
-
-                        for (Field field : dp.getDataType().getFields())
-                        {
-                            DataSource ds = dp.getOriginalDataSource();
-                            String strName = ds.getName();
-                            int val = dp.getValue(field).asInt();
-
-//                            com.jjoe64.graphview.series.DataPointInterface point = new com.jjoe64.graphview.series.DataPoint(dp.getStartTime(TimeUnit.MINUTES),val);
-//                            points.add(point);
-//                            series.appendData((com.jjoe64.graphview.series.DataPoint) point,true,1);
-                            int n =1;
-                        }
-
-
-                    }
-
-
-
-                }
-            }
-        } else if (dataReadResult.getDataSets().size() > 0) {
-            Log.i(TAG, "Number of returned DataSets is: " + dataReadResult.getDataSets().size());
-            for (DataSet dataSet : dataReadResult.getDataSets()) {
-//                dumpDataSet(dataSet);
-            }
-        }
-        graph.addSeries(series);
+//        GraphView graph = (GraphView) findViewById(R.id.graph); //http://www.android-graphview.org/bar-chart/ (Рисовалка графиков)
+//
+//        BarGraphSeries<com.jjoe64.graphview.series.DataPoint> series = new BarGraphSeries<>();
+//
+//        // [START parse_read_data_result]
+//        // If the DataReadRequest object specified aggregated data, dataReadResult will be returned
+//        // as buckets containing DataSets, instead of just DataSets.
+//        if (dataReadResult.getBuckets().size() > 0) {
+//            Log.i(
+//                    TAG, "Number of returned buckets of DataSets is: " + dataReadResult.getBuckets().size());
+//            for (Bucket bucket : dataReadResult.getBuckets()) {
+//
+//                List<DataSet> dataSets = bucket.getDataSets();
+//                //наборы точек (data points), принадлежащих определенному источнику данных (датчику)
+//                for (DataSet dataSet : dataSets) {
+//
+//                    String name = dataSet.getDataType().getName();
+//                    List<com.jjoe64.graphview.series.DataPointInterface> points = new ArrayList<>();
+//
+//                    //Data Points — отметки фитнес-замеров, содержащие привязку данных ко времени замера.
+//                    for (DataPoint dp : dataSet.getDataPoints())
+//                    {
+//
+//                        String msg = "dataPoint: "
+//                                + "type: " + dp.getDataType().getName() + "\n" + ", range: [" +  DateFormat.getDateInstance() .format(dp.getStartTime(TimeUnit.MILLISECONDS)) + "-" +  DateFormat.getDateInstance() .format(dp.getEndTime(TimeUnit.MILLISECONDS)) + "]\n"
+//                                + ", fields: [";
+//
+//
+//                        for (Field field : dp.getDataType().getFields())
+//                        {
+//                            msg += field.getName() + "=" + dp.getValue(field) + " ";
+//                            msg += "]";
+//
+//
+//                            DataSource ds = dp.getOriginalDataSource();
+//                            String strName = ds.getName();
+//                            int val = dp.getValue(field).asInt();
+//
+////                            com.jjoe64.graphview.series.DataPointInterface point = new com.jjoe64.graphview.series.DataPoint(dp.getStartTime(TimeUnit.MINUTES),val);
+////                            points.add(point);
+////                            series.appendData((com.jjoe64.graphview.series.DataPoint) point,true,1);
+//                            int n =1;
+//                        }
+//
+//
+//                    }
+//
+//
+//
+//                }
+//            }
+//        } else if (dataReadResult.getDataSets().size() > 0) {
+//            Log.i(TAG, "Number of returned DataSets is: " + dataReadResult.getDataSets().size());
+//            for (DataSet dataSet : dataReadResult.getDataSets()) {
+////                dumpDataSet(dataSet);
+//            }
+//        }
+//        graph.addSeries(series);
 
         // [END parse_read_data_result]
     }
