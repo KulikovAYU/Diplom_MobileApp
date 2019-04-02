@@ -18,9 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Activities.ClientDataActivity"
+            android:label="@string/title_activity_personal_cabinet"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Activities.FitnessAPIActivity"
             android:label="@string/title_activity_fitness_api"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

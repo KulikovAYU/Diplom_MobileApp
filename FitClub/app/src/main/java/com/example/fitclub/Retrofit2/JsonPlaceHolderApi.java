@@ -1,5 +1,6 @@
 package com.example.fitclub.Retrofit2;
 
+import com.example.fitclub.Models.Client;
 import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training;
 
@@ -43,5 +44,9 @@ public interface JsonPlaceHolderApi {
     //получить список тренировок, на которые записан пользователь
     @GET("trainingclients/{userId}")
     Call<List<Training>> getMyTrainingsRetrofit(@Path("userId") Integer userId);
+
+    //получить информацию о клиенте
+    @GET("clients/getData")
+    Call<Client> getClientData(@Query("clientId") Integer id);
 
 }

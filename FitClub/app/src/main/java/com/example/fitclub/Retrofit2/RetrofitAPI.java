@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.example.fitclub.Activities.TrainingInfoActivity;
 import com.example.fitclub.Connection.ConnectionManager;
+import com.example.fitclub.Models.Client;
 import com.example.fitclub.Models.Employee;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
@@ -57,6 +58,8 @@ public final class RetrofitAPI {
 
     protected MutableLiveData<Boolean> mCheckingTraining;
 
+    protected MutableLiveData<Client> mClient;
+
     //////////////////Методы доступа из Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     //Получить тренировки на день
@@ -78,14 +81,15 @@ public final class RetrofitAPI {
     }
 
     //получить тренера на конкретную тренировку
-    public MutableLiveData<Employee> getCoach(Training currentTraining) {
+    public void getCoach(Training currentTraining, MutableLiveData<Employee> employeeLiveData) {
+        mCoach = employeeLiveData;
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASEURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
         getCoachRetrofit(currentTraining);
-        return mCoach;
+
     }
 
     //получить фото
@@ -162,6 +166,21 @@ public final class RetrofitAPI {
     }
 
 
+    public void getClientInfo(Integer clientId, MutableLiveData<Client> client) {
+        mClient = client;
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+
+    }
+
+
+
 
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -197,7 +216,7 @@ public final class RetrofitAPI {
     protected void getCoachRetrofit(Training currentTraining) {
         if (currentTraining == null)
             return;
-        mCoach = new MutableLiveData<>();
+
 
         Call<Employee> call = mjsonPlaceHolderApi.getCoachOnTrainingRetrofit(currentTraining);
 
@@ -378,4 +397,6 @@ public final class RetrofitAPI {
             }
         });
     }
+
+
 }

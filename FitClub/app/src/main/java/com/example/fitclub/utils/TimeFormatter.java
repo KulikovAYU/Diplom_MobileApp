@@ -65,4 +65,16 @@ public class TimeFormatter {
         return sdf.format(inputDate);
     }
 
+    //формат даты г-м-д 31.12.2012
+    public static String convertDate_d_M_y(Date inputDate) {
+        if (inputDate == null) {
+            // throw new RuntimeException("inputDate is null");
+            return new String();
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+        return sdf.format(inputDate);
+    }
+
 }

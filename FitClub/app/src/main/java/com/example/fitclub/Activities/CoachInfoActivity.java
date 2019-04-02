@@ -49,7 +49,14 @@ public class CoachInfoActivity extends AppCompatActivity {
 
         //подключим view model
         mCoachInfoViewModel = ViewModelProviders.of(this).get(CoachViewModel.class);
-        mCoachInfoViewModel.SetContext(this);
+
+        mCoachInfoViewModel.initializeCoachInfo(this).observe(this,  new Observer<Employee>() {
+            @Override
+            public void onChanged(Employee employee) {
+                SetCoachData(employee);
+            }
+        });
+
 
 
         Bundle args = getIntent().getExtras();
@@ -60,12 +67,7 @@ public class CoachInfoActivity extends AppCompatActivity {
 
             if (arguments.getSerializable("selected_training_coach") instanceof Training) {
                 mTraining = (Training) arguments.getSerializable("selected_training_coach");
-                mCoachInfoViewModel.getCoach(mTraining).observe(this, new Observer<Employee>() {
-                    @Override
-                    public void onChanged(Employee employee) {
-                        SetCoachData(employee);
-                    }
-                });
+                mCoachInfoViewModel.getCoach(mTraining);
             }
         }
     }

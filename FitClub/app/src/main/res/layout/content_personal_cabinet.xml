@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.ClientDataActivity"
+    tools:showIn="@layout/activity_personal_cabinet">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:orientation="vertical">
+            <!--TODO: ФИ клиента-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person_gray_24dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/fab_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/clientNameAndFamilyId"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/md_light_primary_text"
+                        android:textSize="@dimen/text_size_normal_big" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--TODO: Номер карты клиента-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_credit_card_gray_24dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/fab_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cardNumberId"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/md_light_primary_text"
+                        android:textSize="@dimen/text_size_normal_big" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--TODO:разделительная полоска-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+                <View style="@style/Divider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Членства" />
+            </LinearLayout>
+            <!--TODO:тип карты-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/itemIsActiveId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_check_circle_green_24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fab_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/cardTypeId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Карта полного дня 6М"
+                            android:textColor="@color/md_light_primary_text" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Активно до " />
+
+                            <TextView
+                                android:id="@+id/cardActiveId"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="16.05.2019" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <!--TODO:история посещений-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="vertical">
+                <View style="@style/Divider" />
+
+                <TextView
+                    android:id="@+id/cardNumberId11"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:text="История посещений"
+                    android:textColor="@color/md_amber_400"
+                    android:textSize="@dimen/text_size_normal_big" />
+
+            </LinearLayout>
+
+            <!--TODO:разделительная полоска-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+                <View style="@style/Divider" />
+            </LinearLayout>
+
+            <!--TODO:сообщение администрации-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pencil_gray_24dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textToWriteId"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:text="Сообщение администрации"
+                    android:textSize="@dimen/text_size_normal_big" />
+
+            </LinearLayout>
+
+            <!--TODO:разделительная полоска-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+                <View style="@style/Divider" />
+            </LinearLayout>
+
+            <!--TODO:выйти из учетной записи-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:orientation="horizontal">
+
+
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_exit_to_app_red_24dp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/exitId"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:text="Выйти из учетной записи"
+                    android:textColor="@color/md_deep_orange_A700"
+                    android:textSize="@dimen/text_size_normal_big" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

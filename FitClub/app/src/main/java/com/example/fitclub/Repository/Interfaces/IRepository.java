@@ -10,9 +10,8 @@ public interface IRepository {
     //получить репозиторий для работы с тренерами
     ICoachRepository getCoachRepository();
 
-    //получить репозиторий с предварительными записями клиентов на тренировку
-    ITrainingClientRepository getTrainingClientRepository();
-
+    //получить репозиторий для работы с клиентами
+    IClientRepository getClientRepository();
 }
 
 

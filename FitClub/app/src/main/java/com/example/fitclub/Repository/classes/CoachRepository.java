@@ -12,27 +12,34 @@ import com.example.fitclub.Retrofit2.RetrofitAPI;
 import java.util.concurrent.ExecutionException;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 
 public class CoachRepository implements ICoachRepository {
 
-    LiveData<Employee> mCoach;
+    MutableLiveData<Employee> mCoach;
     //контекст активити
     Context mCurrContext;
 
     //получить тренера,связанного с тренировкой
     @Override
-    public LiveData<Employee> getCoach(Training currentTraining) {
+    public void getCoach(Training currentTraining) {
 
         try {
-            mCoach = new GetCoachAsyncTask().execute(currentTraining).get();
-            return mCoach;
+            new GetCoachAsyncTask().execute(currentTraining).get();
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return null;
+
+    }
+    @Override
+    public MutableLiveData<Employee> initializeCoachInfo(Context context) {
+        mCurrContext = context;
+        mCoach = new MutableLiveData<>();
+        return mCoach;
     }
 
     public void setPhoto(Integer Id, ImageView View)
@@ -48,10 +55,7 @@ public class CoachRepository implements ICoachRepository {
         }
     }
 
-    @Override
-    public void SetContext(Context currContext) {
-        mCurrContext = currContext;
-    }
+
 
 
     //////////////////////////////Классы для работы с ретрофит\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -62,8 +66,8 @@ public class CoachRepository implements ICoachRepository {
         protected LiveData<Employee> doInBackground(Training... trainings) {
 
             RetrofitAPI api = new RetrofitAPI(mCurrContext);
-            LiveData<Employee> coach = api.getCoach(trainings[0]);
-            return coach;
+             api.getCoach(trainings[0],mCoach);
+            return null;
         }
     }
 

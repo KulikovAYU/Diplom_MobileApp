@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.fitclub.Models.Training;
-import com.example.fitclub.Models.User;
+import com.example.fitclub.Models.Client;
 import com.example.fitclub.Navigators.TrainingListNavigator;
 import com.example.fitclub.R;
 import com.example.fitclub.ViewModels.SelectedTrainingViewModel;
@@ -19,7 +19,6 @@ import com.example.fitclub.utils.TimeFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -201,7 +200,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
 
         mSelectedTrainingViewModel.setImage(mTraining.getCoachId(),coachPhoto);
 
-        mSelectedTrainingViewModel.bIsAlereadyWriting(User.USERID,mTraining.getTrtainingId());
+        mSelectedTrainingViewModel.bIsAlereadyWriting(Client.USERID,mTraining.getTrtainingId());
     }
     Button btnRegister;
     public void CheckWriting(Boolean aBoolean)
@@ -244,7 +243,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
                     View layout = getLayoutInflater().inflate(R.layout.preentry,null);
                     progressDlg = new AlertDialog.Builder(TrainingInfoActivity.this).setView(layout).create();
                     progressDlg.show();
-                    mSelectedTrainingViewModel.createRegistrationOnTraining(User.USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
+                    mSelectedTrainingViewModel.createRegistrationOnTraining(Client.USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
                 }
             }).create();
             alert.show();
@@ -261,7 +260,7 @@ public class TrainingInfoActivity extends AppCompatActivity {
             View layout = getLayoutInflater().inflate(R.layout.preentry,null);
             progressDlg = new AlertDialog.Builder(TrainingInfoActivity.this).setView(layout).create();
             progressDlg.show();
-            mSelectedTrainingViewModel.createRegistrationOnTraining(User.USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
+            mSelectedTrainingViewModel.createRegistrationOnTraining(Client.USERID,mTraining.getTrtainingId(),mTraining.getStartTime(),progressDlg);
         }
     }
 }

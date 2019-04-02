@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.Adapters.MyMyFavTrainingRecyclerViewAdapter;
-import com.example.fitclub.Models.User;
+import com.example.fitclub.Models.Client;
 import com.example.fitclub.R;
 import com.example.fitclub.ViewModels.MyFavouriteTrainingListViewModel;
 import com.example.fitclub.abstracts.IOnConnectionListener;
@@ -113,6 +113,6 @@ public class FragmentMyFavTraining extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        myFavouriteTrainingListViewModel.getMyTrainings(User.USERID);
+        myFavouriteTrainingListViewModel.getMyTrainings(Client.USERID);
     }
 }
