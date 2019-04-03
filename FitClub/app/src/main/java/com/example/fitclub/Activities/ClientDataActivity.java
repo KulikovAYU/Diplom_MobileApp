@@ -31,14 +31,14 @@ public class ClientDataActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         //Подключим кнопку назад
         ActionBar actionBar = getSupportActionBar();
@@ -54,6 +54,8 @@ public class ClientDataActivity extends AppCompatActivity {
                 FillClientData(client);
             }
         });
+
+        clientDataViewModel.getClientData(Client.USERID);
     }
 
 
@@ -79,9 +81,13 @@ public class ClientDataActivity extends AppCompatActivity {
         //Значек активности
         ImageView isActive = findViewById(R.id.itemIsActiveId);
 
-        if (client.IsActive()) {
+        if (client.IsAсtive()) {
             isActive.setImageResource(R.drawable.ic_check_circle_green_24dp);
-        } else {
+        } else if(client.IsFreeze())
+        {
+            isActive.setImageResource(R.drawable.ic_snowflake);
+        }
+        else {
             isActive.setImageResource(R.drawable.ic_remove_circle_red_24dp);
         }
 

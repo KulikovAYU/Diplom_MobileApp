@@ -177,6 +177,7 @@ public final class RetrofitAPI {
                 .build();
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
 
+        getClientInfoRetrofit(clientId);
     }
 
 
@@ -185,7 +186,7 @@ public final class RetrofitAPI {
     //////////////////Методы Retrofit\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     //Получить тренировки на день (список тренировок)
-    protected void getTrainingsRetrofit(Date date) {
+    private void getTrainingsRetrofit(Date date) {
 
         Call<List<Training>> call = mjsonPlaceHolderApi.getTrainingsRetrofit(TimeFormatter.convertDate_y_M_d(date));
 
@@ -213,7 +214,7 @@ public final class RetrofitAPI {
     }
 
     //получить информацию о тренере
-    protected void getCoachRetrofit(Training currentTraining) {
+    private void getCoachRetrofit(Training currentTraining) {
         if (currentTraining == null)
             return;
 
@@ -247,7 +248,7 @@ public final class RetrofitAPI {
     }
 
     //получить(заполнить) фото
-    protected void getPhotoRetrofit(String role, Integer Id, final ImageView View) {
+    private void getPhotoRetrofit(String role, Integer Id, final ImageView View) {
 
         Call<ResponseBody> call = mjsonPlaceHolderApi.getPhotoRetrofit(role,String.valueOf(Id));
 
@@ -278,7 +279,7 @@ public final class RetrofitAPI {
     }
 
     //получить ифнормацию о тренировке
-    protected void getTrainingInfoRetrofit(Integer Id, Date date){
+    private void getTrainingInfoRetrofit(Integer Id, Date date){
 
         Call<Training> training1Call = mjsonPlaceHolderApi.getTrainingInfoRetrofit(Id.toString(),TimeFormatter.convertDate_y_M_d_HH_mm(date));
         training1Call.enqueue(new Callback<Training>() {
@@ -398,5 +399,30 @@ public final class RetrofitAPI {
         });
     }
 
+    private void getClientInfoRetrofit(Integer clientId) {
+        Call<Client> clientCall = mjsonPlaceHolderApi.getClientDataRetrofit(clientId);
+
+        clientCall.enqueue(new Callback<Client>() {
+            @Override
+            public void onResponse(Call<Client> call, Response<Client> response) {
+                if (!response.isSuccessful() && mCurrentview != null)
+                {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    return;
+                }
+                if (response.code() == 200)
+                {
+                    mClient.setValue(response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Client> call, Throwable t) {
+                FailureReqouestMessage(t);
+            }
+        });
+    }
 
 }

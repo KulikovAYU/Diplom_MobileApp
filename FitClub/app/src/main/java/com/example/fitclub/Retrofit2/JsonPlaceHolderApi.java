@@ -46,7 +46,7 @@ public interface JsonPlaceHolderApi {
     Call<List<Training>> getMyTrainingsRetrofit(@Path("userId") Integer userId);
 
     //получить информацию о клиенте
-    @GET("clients/getData")
-    Call<Client> getClientData(@Query("clientId") Integer id);
+    @GET("clients/{clientId}")
+    Call<Client> getClientDataRetrofit(@Path("clientId") Integer id);
 
 }

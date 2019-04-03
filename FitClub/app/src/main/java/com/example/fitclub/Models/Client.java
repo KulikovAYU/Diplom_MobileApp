@@ -15,21 +15,36 @@ public class Client {
    protected String mClientName;
    @SerializedName("family")
    protected String mClientFamily;
-   @SerializedName("endTime")
+   @SerializedName("abonementEndTime")
    protected Date mEndTime;
    @SerializedName("abonementNumber")
    protected Integer mNumberAbonement;
    @SerializedName("abonementType")
-   protected String mAbonementType;
+   protected String mAbonementType;//тип абонемента
    @SerializedName("abonementdateOfRegistration")
    protected Date mAbonementDateOfRegistration;//дата регистрации
    @SerializedName("abonementActionTime")
    protected Date mAbonementActionTime;//кол-во месяцев
-   @SerializedName("isActive")
-   protected boolean mIsActive;//активен
    @SerializedName("abonementDaysFreezeCount")
    protected Date mDaysFreezeCount;//кол-во дней заморозки
+   @SerializedName("abonementStatus")
+   protected String mAbonementStatus;//статус абонемента
+   @SerializedName("isAсtive")
+   protected boolean mIsAсtive;//активен
+   @SerializedName("isFreeze")
+   protected boolean mFreeze;//заморожен
 
+   public boolean IsAсtive() {
+      return mIsAсtive;
+   }
+
+   public boolean IsFreeze() {
+      return mFreeze;
+   }
+
+   public String getAbonementStatus() {
+      return mAbonementStatus;
+   }
 
    public int getId() {
       return Id;
@@ -57,10 +72,6 @@ public class Client {
 
    public Date getAbonementActionTime() {
       return mAbonementActionTime;
-   }
-
-   public boolean IsActive() {
-      return mIsActive;
    }
 
    public Date getDaysFreezeCount() {
