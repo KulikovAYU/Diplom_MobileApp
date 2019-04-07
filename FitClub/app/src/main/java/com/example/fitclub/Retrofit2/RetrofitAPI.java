@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.fitclub.Activities.LoginActivity;
 import com.example.fitclub.Activities.TrainingInfoActivity;
 import com.example.fitclub.Connection.ConnectionManager;
 import com.example.fitclub.Models.Client;
 import com.example.fitclub.Models.Employee;
+import com.example.fitclub.Models.LoginModel;
 import com.example.fitclub.Models.Training;
 import com.example.fitclub.R;
 import com.example.fitclub.utils.TimeFormatter;
@@ -178,6 +180,22 @@ public final class RetrofitAPI {
         mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
 
         getClientInfoRetrofit(clientId);
+    }
+
+
+    public void autorize(LoginModel loginModel, MutableLiveData<Client> client) {
+
+        mClient = client;
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        mjsonPlaceHolderApi = mRetrofit.create(JsonPlaceHolderApi.class);
+        autorizeRetrofit(loginModel);
+
     }
 
 
@@ -417,6 +435,39 @@ public final class RetrofitAPI {
                 }
 
             }
+
+            @Override
+            public void onFailure(Call<Client> call, Throwable t) {
+                FailureReqouestMessage(t);
+            }
+        });
+    }
+
+    private void autorizeRetrofit(LoginModel loginModel) {
+        Call<Client> clientCall = mjsonPlaceHolderApi.autorize(loginModel);
+
+        clientCall.enqueue(new Callback<Client>() {
+            @Override
+            public void onResponse(Call<Client> call, Response<Client> response) {
+                if (!response.isSuccessful() && mCurrentview != null)
+                {
+                    Snackbar.make(mCurrentview.getCurrentFocus(), "Code: " + response.code(), Snackbar.LENGTH_LONG)
+                            .setAction("Code: " + response.code(), null).show();
+                    if (mCurrentview instanceof LoginActivity)
+                    {
+                        ((LoginActivity)mCurrentview).ErrorLogingAndPassword();
+                    }
+                    return;
+                }
+
+                if (response.code() == 200)
+                {
+                    mClient.setValue(response.body());
+                }
+
+            }
+
+
 
             @Override
             public void onFailure(Call<Client> call, Throwable t) {

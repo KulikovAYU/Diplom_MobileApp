@@ -19,6 +19,7 @@ public class SplashActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

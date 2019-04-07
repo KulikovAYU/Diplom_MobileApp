@@ -3,14 +3,22 @@ package com.example.fitclub.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 
+import com.example.fitclub.Models.Client;
+import com.example.fitclub.Models.LoginModel;
 import com.example.fitclub.R;
+import com.example.fitclub.ViewModels.ClientDataViewModel;
+import com.example.fitclub.ViewModels.LoginViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -59,19 +67,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+//    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mNumberAbonementView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    TextView messageTextView;
     Button mSignInButton;
-
+    LoginViewModel loginViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_login);
+
+        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+
+        loginViewModel.initializeClientInfo(this).observe(this, new Observer<Client>() {
+            @Override
+            public void onChanged(Client client) {
+                GoToMainActivity(client);
+            }
+        });
         // Set up the login form.
         mNumberAbonementView = (AutoCompleteTextView) findViewById(R.id.item_numberAbonId);
         populateAutoComplete();
@@ -98,6 +117,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        messageTextView = findViewById(R.id.errorLogingAndPassworId);
+
+    }
+
+    private void GoToMainActivity(Client client) {
+
+        Finish();
+        //переход на главную страницу
+        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(intent);
+        //ПЕРЕДАТЬ ПОЛЬЗОВАТЕЛЯ
+
+        finish();
+
     }
 
     private void Start()
@@ -106,6 +139,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setEnabled(false);
         mProgressView.setVisibility(View.VISIBLE);
         mSignInButton.setVisibility(View.GONE);
+        messageTextView.setVisibility(View.GONE);
+
+
+        String strAbonementNum = mNumberAbonementView.getText().toString();
+        String strPasswordNum = mPasswordView.getText().toString();
+        LoginModel model = new LoginModel(strAbonementNum,strPasswordNum);
+
+        loginViewModel.autorize(model);
     }
 
     private void Finish()
@@ -167,9 +208,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+//        if (mAuthTask != null) {
+//            return;
+//        }
 
         // Reset errors.
         mNumberAbonementView.setError(null);
@@ -186,14 +227,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
-            cancel = true;
+           return;
         }
 
         // Проверка на валидность номера абонемента.
         if (TextUtils.isEmpty(numberAbonement)) {
             mNumberAbonementView.setError(getString(R.string.error_field_number_abonement_required));
             focusView = mNumberAbonementView;
-            cancel = true;
+            return;
         }
 //        } else if (!isEmailValid(numberAbonement)) {
 //            mNumberAbonementView.setError(getString(R.string.error_invalid_email));
@@ -212,11 +253,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mProgressView.setVisibility(true ? View.VISIBLE : View.GONE);
             mSignInButton.setVisibility(View.GONE);
 //            showProgress(true);
-            mAuthTask = new UserLoginTask(numberAbonement, password);
-            mAuthTask.execute((Void) null);
+//            mAuthTask = new UserLoginTask(numberAbonement, password);
+//            mAuthTask.execute((Void) null);
         }
         //пока запустим так
         Start();
+
         //реализация логики авторизации
     }
 
@@ -227,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() >= 4;
     }
 
     /**
@@ -308,6 +350,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mNumberAbonementView.setAdapter(adapter);
+    }
+
+    //неверный логин или пароль
+    public void ErrorLogingAndPassword() {
+        Finish();
+
+        messageTextView.setVisibility(View.VISIBLE);
+
+                mProgressView.setVisibility(View.GONE);
+        mSignInButton.setVisibility(View.VISIBLE);
     }
 
 

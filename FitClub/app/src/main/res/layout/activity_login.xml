@@ -100,6 +100,17 @@
                 android:clickable="true"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/errorLogingAndPassworId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:gravity="center"
+                android:textColor="@color/md_red_900"
+                android:textStyle="bold"
+                android:text="Неверный логин и/или пароль"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

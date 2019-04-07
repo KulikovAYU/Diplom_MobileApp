@@ -2,6 +2,7 @@ package com.example.fitclub.Retrofit2;
 
 import com.example.fitclub.Models.Client;
 import com.example.fitclub.Models.Employee;
+import com.example.fitclub.Models.LoginModel;
 import com.example.fitclub.Models.Training;
 
 import java.util.List;
@@ -9,7 +10,10 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -49,4 +53,9 @@ public interface JsonPlaceHolderApi {
     @GET("clients/{clientId}")
     Call<Client> getClientDataRetrofit(@Path("clientId") Integer id);
 
+    @POST("Account/client")
+    Call<Client> autorize(@Body LoginModel loginModel);
+
+    @GET("Account")
+    Call<Client> autorize1();
 }

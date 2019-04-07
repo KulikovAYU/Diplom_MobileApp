@@ -3,6 +3,7 @@ package com.example.fitclub.Repository.Interfaces;
 import android.content.Context;
 
 import com.example.fitclub.Models.Client;
+import com.example.fitclub.Models.LoginModel;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -12,4 +13,6 @@ public interface IClientRepository {
     MutableLiveData<Client> initializeClientInfo(Context context);
     //загрузить данные о клиенте и его абонементе
     void getClientData(Integer id);
+    //авторизация
+    void autorize(LoginModel data);
 }
