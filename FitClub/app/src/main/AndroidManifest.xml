@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppAutentification"
+            />
+
+        <activity
             android:name=".Activities.ClientDataActivity"
             android:label="@string/title_activity_personal_cabinet"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -40,9 +46,7 @@
             android:name=".Activities.TrainingListActivity"
             android:label="@string/title_activity_main_caption"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.LoginActivity"
-            android:label="@string/title_activity_login" />
+
         <activity android:name=".Activities.StartActivity">
 
             <!-- <intent-filter> -->

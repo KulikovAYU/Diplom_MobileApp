@@ -12,16 +12,16 @@
     <string name="nav_header_subtitle">N абонемента</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Вход в систему</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="prompt_userName">Номер абонемента</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Войти</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">Пароль должен содержать минимум 4 символа</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="error_field_number_abonement_required">Введите номер абонемента</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
