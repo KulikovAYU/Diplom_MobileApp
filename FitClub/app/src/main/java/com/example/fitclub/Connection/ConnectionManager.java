@@ -9,16 +9,17 @@ import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
 
-import static com.example.fitclub.Connection.ConnectionMode.eGenymotion;
-import static com.example.fitclub.Connection.ConnectionMode.ePhone;
+import static com.example.fitclub.Connection.ConnectionMode.ePhoneNotebook;
+import static com.example.fitclub.Connection.ConnectionMode.ePhonePC;
 
 public final class ConnectionManager {
 
     private static String PORT = "56073"; //номер порта
 
-    private static String BASEURL_PHONE = "http://192.168.0.19"; //ip для отладки через телефон
-
+    private static String BASEURL_PHONE_PC = "http://192.168.0.19"; //ip для отладки через телефон (с ПК)
+    private static String BASEURL_PHONE_NOTEBOOK = "http://192.168.43.98"; //ip для отладки через телефон (с Ноута)
     private static String BASEURL_GENYMOTION = "http://10.0.3.2"; //ip для отладки через genymotion
+    private static String BASEURL_ANDROIDSTUDIO = "http://10.0.2.2"; //ip для отладки через android studio
 
     //static String BASEURL = "http://192.168.0.19:56073/api/"; //сюда ввести URL //для genymotion - 10.0.3.2// для android studio - 10.0.2.2 //192.168.56.1
     static ConnectionManager mManager;
@@ -27,8 +28,9 @@ public final class ConnectionManager {
 
     //по умолчанию поставим с телефона
     public static ConnectionManager Instance() {
+        //УСТАНОВКА СТРОКИ ПОДКЛЮЧЕНИЯ!
+        GetConnString(ePhoneNotebook);
 
-        SetConnPhone();
 
         if (mManager == null)
             mManager = new ConnectionManager();
@@ -42,24 +44,22 @@ public final class ConnectionManager {
         return mStrConnection;
     }
 
-    public static void SetConnGenymotion() {
-        mStrConnection = GetConnString(ePhone);
-    }
-
-    public static void SetConnPhone() {
-        mStrConnection = GetConnString(ePhone);
-    }
-
 
     private static String GetConnString(ConnectionMode mode) {
         StringBuilder builder = new StringBuilder();
 
         switch (mode) {
-            case ePhone:
-                builder.append(BASEURL_PHONE).append(":").append(PORT).append("/api/");
+            case ePhonePC:
+                builder.append(BASEURL_PHONE_PC).append(":").append(PORT).append("/api/");
+                break;
+            case ePhoneNotebook:
+                builder.append(BASEURL_PHONE_NOTEBOOK).append(":").append(PORT).append("/api/");
                 break;
             case eGenymotion:
                 builder.append(BASEURL_GENYMOTION).append(":").append(PORT).append("/api/");
+                break;
+            case eAndroidStudio:
+                builder.append(BASEURL_ANDROIDSTUDIO).append(":").append(PORT).append("/api/");
                 break;
         }
 
