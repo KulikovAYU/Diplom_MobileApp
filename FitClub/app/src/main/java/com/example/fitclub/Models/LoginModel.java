@@ -10,10 +10,11 @@ public class LoginModel implements Serializable {
     {
 
     }
-    public LoginModel(String mAbonementNumber,String mPasswordHash){
+
+    public LoginModel(String mAbonementNumber, String mPasswordHash, String mfcmToken){
         this.abonementNumber = mAbonementNumber;
         this.passwordHash = mPasswordHash;
-
+        this.fcmToken = mfcmToken;
     }
 
     public void setAbonementNumber(String mAbonementNumber) {
@@ -32,10 +33,17 @@ public class LoginModel implements Serializable {
         return passwordHash;
     }
 
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
     @SerializedName("abonementNumber")
     protected String abonementNumber;
     @SerializedName("passwordHash")
     protected String passwordHash;
+    @SerializedName("fcmToken")
+    protected String fcmToken;
+
 
 
 }

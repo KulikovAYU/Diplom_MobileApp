@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "966097863935",
+    "firebase_url": "https://fitclub-87c0d.firebaseio.com",
+    "project_id": "fitclub-87c0d",
+    "storage_bucket": "fitclub-87c0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966097863935:android:3ec934831365c027",
+        "android_client_info": {
+          "package_name": "com.example.fitclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "966097863935-5cm657tt6tpmrkqg3v1nngqva6f986mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeMO8Qp-yCn4LL18Xou7arq3_zIYa0QpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "966097863935-5cm657tt6tpmrkqg3v1nngqva6f986mk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

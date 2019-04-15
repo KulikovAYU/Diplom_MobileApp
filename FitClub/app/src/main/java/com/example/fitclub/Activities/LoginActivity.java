@@ -3,7 +3,9 @@ package com.example.fitclub.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 
@@ -14,7 +16,12 @@ import com.example.fitclub.Models.LoginModel;
 import com.example.fitclub.R;
 import com.example.fitclub.ViewModels.ClientDataViewModel;
 import com.example.fitclub.ViewModels.LoginViewModel;
+import com.example.fitclub.common.Log;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -144,7 +151,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         String strAbonementNum = mNumberAbonementView.getText().toString();
         String strPasswordNum = mPasswordView.getText().toString();
-        LoginModel model = new LoginModel(strAbonementNum,strPasswordNum);
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.FCM_PREF), Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(getString(R.string.FCM_TOKEN),"");
+
+
+
+        LoginModel model = new LoginModel(strAbonementNum,strPasswordNum,token);
 
         loginViewModel.autorize(model);
     }

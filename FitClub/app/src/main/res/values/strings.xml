@@ -38,4 +38,8 @@
     <string name="FIT_API_KEY">709044121734-c4bt9qulau1tg6nqdg21ktlefiju1b00.apps.googleusercontent.com</string>
     <string name="title_activity_fitness_api">Мой fitnessAPI</string>
     <string name="title_activity_personal_cabinet">Личный кабинет</string>
+
+
+    <string name="FCM_PREF">com.example.fitclub.fcm_pref</string>
+    <string name="FCM_TOKEN">com.example.fitclub.fcm_token</string>
 </resources>

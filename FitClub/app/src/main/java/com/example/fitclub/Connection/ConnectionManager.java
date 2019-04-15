@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
 
+import static com.example.fitclub.Connection.ConnectionMode.eGenymotion;
 import static com.example.fitclub.Connection.ConnectionMode.ePhoneNotebook;
 import static com.example.fitclub.Connection.ConnectionMode.ePhonePC;
 
@@ -29,7 +30,7 @@ public final class ConnectionManager {
     //по умолчанию поставим с телефона
     public static ConnectionManager Instance() {
         //УСТАНОВКА СТРОКИ ПОДКЛЮЧЕНИЯ!
-        GetConnString(ePhoneNotebook);
+        GetConnString(ePhonePC);
 
 
         if (mManager == null)

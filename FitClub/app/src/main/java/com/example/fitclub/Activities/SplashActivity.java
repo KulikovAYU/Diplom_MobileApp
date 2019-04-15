@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_splash);
 
 
-        new Handler().postDelayed(new Runnable() {
+           new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
