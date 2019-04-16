@@ -1,10 +1,12 @@
 package com.example.fitclub.Volley;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 
 import com.example.fitclub.Activities.StartActivity;
 import com.example.fitclub.R;
@@ -17,6 +19,7 @@ import androidx.core.app.NotificationCompat;
 
 public class FcmMessagingService extends FirebaseMessagingService {
 
+    static int mCountNotifications = 0;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String title = remoteMessage.getNotification().getTitle();
@@ -29,11 +32,14 @@ public class FcmMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setContentText(message);
-        notificationBuilder.setSmallIcon(R.drawable.ic_muscle);
+        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_foreground);
+        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher_foreground));
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notificationBuilder.build());
+        notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+        notificationManager.notify(mCountNotifications,notificationBuilder.build());
+        mCountNotifications++;
         super.onMessageReceived(remoteMessage);
     }
 
@@ -46,7 +52,7 @@ public class FcmMessagingService extends FirebaseMessagingService {
 
         //зарегистрируем наш токен в настройках
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.FCM_PREF), Context.MODE_PRIVATE);
-
+        //по идее надо бы сразу отправлять этот токен на сервер
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(getString(R.string.FCM_TOKEN),s);
         editor.commit();

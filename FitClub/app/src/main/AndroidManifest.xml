@@ -66,16 +66,19 @@
             android:label="@string/title_activity_my_favourite_training_caption"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--<service android:name=".Volley.FcmInstanceService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>-->
-            <!--</intent-filter>-->
-        <!--</service>-->
         <service android:name=".Volley.FcmMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
         </service>
+
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+      See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--<meta-data-->
+            <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
+            <!--android:resource="@drawable/ic_muscle" />-->
+
+
     </application>
 
 </manifest>
